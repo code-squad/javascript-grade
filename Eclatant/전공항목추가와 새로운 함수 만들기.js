@@ -111,3 +111,11 @@ function getReport(data, anotherStandard) {
     "입니다."
   );
 }
+
+function addLecture(grades, grade) {
+  grades.push(grade);
+
+  getReport(grades, gradeMap40);
+}
+
+addLecture(grades, { name: "알고리즘", grade: "B", credit: 3, major: true });
