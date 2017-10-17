@@ -74,3 +74,11 @@ function getGradeAvg(data, gradeMap) {
 
   return gradeAvg;
 }
+
+function getTotalCredit(data) {
+  var sumCredit = data.reduce(function(prev, curr) {
+    return prev + curr.credit;
+  }, 0);
+
+  return sumCredit;
+}
