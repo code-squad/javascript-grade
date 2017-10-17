@@ -83,12 +83,13 @@ function getTotalCredit(data) {
   return sumCredit;
 }
 
-function getReport(data) {
+function getReport(data, anotherStandard) {
   var majorData = data.filter(function(item) {
     return item.major;
   });
 
   var totalGradePointAvg = getGradeAvg(data, gradeMap45);
+  var totalGradePointAvgAnother = getGradeAvg(data, anotherStandard);
   var totalMajorGradePointAvg = getGradeAvg(majorData, gradeMap45);
 
   var totalCredit = getTotalCredit(data);
@@ -103,5 +104,10 @@ function getReport(data) {
     totalCredit,
     "전공이수학점 :",
     majorTotalCredit
+  );
+  console.log(
+    anotherStandard["A+"].toFixed(1) + " 학점으로 변환하는 경우, 총평점은",
+    totalGradePointAvgAnother,
+    "입니다."
   );
 }
