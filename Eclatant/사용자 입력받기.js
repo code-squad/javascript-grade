@@ -32,3 +32,24 @@ function checkDataFormat(grade) {
 
   return false;
 }
+
+function IO() {
+  rl.question("과목을 JSON 형태로 입력해주십시오. : ", function(input) {
+    if (input === "end") {
+      rl.close();
+      getReport(grades, gradeMap40);
+    } else if (
+      typeof JSON.parse(JSON.stringify(input)) === "object" &&
+      checkDataFormat(JSON.parse(input))
+    ) {
+      grades.push(JSON.parse(input));
+      console.log("과목이 추가되었습니다.\n");
+      IO();
+    } else {
+      console.log("다시 입력해주십시오.\n");
+      IO();
+    }
+  });
+}
+
+IO();
