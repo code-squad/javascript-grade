@@ -82,3 +82,26 @@ function getTotalCredit(data) {
 
   return sumCredit;
 }
+
+function getReport(data) {
+  var majorData = data.filter(function(item) {
+    return item.major;
+  });
+
+  var totalGradePointAvg = getGradeAvg(data, gradeMap45);
+  var totalMajorGradePointAvg = getGradeAvg(majorData, gradeMap45);
+
+  var totalCredit = getTotalCredit(data);
+  var majorTotalCredit = getTotalCredit(majorData);
+
+  console.log(
+    "> 총평점 :",
+    totalGradePointAvg,
+    "전공평점 :",
+    totalMajorGradePointAvg,
+    "이수학점 :",
+    totalCredit,
+    "전공이수학점 :",
+    majorTotalCredit
+  );
+}
