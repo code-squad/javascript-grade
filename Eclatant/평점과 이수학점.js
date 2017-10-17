@@ -61,7 +61,13 @@ function getReport(grades) {
     var target = grades[k];
 
     totalCredit += target.creditHour;
-    gradePoint += gradeMap[target.grade];
+
+    if (target.grade.length > 1) {
+      gradePoint +=
+        gradeMap[target.grade[0]] + parseFloat(target.grade[1] + "0.3");
+    } else {
+      gradePoint += gradeMap[target.grade];
+    }
   }
 
   gradePointAvg = (gradePoint / totalLecture).toFixed(2);
