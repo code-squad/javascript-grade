@@ -43,7 +43,7 @@ var gradeMap = {
   F: 0
 };
 
-function getReport() {
+function getReport(grades) {
   var totalLecture = Object.keys(grades).length;
   var totalCredit = 0;
   var gradePoint = 0;
@@ -58,5 +58,7 @@ function getReport() {
 
   gradePointAvg = (gradePoint / totalLecture).toFixed(2);
 
-  console.log("총평점 " + gradePointAvg + " , 이수학점 " + totalCredit);
+  console.log("총평점 " + gradePointAvg + ", 이수학점 " + totalCredit);
 }
+
+getReport(grades); // 총평점 3.77, 이수학점 6
