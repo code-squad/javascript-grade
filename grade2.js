@@ -40,8 +40,10 @@ var data =  [
 var grade_sum = 0;
 var grade_done = 0;
 
-for(var i=0;i<data.length;i++){
-    grade_done += data[i]['credit'];
-    grade_sum += getScore(data[i]['grade'])*data[i]['credit'];
-}
+data.forEach(
+    function(task){
+        grade_done +=  task.credit;
+        grade_sum += getScore(task.grade)*task.credit;
+    }
+);
 console.log("총 평점 " + (grade_sum/grade_done).toFixed(2) +" , 이수학점 " + grade_done);
