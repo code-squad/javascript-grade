@@ -68,7 +68,9 @@ function printScore(score){
 function addLecture(){
     rl.question("과목을 JSON형태로 입력하세요<종료는 end입력> : ", function(answer) {
         if(answer == "end") {
-            printScore(data);
+            setTimeout(function () {
+                printScore(data)
+              }, 2000);
             return rl.close();
         }
         data.push(JSON.parse(answer));
