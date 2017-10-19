@@ -11,25 +11,9 @@
 3.총평점의 결과를 소수점이하 2자리까지, 이수학점을 출력
 */
 function getScore(grade){
-    switch(grade){
-        case 'A+': return 4.5;
-        break;
-        case 'A' : return 4.0;
-        break;
-        case 'B+' : return 3.5;
-        break;
-        case 'B' : return 3.0;
-        break;
-        case 'C+' : return 2.5;
-        break;
-        case 'C' : return 2.0;
-        break;
-        case 'D+' : return 1.5;
-        break;
-        case 'D' : return 1.0;
-        break;
-        default : return 0;
-    }
+    var sum = "FDCBA".indexOf(grade[0]);
+    if(grade[1] == '+') sum += 0.5;
+    return sum;
 }
 var grade = [ ['데이터베이스', 'A', 3], ['교양영어', 'B+', 1], ['철학', 'A', 2] ];
 var grade_sum = 0;
