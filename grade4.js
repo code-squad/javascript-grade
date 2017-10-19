@@ -19,30 +19,15 @@ var data = []; //과목들의 정보가 들어갈 변수
 
 //등급을 점수로 변환하는 함수 (A -> 4.5)
 function getScore(grade){
-    switch(grade){
-        case 'A+': return 4.5;
-        break;
-        case 'A' : return 4.0;
-        break;
-        case 'B+' : return 3.5;
-        break;
-        case 'B' : return 3.0;
-        break;
-        case 'C+' : return 2.5;
-        break;
-        case 'C' : return 2.0;
-        break;
-        case 'D+' : return 1.5;
-        break;
-        case 'D' : return 1.0;
-        break;
-        default : return 0;
-    }
+    var sum = "FDCBA".indexOf(grade[0]);
+    if(grade[1] == '+') sum += 0.5;
+    return sum;
 }
 
 //입력된 과목들의 정보를 토대로 총평점, 전공 평점, 이수학점, 전공이수학점을 출력하는 함수
 function printScore(score){
     let grade_sum = 0, grade_done = 0, major_sum = 0, major_done = 0;
+    var total, major_avg, changeScore;
     score.forEach(
         function(task){
             grade_done +=  task.credit;
@@ -54,14 +39,15 @@ function printScore(score){
         }
     );
     
-    console.log("총평점 : " + (grade_sum/grade_done).toFixed(2) 
-    + ", 전공평점 : "+ (major_sum/major_done).toFixed(2) 
+    total = (grade_sum/grade_done).toFixed(2);
+    major_avg = (major_sum/major_done).toFixed(2);
+    changeScore = ((grade_sum/grade_done)*4/4.5).toFixed(2);
+
+    console.log("총평점 : " + total
+    + ", 전공 평점 : "+ major_avg 
     + ", 이수학점 : " + grade_done
     + ", 전공이수학점 : " + major_done);
-
-    //요구사항2 4.5가 아니고 4.0 만점의 경우 총평점
-    console.log("4.0학점으로 변환하는 경우 총평점은 " + ((grade_sum/grade_done)*4/4.5).toFixed(2) + "입니다.")
-    
+    console.log("4.0학점으로 변환하는 경우 총평점은 " + changeScore + "입니다.")
 }
 
 //사용자로부터 과목정보를 입력받는 함수. end입력이 나올때까지 재귀적으로 수행
