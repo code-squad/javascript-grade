@@ -1,43 +1,3 @@
-var gradeMap45 = {
-  "A+": 4.5,
-  A: 4.0,
-  "B+": 3.5,
-  B: 3.0,
-  "C+": 2,
-  C: 2.0,
-  "D+": 1.5,
-  D: 1.0,
-  F: 0
-};
-
-var gradeMap43 = {
-  "A+": 4.3,
-  A: 4.0,
-  "A-": 3.7,
-  "B+": 3.3,
-  B: 3.0,
-  "B-": 2.7,
-  "C+": 2.3,
-  C: 2.0,
-  "C-": 1.7,
-  "D+": 1.3,
-  D: 1.0,
-  "D-": 0.7,
-  F: 0
-};
-
-var gradeMap40 = {
-  "A+": 4.0,
-  A: 3.5,
-  "B+": 3.0,
-  B: 2.5,
-  "C+": 2,
-  C: 1.5,
-  "D+": 1.0,
-  D: 0.5,
-  F: 0
-};
-
 var grades = [
   {
     name: "데이터베이스",
@@ -65,9 +25,21 @@ var grades = [
   }
 ];
 
-function getGradeAvg(data, gradeMap) {
+function gradeMapping(grade, criteria) {
+  var gradeMap = "FDCBA";
+  var gradePoint = parseInt(gradeMap.indexOf(grade[0]));
+  var result = gradePoint;
+
+  if (grade.length === 2) {
+    result = gradePoint + parseFloat(grade[1] + criteria) - 4;
+  }
+
+  return result;
+}
+
+function getGradeAvg(data, criteria) {
   var sumGrade = data.reduce(function(prev, curr) {
-    return prev + gradeMap[curr.grade];
+    return prev + gradeMapping(curr.grade, criteria);
   }, 0);
 
   var gradeAvg = (sumGrade / data.length).toFixed(2);
@@ -83,39 +55,48 @@ function getTotalCredit(data) {
   return sumCredit;
 }
 
-function getReport(data, anotherStandard) {
+function calculate(data, anotherStandard) {
   var majorData = data.filter(function(item) {
     return item.major;
   });
 
-  var totalGradePointAvg = getGradeAvg(data, gradeMap45);
+  var totalGradePointAvg = getGradeAvg(data, "4.5");
   var totalGradePointAvgAnother = getGradeAvg(data, anotherStandard);
-  var totalMajorGradePointAvg = getGradeAvg(majorData, gradeMap45);
+  var totalMajorGradePointAvg = getGradeAvg(majorData, "4.5");
 
   var totalCredit = getTotalCredit(data);
   var majorTotalCredit = getTotalCredit(majorData);
 
-  console.log(
-    "> 총평점 :",
+  return {
     totalGradePointAvg,
-    "전공평점 :",
+    totalGradePointAvgAnother,
     totalMajorGradePointAvg,
-    "이수학점 :",
     totalCredit,
-    "전공이수학점 :",
     majorTotalCredit
+  };
+}
+
+function getReport(data, anotherStandard) {
+  var {
+    totalGradePointAvg,
+    totalGradePointAvgAnother,
+    totalMajorGradePointAvg,
+    totalCredit,
+    majorTotalCredit
+  } = calculate(data, anotherStandard);
+
+  console.log(
+    `> 총평점 : ${totalGradePointAvg}, 전공평점 : ${totalMajorGradePointAvg}, 이수학점 : ${totalCredit}, 전공이수학점 : ${majorTotalCredit}`
   );
   console.log(
-    anotherStandard["A+"].toFixed(1) + " 학점으로 변환하는 경우, 총평점은",
-    totalGradePointAvgAnother,
-    "입니다."
+    `${anotherStandard}  학점으로 변환하는 경우, 총평점은 ${totalGradePointAvgAnother}입니다.`
   );
 }
 
 function addLecture(grades, grade) {
   grades.push(grade);
 
-  getReport(grades, gradeMap40);
+  getReport(grades, "4.0");
 }
 
 addLecture(grades, { name: "알고리즘", grade: "B", credit: 3, major: true });
