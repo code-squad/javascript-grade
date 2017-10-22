@@ -21,7 +21,7 @@ var data = []; //과목들의 정보가 들어갈 변수
 function getScore(grade) {
     var score = "FDCBA";
     var sum = score.indexOf(grade[0]);
-    if (grade[1] == '+') sum += 0.5;
+    if (grade[1] == '+' && sum != 0) sum += 0.5;
     return sum;
 }
 
