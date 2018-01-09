@@ -1,4 +1,4 @@
-var arr = [{
+var array = [{
   "id": 1,
   "name": "Yong",
   "phone": "010-2786-9902",
@@ -80,22 +80,20 @@ var arr = [{
 }]
 
 
+
 var result = [];
 
 function jsonTree(arr) {
-  var key, obj, name;
-  for (key in arr) {
-    obj = arr[key];
+  for (var key in arr) {
+    var obj = arr[key];
     if (obj.type === 'sk') {
       result.push(obj.name);
+    }
+    if (!!obj.childnode) {
       jsonTree(obj.childnode)
-    } else if(obj.type !== 'sk'){
-      jsonTree(obj.childnode)
-      
     }
   }
   return result;
 }
 
-console.log(jsonTree(arr));
-
+console.log(jsonTree(array));
