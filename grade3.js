@@ -1,7 +1,18 @@
-var DATA = [
-  ['데이터베이스', 'A', 3],
-  ['교양영어', 'B+', 1],
-  ['철학', 'A', 2]
+var DATA = [{
+    'name': '데이터베이스',
+    'grade': 'A',
+    'credit': 3
+  },
+  {
+    'name': '교양영어',
+    'grade': 'B+',
+    'credit': 2
+  },
+  {
+    'name': '철학',
+    'grade': 'B+',
+    'credit': 1
+  }
 ]
 
 
@@ -22,10 +33,11 @@ var GP = {
 function sumCredit(obj) {
   var creditSum = 0;
   obj.map(value => {
-    creditSum += value[2];
+    creditSum += value.credit;
   });
-  return creditSum;
+  return creditSum
 }
+
 
 
 // 평점을 구하는 함수
@@ -33,7 +45,7 @@ function averageCredit(obj) {
   var gradePoints = 0;
   for (var point in obj) {
     var lectures = obj[point];
-    gradePoints += GP[lectures[1]] * lectures[2]
+    gradePoints += GP[lectures.grade] * lectures.credit;
   }
   return (gradePoints / sumCredit(DATA)).toFixed(2)
 }
