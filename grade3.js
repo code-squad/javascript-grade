@@ -113,8 +113,7 @@ const readline = require('readline').createInterface({
 });
 
 
-
-function AddLecture(obj) {
+function addLecture(obj) {
   readline.question('과목명을 입력하세요 <종료는 end입력>: ', (name) => {
     if (name !== 'end') {
       readline.question('과목 성적을 입력하세요: ', (grade) => {
@@ -129,16 +128,17 @@ function AddLecture(obj) {
               bMajor
             })
             console.log(obj);
-            AddLecture(obj);
+            addLecture(obj);
           })
         })
       })
     } else {
-      readline.close();
-      console.log(obj);
-      calculateGPA(obj)
+      readline.close()
+      setTimeout(() => {
+        calculateGPA(obj)
+      }, 2000);
     };
   })
 }
 
-AddLecture(DATA);
+addLecture(DATA);
