@@ -102,19 +102,43 @@ function calculateGPA(obj) {
   console.log("4.0학점으로 변환하는 경우 총 평점은 " + averageChangeCredit(obj) + "입니다.");
 }
 
+////////////////////////////////////////////////////////////////////////////////////////////////////v//////////
 
 
-// 새로운 과목을 추가하는 함수 
-function addLecture(subject) {
-  DATA.push(subject);
-  return calculateGPA(DATA)
+
+
+const readline = require('readline').createInterface({
+  input: process.stdin,
+  output: process.stdout
+});
+
+
+
+function AddLecture(obj) {
+  readline.question('과목명을 입력하세요 <종료는 end입력>: ', (name) => {
+    if (name !== 'end') {
+      readline.question('과목 성적을 입력하세요: ', (grade) => {
+        readline.question('학점을 입력하세요: ', (credit) => {
+          credit = Number(credit);
+          readline.question('전공인가요?(Y/N): ', (bMajor) => {
+            bMajor === 'Y' ? bMajor = true : bMajor = false;
+            obj.push({
+              name,
+              grade,
+              credit,
+              bMajor
+            })
+            console.log(obj);
+            AddLecture(obj);
+          })
+        })
+      })
+    } else {
+      readline.close();
+      console.log(obj);
+      calculateGPA(obj)
+    };
+  })
 }
 
-
-
-addLecture({
-  'name': '알고리즘',
-  'grade': 'B+',
-  'credit': 3,
-  'bMajor': true
-});
+AddLecture(DATA);
