@@ -37,8 +37,8 @@
       <file leaf-file-name="Practice2.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Practice2.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="90" column="34" lean-forward="false" selection-start-line="90" selection-start-column="34" selection-end-line="90" selection-end-column="34" />
+            <state relative-caret-position="506">
+              <caret line="98" column="0" lean-forward="true" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -166,12 +166,13 @@
       <updated>1520563375272</updated>
       <workItem from="1520563376411" duration="13659000" />
       <workItem from="1520645311776" duration="35000" />
-      <workItem from="1520645360791" duration="6321000" />
+      <workItem from="1520645360791" duration="6657000" />
+      <workItem from="1520658392926" duration="221000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20015000" />
+    <option name="totallyTimeSpent" value="20572000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1160" y="0" width="767" height="1047" extended-state="0" />
@@ -182,7 +183,7 @@
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32972324" sideWeight="0.5037879" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2734375" sideWeight="0.49621212" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2734375" sideWeight="0.49621212" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -208,7 +209,6 @@
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/Practice2.js</url>
           <line>85</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="7" />
         </line-breakpoint>
       </breakpoints>
@@ -220,6 +220,30 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="9" column="21" lean-forward="false" selection-start-line="9" selection-start-column="21" selection-end-line="9" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Practice1.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="8" column="11" lean-forward="false" selection-start-line="8" selection-start-column="11" selection-end-line="8" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Practice2.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1958">
+          <caret line="89" column="9" lean-forward="true" selection-start-line="89" selection-start-column="9" selection-end-line="89" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="198">
@@ -286,8 +310,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Practice2.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="90" column="34" lean-forward="false" selection-start-line="90" selection-start-column="34" selection-end-line="90" selection-end-column="34" />
+        <state relative-caret-position="506">
+          <caret line="98" column="0" lean-forward="true" selection-start-line="98" selection-start-column="0" selection-end-line="98" selection-end-column="0" />
           <folding />
         </state>
       </provider>
