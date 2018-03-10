@@ -80,55 +80,22 @@ var data = [{
     }]
 }];
 
-var arrays = [];
+const resultArray = [];
 
-function checkChildNode(array) {
-    // console.log("HELLO FUNCTION");
-    let type, name;
-    // for (index in array) {
-    //     console.log(array[index].type);
-    //     type = array[index].type;
-    //     name = array[index].name;
-    // }
-    var obj = {type : array.type, name : array.name};
-    arrays.push(obj);
-}
-
-// for (index in data) {
-//     console.log(data[index].type);
-//     if(data[index].type === "sk") {
-//         checkChildNode(data[index]);
-//     } else {
-//         console.log(data[index].childnode);
-//     }
-// }
-
-checkChildNode(data[0]);
-var childnode = data[0].childnode;
-
-while (true) {
-    for (var i=0; i < childnode.length; i++) {
-        if (childnode[0].type === "sk") {
-            checkChildNode(childnode[0]);
-        } else {
-            continue;
+const test = function testRecursionDataExplore(childNode) {
+    childNode.forEach(function(v) {
+        if (v.type === "sk") {
+            var obj = {type : v.type, name : v.name};
+            resultArray.push(obj);
         }
-    }
+        if (v.childnode.length > 0) {
+            testRecursionDataExplore(v.childnode);
+        }
+    });
+};
 
-    console.log(childnode[0]);
-    childnode = childnode[0].childnode;
-}
-
-// console.log(data.length);
-// console.log(data[0], data[1]);
-// var childnode = data[0].childnode;
-// console.log("---");
-// console.log(childnode);
-// console.log("---");
-// console.log(childnode[0].childnode);
-// console.log(childnode[0].childnode.length);
-
-console.log(arrays);
+test(data);
+console.log(resultArray);
 
 
 
