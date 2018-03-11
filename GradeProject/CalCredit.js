@@ -8,15 +8,13 @@ function showGrade(data) {
 
     const gradeIndex = 1;
     const gradeNumIndex = 2;
-    
+
     // 과목의 갯수만큼 반복문을 수행
-    for (var i=0; i<subjectNumber; i++) {
+    for (obj in data) {
         // 해당 데이터에서 인덱스를 접근해 데이터 계산
-        var grade = data[i][gradeIndex];
-        console.log(grade);
-        var gradeNum = data[i][gradeNumIndex];
-        console.log(gradeNum);
-        
+        var grade = data[obj].grade;
+        var gradeNum = data[obj].credit;
+
         completionGradeNum += translateGradeToNum(grade);
         totalGradeNum += gradeNum;
     }
@@ -52,5 +50,22 @@ function translateGradeToNum(_grade) {
     }
 }
 
-var data = [ ['데이터베이스', 'A', 3], ['교양영어', 'B+', 1], ['철학', 'A', 2]];
+// 객체(딕셔너리) 버전
+var data =  [
+    {
+        'name' : '데이터베이스',
+        'grade' : 'A',
+        'credit' : 3
+    },
+    {
+        'name' : '교양영어',
+        'grade' : 'B+',
+        'credit' : 2
+    },
+    {
+        'name' : '철학',
+        'grade' : 'B+',
+        'credit' : 1
+    }
+];
 showGrade(data);
