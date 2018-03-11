@@ -1,6 +1,6 @@
 /* 
-    요구사항 3
-    새로운 과목을 추가하는 'addLecture' 라는 함수를 만들자.
+    요구사항 4
+    최종 출력 결과가 2초 뒤에 화면에 나타나도록 해보자.
 */
 
 // 객체(딕셔너리) 버전
@@ -41,13 +41,15 @@ function showGrade() {
 
     calGradeAndCredit(data);
 
-    // 출력
-    console.log("총 평점 " + totalGradeNum +
-                " , 전공평점 : " + majorGradeNum +
-                " , 이수학점 " + completionCredit +
-                " , 전공이수학점 : " + majorCompletionCredit);
+    setTimeout(function () {
+        // 출력
+        console.log("총 평점 " + totalGradeNum +
+            " , 전공평점 : " + majorGradeNum +
+            " , 이수학점 " + completionCredit +
+            " , 전공이수학점 : " + majorCompletionCredit);
 
-    console.log("4.0 학점으로 변환하는 경우 총 평점은 " + totalGradeFor4 + " 입니다.");
+        console.log("4.0 학점으로 변환하는 경우 총 평점은 " + totalGradeFor4 + " 입니다.");
+    }, 2000);
 }
 
 function calGradeAndCredit(_data) {
@@ -123,6 +125,5 @@ function translateGradeToNum(_grade) {
     }
 }
 
-showGrade();
 addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true});
 showGrade();
