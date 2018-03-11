@@ -1,9 +1,12 @@
+/* 
+    요구사항 2
+    단위의 범위가 변경되었을 경우 이를 처리할 수 있는 함수를 만들어보자.
+    함수가 범용적으로 쓸수 있도록 하자,
+    4.5가 아니고 만점이 4.0인 경우에도 동작할 수 있도록 한다.
+*/
+
 function showGrade(data) {
-    // 일단 과목의 갯수를 체크하기 위해서 변수를 선언
-    // 이수학점 데이터를 관리하기 위해 변수 선언
-    // 총 평점 데이터를 관리하기 위해 변수 선언
-    // 전공평점 데이터를 관리하기 위해 변수 선언
-    var subjectNumber = data.length;
+    var subjectNumber = data.length; // 과목 갯수 체크
 
     var totalGradeNum = 0; // 총 평점
     var majorGradeNum = 0; // 전공 평점
@@ -37,6 +40,11 @@ function showGrade(data) {
                 " , 전공평점 : " + majorGradeNum +
                 " , 이수학점 " + completionCredit +
                 " , 전공이수학점 : " + majorCompletionCredit);
+
+    // 4.0 학점으로 변환한 후 총 평점
+    totalGradeNum = ((totalGradeNum * 4) / 4.5).toFixed(2);
+
+    console.log("4.0 학점으로 변환하는 경우 총 평점은 " + totalGradeNum + " 입니다.");
 }
 
 // 학점(A+, A ...) 을 숫자로 변환하기 위한 함수
