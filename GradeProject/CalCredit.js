@@ -1,25 +1,65 @@
 /* 
-    요구사항 2
-    단위의 범위가 변경되었을 경우 이를 처리할 수 있는 함수를 만들어보자.
-    함수가 범용적으로 쓸수 있도록 하자,
-    4.5가 아니고 만점이 4.0인 경우에도 동작할 수 있도록 한다.
+    요구사항 3
+    새로운 과목을 추가하는 'addLecture' 라는 함수를 만들자.
 */
 
-function showGrade(data) {
-    var subjectNumber = data.length; // 과목 갯수 체크
+// 객체(딕셔너리) 버전
+// 전공항목 추가
+var data =  [
+    {
+        'name' : '데이터베이스',
+        'grade' : 'A',
+        'credit' : 3,
+        'major' : true
+    },
+    {
+        'name' : '교양영어',
+        'grade' : 'B+',
+        'credit' : 2,
+        'major' : false
+    },
+    {
+        'name' : '철학',
+        'grade' : 'B+',
+        'credit' : 1,
+        'major' : false
+    }
+];
 
-    var totalGradeNum = 0; // 총 평점
-    var majorGradeNum = 0; // 전공 평점
+// 전역변수로 변환
+var subjectNumber = 0; // 과목 갯수 체크
+var majorSubjectNumber = 0; // 전공 과목 갯수 체크
 
-    var completionCredit = 0; // 이수 학점
-    var majorCompletionCredit = 0; // 전공 이수 학점
+var totalGradeNum = 0; // 총 평점
+var totalGradeFor4 = 0; // 4.0 을 위한 총 평점
+var majorGradeNum = 0; // 전공 평점
+
+var completionCredit = 0; // 이수 학점
+var majorCompletionCredit = 0; // 전공 이수 학점
+
+function showGrade() {
+
+    calGradeAndCredit(data);
+
+    // 출력
+    console.log("총 평점 " + totalGradeNum +
+                " , 전공평점 : " + majorGradeNum +
+                " , 이수학점 " + completionCredit +
+                " , 전공이수학점 : " + majorCompletionCredit);
+
+    console.log("4.0 학점으로 변환하는 경우 총 평점은 " + totalGradeFor4 + " 입니다.");
+}
+
+function calGradeAndCredit(_data) {
+
+    initVariable();
 
     // 과목의 갯수만큼 반복문을 수행
-    for (obj in data) {
+    for (var index in _data) {
         // 해당 데이터에서 인덱스를 접근해 데이터 계산
-        var grade = data[obj].grade;
-        var credit = data[obj].credit;
-        var major = data[obj].major;
+        var grade = _data[index].grade;
+        var credit = _data[index].credit;
+        var major = _data[index].major;
 
         totalGradeNum += translateGradeToNum(grade);
         completionCredit += credit;
@@ -29,22 +69,34 @@ function showGrade(data) {
         if (major) {
             majorGradeNum += translateGradeToNum(grade);
             majorCompletionCredit += credit;
+            majorSubjectNumber++;
         }
     }
 
     // 소숫점 3번째 자리에서 반올림 처리
     totalGradeNum = (totalGradeNum/subjectNumber).toFixed(2);
 
-    // 출력
-    console.log("총 평점 " + totalGradeNum +
-                " , 전공평점 : " + majorGradeNum +
-                " , 이수학점 " + completionCredit +
-                " , 전공이수학점 : " + majorCompletionCredit);
+    // 전공평점 계산
+    majorGradeNum = (majorGradeNum/majorSubjectNumber).toFixed(2);
 
-    // 4.0 학점으로 변환한 후 총 평점
-    totalGradeNum = ((totalGradeNum * 4) / 4.5).toFixed(2);
+    // 4.0 학점을 기준으로 한 평점 계산
+    totalGradeFor4 = ((totalGradeNum * 4) / 4.5).toFixed(2);
+}
 
-    console.log("4.0 학점으로 변환하는 경우 총 평점은 " + totalGradeNum + " 입니다.");
+function initVariable() {
+    subjectNumber = data.length; // 과목 갯수 체크
+    majorSubjectNumber = 0; // 전공 과목 갯수 체크
+
+    totalGradeNum = 0; // 총 평점
+    totalGradeFor4 = 0; // 4.0 을 위한 총 평점
+    majorGradeNum = 0; // 전공 평점
+
+    completionCredit = 0; // 이수 학점
+    majorCompletionCredit = 0; // 전공 이수 학점
+}
+
+function addLecture(obj) {
+    data.push(obj);
 }
 
 // 학점(A+, A ...) 을 숫자로 변환하기 위한 함수
@@ -71,26 +123,6 @@ function translateGradeToNum(_grade) {
     }
 }
 
-// 객체(딕셔너리) 버전
-// 전공항목 추가
-var data =  [
-    {
-        'name' : '데이터베이스',
-        'grade' : 'A',
-        'credit' : 3,
-        'major' : true
-    },
-    {
-        'name' : '교양영어',
-        'grade' : 'B+',
-        'credit' : 2,
-        'major' : false
-    },
-    {
-        'name' : '철학',
-        'grade' : 'B+',
-        'credit' : 1,
-        'major' : false
-    }
-];
-showGrade(data);
+showGrade();
+addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true});
+showGrade();
