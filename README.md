@@ -13,9 +13,29 @@
       - [ ] ~~학점계산기 수강 및 정리~~
     - **2017.03.09(금)**
       - [ ] PR 피드백 받은 것 보완 및 정리
-      - [ ] 학점계산기 수강 및 정리
+      - [x] 학점계산기 수강 및 정리
     - **2017.03.10(토)**
+      - [x] 평일동안 하지 못했던 목표 채우기
+      - [x] 크롱님이 PR 피드백 해준 것들 고치기
+      - [x] 정리해놨던 것 한번씩 복습하기
     - **2017.03.11(일)**
+
+  - ### 2주
+
+    - **2017.03.12(월)**
+      - [x] 크롱님 PR 피드백 수정 및 Commit
+      - [x] 중간 미션 수강하기
+            - 자판기 애플리케이션
+      - [ ] ~~자료 정리하기~~
+    - **2017.03.13(화)**
+      - [x] 크롱이 남겨준 피드백 확인 후 수정
+      - [ ] 중간미션 로또 생성기 설계 및 코드작성
+      - [ ] 학습키워드 설계 및 코드작성
+    - **2017.03.14(수)**
+    - **2017.03.15(목)**
+    - **2017.03.16(금)**
+    - **2017.03.17(토)**
+    - **2017.03.18(일)**
 
 - ### 학습내용 정리
 
@@ -41,14 +61,18 @@
     - #### **학점계산기**
 
       - [객체 그리고 배열탐색](https://github.com/antaehyeon/javascript-grade/blob/antaehyeon/README/%ED%95%99%EC%A0%90%EA%B3%84%EC%82%B0%EA%B8%B0%20-%20%EA%B0%9D%EC%B2%B4%20%EA%B7%B8%EB%A6%AC%EA%B3%A0%20%EB%B0%B0%EC%97%B4%ED%83%90%EC%83%89.md)
-      - 코드 설계
-      - 클린코드 기본
-      - setTimeout
-      - 평점과 이수학점
-      - 객체(딕셔너리)로 성적바꾸기
-      - 전공항목추가와 새로운함수만들기
+      - [코드 설계](https://github.com/antaehyeon/javascript-grade/blob/antaehyeon/README/%ED%95%99%EC%A0%90%20%EA%B3%84%EC%82%B0%EA%B8%B0%20-%20%EC%BD%94%EB%93%9C%20%EC%84%A4%EA%B3%84.md)
+      - [클린코드 기본](https://github.com/antaehyeon/javascript-grade/blob/antaehyeon/README/%ED%95%99%EC%A0%90%20%EA%B3%84%EC%82%B0%EA%B8%B0%20-%20%ED%81%B4%EB%A6%B0%EC%BD%94%EB%93%9C%20%EA%B8%B0%EB%B3%B8.md)
+      - [setTimeout](https://github.com/antaehyeon/javascript-grade/blob/antaehyeon/README/%ED%95%99%EC%A0%90%20%EA%B3%84%EC%82%B0%EA%B8%B0%20-%20setTimeout.md)
+      - [평점과 이수학점](https://github.com/antaehyeon/javascript-grade/blob/antaehyeon/README/%ED%95%99%EC%A0%90%20%EA%B3%84%EC%82%B0%EA%B8%B0%20-%20%ED%8F%89%EC%A0%90%EA%B3%BC%20%EC%9D%B4%EC%88%98%ED%95%99%EC%A0%90.md)
+      - [객체(딕셔너리)로 성적바꾸기](https://github.com/antaehyeon/javascript-grade/tree/c8f1399127f72139c5666eaab8021e08af56c19a)
+      - [전공항목추가와 새로운함수만들기](https://github.com/antaehyeon/javascript-grade/commits/antaehyeon)
 
     - #### 중간 미션
+
+      - [자판기 애플리케이션](https://github.com/antaehyeon/javascript-middle-mission/tree/antaehyeon)
+      - 로또 생성기
+      - 학습키워드
 
     - #### 할일관리 애플리케이션
 
@@ -67,3 +91,22 @@
       - [Git 커밋 메시지 작성법](https://item4.github.io/2016-11-01/How-to-Write-a-Git-Commit-Message/)
       - [좋은 git 커밋 메세지를 작성하기 위한 7가지 약속](http://meetup.toast.com/posts/106)
       - [좋은 깃(Git) 커밋 메세지 작성하기](https://tech.ssut.me/2015/06/24/write-a-good-git-commit-message/)
+
+    - ### 링크 모음
+
+      - TOOL
+        - [VS Code - Prettier 사용하기](http://genzidev7.tistory.com/33)
+      - CODE
+        - [코드의 품질 (Code Quality)](https://www.slideshare.net/chulhuilee/ss-45370867)
+      - JS
+        - [ECMAScript 5 의 Strict Mode](https://blog.outsider.ne.kr/823)
+      - Git
+        - [수정한 것 되돌리기](http://hochulshin.com/git-revert-changes/)
+        - [Git Document](https://git-scm.com/book/ko/v2)
+        - [Git Flow CheatSheet](https://danielkummer.github.io/git-flow-cheatsheet/index.ko_KR.html)
+        - [Git 에 대한 설명 (쉬운버전)](https://rogerdudler.github.io/git-guide/index.ko.html)
+        - [Git 명령어 정리](https://blog.outsider.ne.kr/572)
+      - 책 추천
+        - [모던 자바스크립트 - 예제로 배우는 ECMAScript 6 핵심기능](http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=122260559)
+        - [Hello Coding 그림으로 개념을 이해하는 알고리즘](http://www.aladin.co.kr/shop/wproduct.aspx?ItemId=105982502)
+          - 호눅스가 추천하는 알고리즘 책
