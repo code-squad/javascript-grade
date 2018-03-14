@@ -1,0 +1,47 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+<script>
+/*
+	1. 함수와 변수의 이름 지정 (목적에 맞게 이름 짓기, 함수는 동사+명사로 지정)
+		- data : 정보가 들어있는 배열 혹은 객체
+		- showGrade : 학점을 계산하는 함수 이름
+		- gradesObj : 해당학점의 평점 값을 담고 있는 객체
+		- totalGrade : 총평점
+		- totalCredit : 총이수학점
+	2. gradesObj의 학점을 평점으로 바꿔준다.
+	3. 총평점과 총이수학점을 구한다. 총평점 : 학점 * 이수학점 + 학점 * 이수학점 + 학점 * 이수학점 ... / 총 이수학점
+	4. showData()함수를 호출!
+*/
+
+var data = [ ['데이터베이스', 'A', 3], ['교양영어', 'B+', 1], ['철학', 'A', 2]];
+
+function showData(data){
+	var totalGrade = 0;
+	var totalCredit = 0;
+	var gradesObj = {
+		"A+" : 4.5,
+		"A" : 4.0,
+		"B+" : 3.5,
+		"B" : 3.0,
+		"C+" : 2.5,
+		"C" : 2.0,
+		"D+" : 1.5,
+		"D" : 1.0,
+		"F" : 0
+	}
+	for(let i = 0; i < data.length; i++){
+		totalGrade += (gradesObj[data[i][1]] * data[i][2]) ;
+		totalCredit += data[i][2];
+	}
+	totalGrade = totalGrade / totalCredit;
+
+	console.log("총평점 " + totalGrade.toFixed(2) + ", 총이수학점 " + totalCredit);
+}
+
+showData(data);
+</script>
+</body>
+</html>
