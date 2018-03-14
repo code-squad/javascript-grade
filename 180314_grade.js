@@ -45,15 +45,15 @@ function showGrade(arr) {
     let gpa;
 
     for (let i = 0; i < arr.length; i++) {
-        allCredits += arr[i][2];
+        allCredits += arr[i]["credit"];
     }
 
     for (let i = 0; i < arr.length; i++) {
-        arr[i].push(Grade[arr[i][1]] * arr[i][2]);
+        arr[i].grades = Grade[arr[i]['grade']] * arr[i]['credit'];
     }
 
     for (let i = 0; i < arr.length; i++) {
-        allGrades += arr[i][3];
+        allGrades += arr[i]['grades'];
     }
 
     gpa = allGrades / allCredits;
@@ -61,6 +61,22 @@ function showGrade(arr) {
     return "총평점 " + String(gpa.toFixed(2)) + ", 이수학점 " + String(allCredits);
 }
 
-var data = [['데이터베이스', 'A', 3], ['교양영어', 'B+', 1], ['철학', 'A', 2]];
+var data = [
+    {
+        'name': '데이터베이스',
+        'grade': 'A',
+        'credit': 3
+    },
+    {
+        'name': '교양영어',
+        'grade': 'B+',
+        'credit': 2
+    },
+    {
+        'name': '철학',
+        'grade': 'B+',
+        'credit': 1
+    }
+];
 
 console.log(showGrade(data));
