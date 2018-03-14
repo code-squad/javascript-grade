@@ -24,59 +24,53 @@
 // }
 
 let Grade = {
-    'A+': 4.5,
-    'A': 4.3,
-    'A-': 4.0,
-    'B+': 3.5,
-    'B': 3.3,
-    'B-': 3.0,
-    'C+': 2.5,
-    'C': 2.3,
-    'C-': 2.0,
-    'D+': 1.5,
-    'D': 1.3,
-    'D-': 1.0,
-    'F': 0
-}
+  "A+": 4.5,
+  "A": 4.3,
+  "A-": 4.0,
+  "B+": 3.5,
+  "B": 3.3,
+  "B-": 3.0,
+  "C+": 2.5,
+  "C": 2.3,
+  "C-": 2.0,
+  "D+": 1.5,
+  "D": 1.3,
+  "D-": 1.0,
+  "F": 0
+};
 
 function showGrade(arr) {
-    let allCredits = 0;
-    let allGrades = 0;
-    let gpa;
+  let sumCredits = 0;
+  let sumRealGrades = 0;
+  let gpa = 0;
 
-    for (let i = 0; i < arr.length; i++) {
-        allCredits += arr[i]["credit"];
-    }
+  for (let i = 0; i < arr.length; i++) {
+      sumCredits += arr[i]["credit"];
+      arr[i].realGrade = Grade[arr[i]['grade']] * arr[i]['credit'];
+      sumRealGrades += arr[i]['realGrade'];
+  }
 
-    for (let i = 0; i < arr.length; i++) {
-        arr[i].grades = Grade[arr[i]['grade']] * arr[i]['credit'];
-    }
+  gpa = sumRealGrades / sumCredits;
 
-    for (let i = 0; i < arr.length; i++) {
-        allGrades += arr[i]['grades'];
-    }
-
-    gpa = allGrades / allCredits;
-
-    return "총평점 " + String(gpa.toFixed(2)) + ", 이수학점 " + String(allCredits);
+  return "총평점 " + String(gpa.toFixed(2)) + ", 이수학점 " + String(sumCredits);
 }
 
 var data = [
-    {
-        'name': '데이터베이스',
-        'grade': 'A',
-        'credit': 3
-    },
-    {
-        'name': '교양영어',
-        'grade': 'B+',
-        'credit': 2
-    },
-    {
-        'name': '철학',
-        'grade': 'B+',
-        'credit': 1
-    }
+  {
+    name: "데이터베이스",
+    grade: "A",
+    credit: 3
+  },
+  {
+    name: "교양영어",
+    grade: "B+",
+    credit: 2
+  },
+  {
+    name: "철학",
+    grade: "B+",
+    credit: 1
+  }
 ];
 
 console.log(showGrade(data));
