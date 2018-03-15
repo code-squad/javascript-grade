@@ -43,18 +43,18 @@ function convertGrade(grade){
 
 function sumCredits(arr){
   let result = 0;
-  for(let i = 0; i < arr.length; i++){
-    result += arr[i].credit;
-  }
+  arr.forEach(function(element){
+    result += element.credit;
+  });
   return result;
 }
 
 function getGPA(arr){
   let result = 0;
   let gradeCredit = 0;
-  for(let i = 0; i < arr.length; i++){
-    gradeCredit += convertGrade(arr[i].grade) * arr[i].credit;
-  }
+  arr.forEach(function(element){
+    gradeCredit += convertGrade(element.grade) * element.credit;
+  });
   result = gradeCredit / sumCredits(arr);
   return result.toFixed(2);
 }
