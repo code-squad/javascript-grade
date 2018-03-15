@@ -59,27 +59,39 @@ function getGPA(arr){
   return result.toFixed(2);
 }
 
+function selectMajor(arr){
+  let result = arr.filter(function(element){
+    return element.major === true;
+  });
+  return result;
+}
+
 function showGrade(arr) {
   let gpa = getGPA(arr);  
   let credits = sumCredits(arr);
-  return `총평점: ${gpa}, 이수학점: ${credits}`
+  let majorGpa = getGPA(selectMajor(arr));
+  let majorCredits = sumCredits(selectMajor(arr));
+  return `총평점: ${gpa}, 전공평점: ${majorGpa},  이수학점: ${credits}, 전공이수학점: ${majorCredits}`
 }
 
 var data = [
   {
     name: "데이터베이스",
     grade: "A",
-    credit: 3
+    credit: 3,
+    major : true
   },
   {
     name: "교양영어",
     grade: "B+",
-    credit: 2
+    credit: 2,
+    major : false
   },
   {
     name: "철학",
     grade: "B+",
-    credit: 1
+    credit: 1,
+    major : false
   }
 ];
 
