@@ -41,20 +41,28 @@ function convertGrade(grade){
   }
 }
 
-function showGrade(arr) {
-  let sumCredits = 0;
-  let sumRealGrades = 0;
-  let gpa = 0;
-
-  for (let i = 0; i < arr.length; i++) {
-      sumCredits += arr[i]["credit"];
-      arr[i].realGrade = Grade[arr[i]['grade']] * arr[i]['credit'];
-      sumRealGrades += arr[i]['realGrade'];
+function sumCredits(arr){
+  let result = 0;
+  for(let i = 0; i < arr.length; i++){
+    result += arr[i].credit;
   }
+  return result;
+}
 
-  gpa = sumRealGrades / sumCredits;
+function getGPA(arr){
+  let result = 0;
+  let gradeCredit = 0;
+  for(let i = 0; i < arr.length; i++){
+    gradeCredit += convertGrade(arr[i].grade) * arr[i].credit;
+  }
+  result = gradeCredit / sumCredits(arr);
+  return result.toFixed(2);
+}
 
-  return "총평점 " + String(gpa.toFixed(2)) + ", 이수학점 " + String(sumCredits);
+function showGrade(arr) {
+  let gpa = getGPA(arr);  
+  let credits = sumCredits(arr);
+  return `총평점: ${gpa}, 이수학점: ${credits}`
 }
 
 var data = [
