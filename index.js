@@ -14,7 +14,7 @@ let grade = {
 // [과목, 성적, 학점]이 요소가 되는 배열을 입력받아 총평점과 이수학점을 리턴하는 함수
 function showData(data) {
     let totalSum = 0; // 모든 성적의 합을
-    let totalSumConvert = 0;
+    let totalSumConvert = 0; // 4.0학점 기준으로 수정할 때 합을 담아줄 값
     let majorTotalSum = 0; // 전공 성적의 합
     let totalCredit = 0; // 총 이수학점
     let majorTotalCredit = 0; // 전공 총 이수학점
@@ -25,7 +25,7 @@ function showData(data) {
             majorTotalSum += grade[v.grade] * v.credit;
             majorTotalCredit += v.credit;
         }
-        totalSumConvert += convertGpa(v.grade) * v.credit;
+        totalSumConvert += convertGpa(v.grade) * v.credit; // 4.0학점 기준으로 grade를 변환해서 계산
         totalSum += grade[v.grade] * v.credit;
         totalCredit += v.credit;
     })
@@ -36,7 +36,10 @@ function showData(data) {
     let result = `총폄점 : ${gpa}, 전공평점 : ${majorGpa} 이수학점 : ${totalCredit} ` +
         `전공이수학점 : ${majorTotalCredit}
         4.0학점으로 변환하는 경우 총평점은 ${convertedGpa}`;
-    return result;
+
+    setTimeout(function () {
+        console.log(result);
+    }, 2000);
 }
 
 // 학점을 4.0으로 계산할 때 입력값에 따라 변환해주는 함수
@@ -98,4 +101,24 @@ var data = [{
     }
 ];
 
-console.log(showData(data));
+// 수강 과목 추가
+function addLecture(...args) {
+    args.forEach(function (v) {
+        data.push(v);
+    })
+}
+showData(data);
+addLecture({
+    'name': 'C언어',
+    'grade': 'A+',
+    'credit': 3,
+    'major': true
+});
+
+addLecture({
+    'name': '축구',
+    'grade': 'B+',
+    'credit': 1,
+    'major': false
+});
+showData(data);
