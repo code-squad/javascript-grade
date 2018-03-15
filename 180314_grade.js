@@ -23,21 +23,23 @@
 //     return 총평점, 이수학점
 // }
 
-let Grade = {
-  "A+": 4.5,
-  "A": 4.3,
-  "A-": 4.0,
-  "B+": 3.5,
-  "B": 3.3,
-  "B-": 3.0,
-  "C+": 2.5,
-  "C": 2.3,
-  "C-": 2.0,
-  "D+": 1.5,
-  "D": 1.3,
-  "D-": 1.0,
-  "F": 0
-};
+function convertGrade(grade){
+  switch(grade){
+    case "A+": return 4.5;
+    case "A": return 4.3;
+    case "A-": return 4.0;
+    case "B+": return 3.5;
+    case "B": return 3.3;
+    case "B-": return 3.0;
+    case "C+": return 2.5;
+    case "C": return 2.3;
+    case "C-": return 2.0;
+    case "D+": return 1.5;
+    case "D": return 1.3;
+    case "D-": return 1.0;
+    case "F": return 0;
+  }
+}
 
 function showGrade(arr) {
   let sumCredits = 0;
