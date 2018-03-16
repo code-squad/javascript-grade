@@ -85,31 +85,34 @@ function selectMajor(arr){
   return result;
 }
 
-let showGrade = (function(){
+let makeReport = (function(){
   let gradeReport = [];
-
-  return function(arr = []){
-    gradeReport = gradeReport.concat(arr);
-    let gpa = getGPA(gradeReport);  
-    let credits = sumCredits(gradeReport);
-    let majorGpa = getGPA(selectMajor(gradeReport));
-    let majorCredits = sumCredits(selectMajor(gradeReport));
-    let gpa4 = getGPA(gradeReport, 4.0);
-    if(arr.length === 0){
-        setTimeout(function(){
-        printGrade(gpa, majorGpa, credits, majorCredits, gpa4)
-      }, 2000);
+  return function(mode, obj){
+    if(mode === 'add') gradeReport = gradeReport.concat(obj);
+    if(mode == 'print'){
+      let gpa = getGPA(gradeReport);
+      let majorGPA = getGPA(selectMajor(gradeReport));
+      let credits = sumCredits(gradeReport);
+      let majorCredits = sumCredits(selectMajor(gradeReport));
+      let changedGPA = getGPA(gradeReport, 4.0);
+      printGrade(gpa, majorGPA, credits, majorCredits, changedGPA);
     }
   }
-})();
+})('add', []);
 
-function addLecture(obj){
-  showGrade([obj]);
+function printGrade(gpa, majorGPA, credits, majorCredits, changedGPA){
+  setTimeout(function(){
+    console.log(`총평점: ${gpa}, 전공평점: ${majorGPA},  이수학점: ${credits}, 전공이수학점: ${majorCredits}
+4.0으로 반환하는 경우 총 평점은 ${changedGPA}입니다`);
+  }, 2000);
 }
 
-function printGrade(gpa, majorGpa, credits, majorCredits, gpa4){
-  console.log(`총평점: ${gpa}, 전공평점: ${majorGpa},  이수학점: ${credits}, 전공이수학점: ${majorCredits}
-4.0으로 반환하는 경우 총 평점은 ${gpa4}입니다`);
+function addLecture(obj){
+  makeReport('add', obj);
+}
+
+function showGrade(){
+  makeReport('print');
 }
 
 var data = [
@@ -133,6 +136,6 @@ var data = [
   }
 ];
 
-showGrade(data);
+addLecture(data);
 addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true});
 showGrade();
