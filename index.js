@@ -1,60 +1,103 @@
-const readline = require('readline');
+// 성적별 점수를 담아놓은 객체
+let grade = {
+    'A+': 4.5,
+    'A': 4.0,
+    'B+': 3.5,
+    'B': 3.0,
+    'C+': 2.5,
+    'C': 2.0,
+    'D+': 1.5,
+    'D': 1.0,
+    'F': 0
+}
 
-var data = [];
+// [과목, 성적, 학점]이 요소가 되는 배열을 입력받아 총평점과 이수학점을 리턴하는 함수
+function showData(data) {
+    let totalSum = 0; // 모든 성적의 합을
+    let majorTotalSum = 0; // 전공 성적의 합
+    let totalCredit = 0; // 총 이수학점
+    let majorTotalCredit = 0; // 전공 총 이수학점
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
+    // 성적의 합, 이수학점을 선언한 변수에 담아주는 로직
+    data.forEach(function (v) {
+        if (v.major === true) {
+            majorTotalSum += grade[v.grade] * v.credit;
+            majorTotalCredit += v.credit;
+        }
+        totalSum += grade[v.grade] * v.credit;
+        totalCredit += v.credit;
+    })
+    let gpa = (totalSum / totalCredit).toFixed(2); // 총 평점 계산
+    let convertedGpa = (gpa * 4 / 4.5).toFixed(2); // 4.0으로 변환하여 계산
+    let majorGpa = (majorTotalSum / majorTotalCredit).toFixed(2); // 전공 총 평점 계산
+
+    let result = `총폄점 : ${gpa}, 전공평점 : ${majorGpa} 이수학점 : ${totalCredit} ` +
+        `전공이수학점 : ${majorTotalCredit}
+        4.0학점으로 변환하는 경우 총평점은 ${convertedGpa}`;
+
+    setTimeout(function () {
+        console.log(result);
+    }, 2000);
+}
+
+// 내가 입력한 성적
+var data = [{
+        'name': '데이터베이스',
+        'grade': 'A',
+        'credit': 3,
+        'major': true
+    },
+    {
+        'name': '교양영어',
+        'grade': 'B+',
+        'credit': 2,
+        'major': false
+    },
+    {
+        'name': '철학',
+        'grade': 'B+',
+        'credit': 1,
+        'major': false
+    },
+    {
+        'name': '알고리즘',
+        'grade': 'C+',
+        'credit': 3,
+        'major': true
+    },
+    {
+        'name': '공업수학',
+        'grade': 'D',
+        'credit': 3,
+        'major': true
+    },
+    {
+        'name': '테니스',
+        'grade': 'A+',
+        'credit': 3,
+        'major': false
+    }
+];
+
+// 수강 과목 추가
+function addLecture(...args) {
+    args.forEach(function (v) {
+        data.push(v);
+    })
+}
+
+showData(data);
+addLecture({
+    'name': 'C언어',
+    'grade': 'A+',
+    'credit': 3,
+    'major': true
 });
 
-function convertGrade(currGrade) {
-    var grade = 'FDCBA';
-    var score = grade.indexOf(currGrade[0]);
-    if(grade[1] === '+' && score !== 0){
-        score += 0.5;
-    }
-    return score;
-}
-
-function calculateGradepoint(data) {
-    var creditSum = 0 , creditGradeSum = 0;
-    var majorCreditSum = 0 , majorCreditGradeSum = 0;
-    var gpa = 0,majorGpa = 0;
-    var convertGpa = 0;
-
-    data.forEach(function (curr) {
-        creditSum += curr.credit;
-        creditGradeSum += convertGrade(curr.grade)*curr.credit;
-        if(curr.bMajor){
-            if(curr.bMajor)
-            majorCreditSum += convertGrade(curr.grade);
-            majorCreditGradeSum += convertGrade(curr.grade)*curr.credit;
-        }
-    });
-
-    gpa = (creditGradeSum/creditSum).toFixed(2);
-    majorGpa = (majorCreditGradeSum/majorCreditSum).toFixed(2);
-    convertGpa = ((creditGradeSum/creditSum) * 4 / 4.5).toFixed(2);
-
-    console.log('총평점 : ' + gpa);
-    console.log('전공평점 : ' + majorGpa);
-    console.log('이수학점 : ' + creditSum);
-    console.log('전공이수학점 : ' + majorCreditSum);
-    console.log('4.0으로 변환시 : ' + convertGpa);
-
-}
-
-function addLecture() {
-    rl.question('과목을 JSON형태로 입력하세요<종료는 end입력>',function(answer){
-        if(answer === 'end'){
-            setTimeout(function () {
-                calculateGradepoint(data);
-            },2000);
-            return rl.close();
-        }
-
-        data.push(JSON.parse(answer));
-        addLecture();
-    });
-
-}addLecture();
+addLecture({
+    'name': '축구',
+    'grade': 'B+',
+    'credit': 1,
+    'major': false
+});
+showData(data);
