@@ -42,14 +42,7 @@ var data =  [
                     'major' : false
                 }
 ];
-
-function showData(data, chagedFac = 4){
-	var totalGrade = 0;
-	var totalCredit = 0;
-	var majorGrade = 0;
-	var majorCredit = 0;
-	var chagedTotalGrade = 0;
-	var gradesObj = {
+var gradesObj = {
 		"A+" : 4.5,
 		"A" : 4.0,
 		"B+" : 3.5,
@@ -59,18 +52,29 @@ function showData(data, chagedFac = 4){
 		"D+" : 1.5,
 		"D" : 1.0,
 		"F" : 0
-	}
+};
+
+function showData(data, chagedFac = 4){
+	var totalGrade = 0;
+	var totalCredit = 0;
+	var majorGrade = 0;
+	var majorCredit = 0;
+	var chagedTotalGrade = 0;
+
 	for(let i = 0; i < data.length; i++){
+	    totalCredit += data[i]["credit"];
+	    let totalScore = gradesObj[data[i]["grade"]] * totalCredit;
+
 		if(data[i]["major"]){
-			majorGrade += (gradesObj[data[i]["grade"]] * data[i]["credit"]);
-			majorCredit += data[i]["credit"];
-		}
-		totalGrade += (gradesObj[data[i]["grade"]] * data[i]["credit"]);
-		totalCredit += data[i]["credit"];
+			majorGrade = totalScore;
+			majorCredit = totalCredit;
+	    }
+		totalGrade = totalScore;
 	}
+
 	totalGrade = (totalGrade / totalCredit).toFixed(2);
 	majorGrade = (majorGrade / majorCredit).toFixed(2);
-	chagedTotalGrade = (totalGrade * chagedFac / 4.5).toFixed(2);  
+	chagedTotalGrade = (totalGrade * chagedFac / 4.5).toFixed(2);
 	console.log("총평점 " + totalGrade + ", 전공평점 " + majorGrade +", 총이수학점 " + totalCredit + ", 전공이수학점 " + majorCredit );
 	console.log(chagedFac + "학점으로 변환하는 경우 총평점은 " + chagedTotalGrade + "입니다.")
 }
