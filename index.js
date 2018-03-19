@@ -1,60 +1,142 @@
-const readline = require('readline');
+const typeChecks = require("./typeChecks");
 
-var data = [];
+const gradeChart = {
+  "A+": 4.5,
+  A: 4.0,
+  "B+": 3.5,
+  B: 3.0,
+  "C+": 2.5,
+  C: 2.0,
+  "D+": 1.5,
+  D: 1,
+  F: 0,
+};
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const LectureNames = {
+    DataBase: "데이터베이스",
+    DataStructure: "자료구조",
+    LiberalEnglish: "교양영어",
+    PhiloSophy: "철학",
+    Algorithm: "알고리즘",
+}
 
-function convertGrade(currGrade) {
-    var grade = 'FDCBA';
-    var score = grade.indexOf(currGrade[0]);
-    if(grade[1] === '+' && score !== 0){
-        score += 0.5;
+const MyGradeData = {
+    id: {
+        DataBase: {
+            grade: "A+",
+            credit: 3,
+            major: true,
+        },
+        DataStructure: {
+            grade: "A",
+            credit: 3,
+            major: true,
+        },
+        LiberalEnglish: {
+            grade: "B+",
+            credit: 3,
+            major: false,
+        },
+        PhiloSophy: {
+            grade: "B",
+            credit: 3,
+            major: false,
+        },
     }
-    return score;
 }
 
-function calculateGradepoint(data) {
-    var creditSum = 0 , creditGradeSum = 0;
-    var majorCreditSum = 0 , majorCreditGradeSum = 0;
-    var gpa = 0,majorGpa = 0;
-    var convertGpa = 0;
+//요구사항 showGrade는 show만 하도록 \
+const Zero = 0;
+const NormalMaxPoints = 4.5
+const acuurancy = 2;
 
-    data.forEach(function (curr) {
-        creditSum += curr.credit;
-        creditGradeSum += convertGrade(curr.grade)*curr.credit;
-        if(curr.bMajor){
-            if(curr.bMajor)
-            majorCreditSum += convertGrade(curr.grade);
-            majorCreditGradeSum += convertGrade(curr.grade)*curr.credit;
-        }
-    });
-
-    gpa = (creditGradeSum/creditSum).toFixed(2);
-    majorGpa = (majorCreditGradeSum/majorCreditSum).toFixed(2);
-    convertGpa = ((creditGradeSum/creditSum) * 4 / 4.5).toFixed(2);
-
-    console.log('총평점 : ' + gpa);
-    console.log('전공평점 : ' + majorGpa);
-    console.log('이수학점 : ' + creditSum);
-    console.log('전공이수학점 : ' + majorCreditSum);
-    console.log('4.0으로 변환시 : ' + convertGpa);
-
+const ErrorMsg = {
+    isNotObj: "data 형식은 object형태여야 합니다 example {name: 알고리즘, grade: B, credit: 3, major: true}",
 }
 
-function addLecture() {
-    rl.question('과목을 JSON형태로 입력하세요<종료는 end입력>',function(answer){
-        if(answer === 'end'){
-            setTimeout(function () {
-                calculateGradepoint(data);
-            },2000);
-            return rl.close();
-        }
+class GradeCaculator{
+    constructor(){
+        gradeData: MyGradeData;
+    }
+    validData(){
+    }
+    saveData(data = MyGradeData){
+        this.gradeData = data;
+        return this.gradeData;
+    }
+    caculateGrade(fullPoints = NormalMaxPoints){
+        const gradeData = Object.values(this.gradeData.id);
+        console.log(gradeData);
+        let totalGrade = Zero, 
+            totalCredits = Zero, 
+            totalMajorGrade = Zero,
+            gpa = Zero,
+            majorGpa = Zero,
+            totalMajorCredits = Zero,
+            ratio = fullPoints/NormalMaxPoints || 1
+            
 
-        data.push(JSON.parse(answer));
-        addLecture();
-    });
+        const caclGradeScore = (grade, credit) => gradeChart[grade]*credit;
 
-}addLecture();
+        const getAverage = (totalGrade, totalCredits, ratio)=>(totalGrade/totalCredits*ratio).toFixed(acuurancy)
+
+        gradeData.forEach(report => {
+            let gradeScore = caclGradeScore(report.grade, report.credit)
+            let credits = report.credit;
+            totalGrade +=gradeScore;
+            totalCredits +=credits;
+            if(report.major){
+                totalMajorGrade += gradeScore;
+                totalMajorCredits +=credits;
+            }
+        });
+        gpa = getAverage(totalGrade, totalCredits, ratio)
+        majorGpa = getAverage(totalMajorGrade, totalMajorCredits, ratio)
+        const result = {
+            gpa,
+            totalCredits,
+            majorGpa,
+            totalMajorCredits,
+            fullPoints,
+        };
+        return this.showGrade(result);
+    }
+    showGrade(result){
+        console.log(
+            " 총 평점 " +
+              result.gpa +
+              " 전공평점 " +
+              result.majorGpa +
+              " 이수학점 " +
+              result.totalCredits +
+              " 전공 이수학점 " +
+              result.totalMajorCredits +
+              " 이 기준은 " +
+              result.fullPoints +
+              " 만점 기준으로 계산한 값입니다"
+          );
+    }
+    addLecture( addData){
+        if(!typeChecks.isObject(addData)) throw new Error(ErrorMsg.isNotObj);
+        this.gradeData.id = {...this.gradeData.id, ...addData };
+        console.log(this.gradeData.id);
+    }
+}
+
+
+const gradeCaculator = new GradeCaculator();
+gradeCaculator.saveData();
+
+gradeCaculator.caculateGrade();
+gradeCaculator.caculateGrade(4);
+
+const addData = {
+    Algorithm: {
+        grade: 'B',
+        credit: 3,
+        major: true
+    },
+}
+
+
+gradeCaculator.addLecture(addData)
