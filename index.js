@@ -49,7 +49,7 @@ const MyGradeData = {
 const Zero = 0;
 const NormalMaxPoints = 4.5
 const acuurancy = 2;
-
+const normalRatio = 1;
 const ErrorMsg = {
     isNotObj: "data 형식은 object형태여야 합니다 example {name: 알고리즘, grade: B, credit: 3, major: true}",
 }
@@ -73,7 +73,7 @@ class GradeCaculator{
             gpa = Zero,
             majorGpa = Zero,
             totalMajorCredits = Zero,
-            ratio = fullPoints/NormalMaxPoints || 1
+            ratio = fullPoints/NormalMaxPoints || normalRatio
             
 
         const caclGradeScore = (grade, credit) => gradeChart[grade]*credit;
@@ -140,3 +140,5 @@ const addData = {
 
 
 gradeCaculator.addLecture(addData)
+
+gradeCaculator.caculateGrade();
