@@ -20,6 +20,14 @@ var totalCalculate = 0; // 총계산값
 
 function showGrade(data) {
   // 이수학점 총합 계산
+  let result = [];
+
+  for (var credit in data) {
+    if (typeof data[credit][2] === "number") { // 막힘 발생: 배열의 각각의 value를 다 합해야 할 방법이 생각이 안남 => 탐색만 하는 함수를 따로 제작하기로 함
+      result.push(data[credit][2]);
+      console.log(result); 
+    }
+  }
 
   // 이수학점과 해당 성적을 가져와 총 평균 성적을 계산
 }
