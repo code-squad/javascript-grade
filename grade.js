@@ -13,23 +13,38 @@ var grade = { // 해당성적점수
 };
 
 var subject = ""; // 과목
-var eduCredit = 0; // 이수학점
+// var eduCredit = 0; // 이수학점
 var totalEduCredit = 0; // 총이수학점
+var totalCalculate = 0; // 총계산값(이수학점*과목점수..)
 var totalAvgCredit = 0; // 총평균점수
-var totalCalculate = 0; // 총계산값
+
+// // 배열 탐색 함수
+function searchData(data) {
+  let eduCredit = [];
+  for (var credit in data) {
+    if (typeof data[credit][2] === "number") {
+      eduCredit.push(data[credit][2]);
+    }
+  }
+  return eduCredit;
+
+
+}
+
+// 이수학점 총합 계산
+function eduCreditCalculator(eduCredit) {
+  
+}
 
 function showGrade(data) {
   // 이수학점 총합 계산
-  let result = [];
-
-  for (var credit in data) {
-    if (typeof data[credit][2] === "number") { // 막힘 발생: 배열의 각각의 value를 다 합해야 할 방법이 생각이 안남 => 탐색만 하는 함수를 따로 제작하기로 함
-      result.push(data[credit][2]);
-      console.log(result); 
-    }
-  }
-
+  totalCalculate += eduCredit;
+  
   // 이수학점과 해당 성적을 가져와 총 평균 성적을 계산
+  totalEduCredit += grade * eduCredit; // grade의 해당 성적을 어떻게 가져와 계산할것인가(쭉 늘어놓지 않고..)
+
 }
 
-showGrade(data); // "총평점 3.92 , 이수학점 6"
+// showGrade(data); // "총평점 3.92 , 이수학점 6"
+console.log(searchData(data));
+
