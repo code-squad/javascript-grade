@@ -1,8 +1,23 @@
 // refatoring 
 // 1. 이중 for문을 대체할 기능 구현
 // 2. 성적탐색, 이수학점 탐색 기능 중 중복 된 기능 합치기 => 탐색기능(?)
-
-var data = [ ['데이터베이스', 'A', 3], ['교양영어', 'B+', 1], ['철학', 'A', 2]]; // 실험데이터
+var data = [
+  {
+    'name': '데이터베이스',
+    'grade': 'A',
+    'credit': 3
+  },
+  {
+    'name': '교양영어',
+    'grade': 'B+',
+    'credit': 2
+  },
+  {
+    'name': '철학',
+    'grade': 'B+',
+    'credit': 1
+  }
+];
 
 var grade = { // 해당성적점수
   "A+": 4.5,
@@ -59,5 +74,3 @@ function showGrade(data) {
 }
 
 console.log(showGrade(data)); // "총평점 3.92 , 이수학점 6"
-
-
