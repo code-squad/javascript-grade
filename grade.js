@@ -1,4 +1,4 @@
-var data = [['데이터베이스', 'A', 3], ['교양영어', 'B+', 1], ['철학', 'A', 2]]; // 실험데이터
+var data = [ ['데이터베이스', 'A', 3], ['교양영어', 'B+', 1], ['철학', 'A', 2]]; // 실험데이터
 
 var grade = { // 해당성적점수
   "A+": 4.5,
@@ -12,13 +12,25 @@ var grade = { // 해당성적점수
   "F": 0
 };
 
-var subject = ""; // 과목
-// var eduCredit = 0; // 이수학점
-var totalEduCredit = 0; // 총이수학점
+var totalCredit = 0; // 총이수학점
 var totalCalculate = 0; // 총계산값(이수학점*과목점수..)
-var totalAvgCredit = 0; // 총평균점수
+var totalAvg = 0; // 총평균점수
 
-// // 배열 탐색 함수
+// 성적 탐색 합계 함수
+function searchGrade(inputData) {
+  let data = inputData;
+  let result = [];
+  for (var key in data) {
+    for (var value in grade) {
+      if (value === data[key][1]) {
+        result.push(grade[value]);
+      }
+    }
+  }
+  return result;
+}
+
+// 이수학점 탐색 합계 함수
 function searchData(data) {
   let eduCredit = [];
   for (var credit in data) {
@@ -27,24 +39,21 @@ function searchData(data) {
     }
   }
   return eduCredit;
-
-
 }
 
-// 이수학점 총합 계산
-function eduCreditCalculator(eduCredit) {
-  
-}
-
+// 총 평점 & 총이수학점 계산
 function showGrade(data) {
-  // 이수학점 총합 계산
-  totalCalculate += eduCredit;
+  let eduCredit = searchData(data);
+  let resultGrade = searchGrade(data);
+  let totalCredit = eduCredit.reduce(function(preKey, lastKey) { return preKey + lastKey; });  
+  for(var i = 0; i < resultGrade.length; i++){
+    totalCalculate += resultGrade[i] * eduCredit[i];
+  }
+  let totalAvg = (totalCalculate / totalCredit).toFixed(2); 
   
-  // 이수학점과 해당 성적을 가져와 총 평균 성적을 계산
-  totalEduCredit += grade * eduCredit; // grade의 해당 성적을 어떻게 가져와 계산할것인가(쭉 늘어놓지 않고..)
-
+  return "총평점: " + totalAvg + ", " + "이수학점: " + totalCredit;
 }
 
-// showGrade(data); // "총평점 3.92 , 이수학점 6"
-console.log(searchData(data));
+console.log(showGrade(data)); // "총평점 3.92 , 이수학점 6"
+
 
