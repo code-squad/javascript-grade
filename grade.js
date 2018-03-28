@@ -43,7 +43,7 @@ function showGrade(data) {
   let sumCredit = 0; // 총 이수학점
   let sumMajor = 0; // 총 전공 이수학점
   let sumAvgMajor = 0; // 총 전공 평점
-  let transAvg = 0;
+  let transAvg = 0; // 4.0일 때 계산값
 
   for (let i = 0; i < data.length; i++) {
     sumCredit += data[i].credit;
@@ -59,8 +59,11 @@ function showGrade(data) {
   "4.0 학점으로 변환되는 경우 총평점은 " + transAvg + "입니다.";
 }
 
-function addLecture() {
-  
+function addLecture(addData) {
+  if(typeof addData === "object"){
+    return data.push(addData);
+  }
 }
 
+addLecture({'name': '알고리즘', 'grade': 'B', 'credit': 3, 'major': true});
 console.log(showGrade(data));
