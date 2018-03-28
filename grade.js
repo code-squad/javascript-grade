@@ -37,14 +37,14 @@ var grade = { // 해당성적점수
   "F": 0
 };
 
-function showGrade(data) {
+function showGrade(data){
   let totalAvg = 0; // 총 평점
   let sumGrade = 0; // 해당성적*이수학점의 합
   let sumCredit = 0; // 총 이수학점
   let sumMajor = 0; // 총 전공 이수학점
   let sumAvgMajor = 0; // 총 전공 평점
   let transAvg = 0; // 4.0일 때 계산값
-
+  
   for (let i = 0; i < data.length; i++) {
     sumCredit += data[i].credit;
     sumGrade += grade[data[i].grade] * data[i].credit;
@@ -66,4 +66,6 @@ function addLecture(addData) {
 }
 
 addLecture({'name': '알고리즘', 'grade': 'B', 'credit': 3, 'major': true});
-console.log(showGrade(data));
+setTimeout(function () {
+  console.log(showGrade(data));
+}, 2000);
