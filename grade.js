@@ -24,8 +24,6 @@ var data = [
     'major': true
   }
 ];
-// 전공이수학점이 얼마인지, 전공평점이 얼마인지 
-// > 총평점 : 3.92, 전공평점:3.5, 이수학점:12, 전공이수학점:6
 
 var grade = { // 해당성적점수
   "A+": 4.5,
@@ -45,6 +43,7 @@ function showGrade(data) {
   let sumCredit = 0; // 총 이수학점
   let sumMajor = 0; // 총 전공 이수학점
   let sumAvgMajor = 0; // 총 전공 평점
+  let transAvg = 0;
 
   for (let i = 0; i < data.length; i++) {
     sumCredit += data[i].credit;
@@ -55,7 +54,9 @@ function showGrade(data) {
     }
   }
   totalAvg = (sumGrade / sumCredit).toFixed(2); 
-  return "총평점: " + totalAvg + ", " + "전공평점: " + sumAvgMajor + ", " + "이수학점: " + sumCredit + ", " + "전공이수학점: " + sumMajor;
+  transAvg = (totalAvg * 8 / 9).toFixed(2);
+  return "총평점: " + totalAvg + ", " + "전공평점: " + sumAvgMajor + ", " + "이수학점: " + sumCredit + ", " + "전공이수학점: " + sumMajor + "\n" +
+  "4.0 학점으로 변환되는 경우 총평점은 " + transAvg + "입니다.";
 }
 
 function addLecture() {
