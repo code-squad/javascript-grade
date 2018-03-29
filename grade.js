@@ -37,55 +37,45 @@ var grade = { // 해당성적점수
   "F": 0
 };
 
-// 전공 성적 계산
-var calculateMajor = function(data){
-  let sumMajorGrade = 0; // 전공성적 * 전공이수학점의 합
+// 과목 성적 계산
+var calculateGrade = function(data){
+  let sumMajorGrade = 0; // 전공 성적 * 이수학점 합
+  let sumGrade = 0; // 해당성적 * 이수학점의 합
   let sumMajor = 0; // 총 전공 이수학점
-  let arrMajor = []; // 총 전공 평점
+  let sumCredit = 0; // 총 이수학점
+  let arrGrade = []; // 총 전공 평점
 
   for (let i = 0; i < data.length; i++) {
+    sumCredit += data[i].credit;
+    sumGrade += grade[data[i].grade] * data[i].credit;
     if (data[i].major) {
       sumMajor += data[i].credit;
       sumMajorGrade += grade[data[i].grade] * data[i].credit;
     }
   }
-  arrMajor.push(sumMajorGrade, sumMajor);
-  return arrMajor;
+  arrGrade.push(sumMajorGrade, sumMajor, sumGrade, sumCredit);
+  return arrGrade;
 };
 
 // 전공 성적 출력
 var showMajorGrade = function (data){
-  let arrMajor = calculateMajor(data);
+  let arrMajor = calculateGrade(data);
   let sumMajorGrade = arrMajor[0]; // 전공성적 * 전공이수학점의 합
-  let sumMajor = arrMajor[1]; // 총 전공 이수학점
-  let totalAvgMajor = 0;
+  let sumMajor = arrMajor[1]; // 전공 이수학점 합
+  let totalAvgMajor = 0; // 총 전공 평균
 
   totalAvgMajor = (sumMajorGrade / sumMajor).toFixed(2);
   return "전공평점: " + totalAvgMajor + ", " + "전공이수학점: " + sumMajor;
 };
 
 
-// 전 과목 성적 계산 
-var calculateAllGrade = function (data) {
-  let arrGrade = []; // 총 평점
-  let sumGrade = 0; // 해당성적*이수학점의 합
-  let sumCredit = 0; // 총 이수학점
-
-  for (let i = 0; i < data.length; i++) {
-    sumCredit += data[i].credit;
-    sumGrade += grade[data[i].grade] * data[i].credit;
-  }
-  arrGrade.push(sumGrade, sumCredit);
-  return arrGrade;
-};
-
 // 전 과목 성적 출력
 function showAllGrade(data){
   let totalAvg = 0;
-  let arrGrade = calculateAllGrade(data); // 전과목 계산 함수
+  let arrGrade = calculateGrade(data); // 전과목 계산 함수
   let showMajor = showMajorGrade(data); // 전공과목 출력함수
-  let sumGrade = arrGrade[0]; 
-  let sumCredit = arrGrade[1];
+  let sumGrade = arrGrade[2]; 
+  let sumCredit = arrGrade[3];
   let transAvg = 0;
   
   totalAvg = (sumGrade / sumCredit).toFixed(2);
