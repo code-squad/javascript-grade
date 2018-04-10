@@ -94,7 +94,7 @@ function getAllGrade(data) {
 
 // 과목 추가 함수
 function addLecture(addData) {
-  if (Object.is(addData, addData)) {
+  if (toString.call(addData)) {
     return data.push(addData);
   }
 }
