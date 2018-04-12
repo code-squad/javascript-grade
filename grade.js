@@ -94,7 +94,9 @@ function getAllGrade(data) {
 
 // 과목 추가 함수
 function addLecture(addData) {
-  if (toString.call(addData)) {
+  let checkData = Object.prototype.toString.call(addData);
+
+  if (checkData === '[object Object]') {
     return data.push(addData);
   }
 }
