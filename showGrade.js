@@ -1,10 +1,10 @@
-var data = [
+const courseGradeData = [
   ['데이터베이스', 'A', 3],
   ['교양영어', 'B+', 1],
   ['철학', 'A', 2]
 ];
 
-var gradeData = {
+const gradeData = {
   "A+" : 4.5,
   "A" : 4,
   "B+" : 3.5,
@@ -16,39 +16,47 @@ var gradeData = {
   "F" : 0
 }
 
-//data의 평점을 gradeData 객체의 점수와 매핑하는 함수.
-function getScoreArr(data){
-  let scoreArr = []
-  for(let i = 0; i < data.length; i++){
-    scoreArr.push(gradeData[data[i][1]]);
-  }
-  return scoreArr;
+//courseGradeData 평점을 gradeData 객체의 점수와 매핑하는 함수.
+function getScoreArr(currentVal) {
+  return gradeData[currentVal[1]];
 }
 
-//data의 이수학점을 CreditArr에 담는 함수
-function getCreditArr(data) {
-  let CreditArr = [];
-  for(let n = 0; n < data.length; n++) {
-    CreditArr.push(data[n][2]);
-  }
-  return CreditArr;
+//courseGradeData 이수학점을 CreditArr에 담는 함수
+function getCreditArr(currentVal) {
+  return currentVal[2];
 }
 
-//data를 인자로 받아서, 총평점과 이수학점을 반환하는 함수.
-function showGrade(data){
-  let ScoreResult = getScoreArr(data);
-  let CreditResult = getCreditArr(data);
+// courseGradeData를 인자로 받아서, 총평점과 이수학점을 반환하는 함수.
+function showGrade(courseGradeData) {
+  const scoreResult = courseGradeData.map(getScoreArr);
+  const creditResult = courseGradeData.map(getCreditArr);
   let gradeResult = 0;
   let sumCredit = 0; //총 이수학점
 
-  for(let i = 0; i < data.length; i++){
-    sumCredit += CreditResult[i];
-    gradeResult += ScoreResult[i] * CreditResult[i];
+  for(let i = 0; i < courseGradeData.length; i++) {
+    sumCredit += creditResult[i];
+    gradeResult += scoreResult[i] * creditResult[i];
   }
   gradeResult = (gradeResult/sumCredit).toFixed(2);
   return "총 평점: " + gradeResult + " 이수학점: " + sumCredit;
 }
 
-console.log(showGrade(data));
+console.log(showGrade(courseGradeData));
+
+// function showGrade(currentVal) {
+//   const scoreResult = courseGradeData.map(getScoreArr);
+//   const creditResult = courseGradeData.map(getCreditArr);
+//   let gradeResult = 0;
+//   let sumCredit = 0; //총 이수학점
+
+//   for(let i = 0; i < courseGradeData.length; i++) {
+//     sumCredit += creditResult[i];
+//     gradeResult += scoreResult[i] * creditResult[i];
+//   }
+//   gradeResult = (gradeResult/sumCredit).toFixed(2);
+//   return "총 평점: " + gradeResult + " 이수학점: " + sumCredit;
+// }
+
+// console.log(courseGradeData.forEach(showGrade));
 
 //  "총평점 3.92 , 이수학점 6"
