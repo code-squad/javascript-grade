@@ -1,60 +1,50 @@
-const readline = require('readline');
+function getTotalCredit(gradeDataArr) {
 
-var data = [];
-
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
-
-function convertGrade(currGrade) {
-    var grade = 'FDCBA';
-    var score = grade.indexOf(currGrade[0]);
-    if(grade[1] === '+' && score !== 0){
-        score += 0.5;
-    }
-    return score;
+  const totalCredit = gradeDataArr.reduce(function (sum, arr) {
+    const credit = arr[2];
+    sum += credit;
+    return sum;
+  }, 0);
+  return totalCredit;
 }
 
-function calculateGradepoint(data) {
-    var creditSum = 0 , creditGradeSum = 0;
-    var majorCreditSum = 0 , majorCreditGradeSum = 0;
-    var gpa = 0,majorGpa = 0;
-    var convertGpa = 0;
-
-    data.forEach(function (curr) {
-        creditSum += curr.credit;
-        creditGradeSum += convertGrade(curr.grade)*curr.credit;
-        if(curr.bMajor){
-            if(curr.bMajor)
-            majorCreditSum += convertGrade(curr.grade);
-            majorCreditGradeSum += convertGrade(curr.grade)*curr.credit;
-        }
-    });
-
-    gpa = (creditGradeSum/creditSum).toFixed(2);
-    majorGpa = (majorCreditGradeSum/majorCreditSum).toFixed(2);
-    convertGpa = ((creditGradeSum/creditSum) * 4 / 4.5).toFixed(2);
-
-    console.log('총평점 : ' + gpa);
-    console.log('전공평점 : ' + majorGpa);
-    console.log('이수학점 : ' + creditSum);
-    console.log('전공이수학점 : ' + majorCreditSum);
-    console.log('4.0으로 변환시 : ' + convertGpa);
-
+function getScoreFromGrade(grade) {
+  const gradeMap = {
+    'A+': 4.5,
+    'A': 4.0,
+    'B+': 3.5,
+    'B': 3.0,
+    'C+': 2.5,
+    'C': 2.0,
+    'D+': 1.5,
+    'D': 1.0,
+    'F': 0
+  }
+  const score = gradeMap[grade];
+  return score;
 }
 
-function addLecture() {
-    rl.question('과목을 JSON형태로 입력하세요<종료는 end입력>',function(answer){
-        if(answer === 'end'){
-            setTimeout(function () {
-                calculateGradepoint(data);
-            },2000);
-            return rl.close();
-        }
+function getGPA(gradeDataArr, totalCredit) {
 
-        data.push(JSON.parse(answer));
-        addLecture();
-    });
+  const sumOfGrade = gradeDataArr.reduce(function (sum, arr) {
+    const grade = arr[1];
+    const score = getScoreFromGrade(grade);
+    const credit = arr[2];
+    sum += (score * credit);
+    return sum;
+  }, 0);
 
-}addLecture();
+  const GPA = (sumOfGrade / totalCredit).toFixed(2);
+  return GPA;
+}
+
+function showGrade(gradeDataArr) {
+  const totalCredit = getTotalCredit(gradeDataArr);
+  const GPA = getGPA(gradeDataArr, totalCredit);
+  const resultMsg = `총 평점 ${GPA}, 이수학점 ${totalCredit}`;
+
+  return resultMsg;
+}
+
+const data = [['데이터베이스', 'A', 3], ['교양영어', 'B+', 1], ['철학', 'A', 2]];
+console.log(showGrade(data));
