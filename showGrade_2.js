@@ -11,7 +11,7 @@ const courseGradeData = [
   },
   {
     'name': '철학',
-    'grade': 'A',
+    'grade': 'F',
     'credit': 2
   }
 ];
@@ -35,6 +35,9 @@ function getScoreArr(currentVal) {
 
 //courseGradeData 이수학점을 CreditArr에 담는 함수
 function getCreditArr(currentVal) {
+  if(currentVal["grade"] === "F"){
+    return 0;
+  }
   return currentVal["credit"];
 }
 
