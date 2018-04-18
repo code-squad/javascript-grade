@@ -31,12 +31,12 @@ const gradeData = {
   "F": 0
 }
     
-//courseGradeData 평점을 gradeData 객체의 점수와 매핑하는 함수.
+//courseGradeData의 과목별 평점을 gradeData 객체의 점수와 매핑하는 함수.
 function getScoreArr(currentVal) {
   return gradeData[currentVal["grade"]];
 }
   
-//courseGradeData의 전공평점을 gradeData 객체의 점수와 매핑하는 함수.
+//courseGradeData의 전공과목별 전공평점을 gradeData 객체의 점수와 매핑하는 함수.
 function getMajorScoreArr(currentVal) {
   if(currentVal["major"]) {
     return gradeData[currentVal["grade"]];
@@ -45,25 +45,29 @@ function getMajorScoreArr(currentVal) {
   }
 }
     
-//courseGradeData 이수학점을 CreditArr에 담는 함수
+//courseGradeData의 과목별 이수학점을 getCreditArr에 담는 함수
 function getCreditArr(currentVal) {
   if(currentVal["grade"] === "F") {
     return 0;
   }
+  
   return currentVal["credit"];
 }
-  
+
+//courseGradeData의 전공과목별 전공이수학점을 getMajorCreditArr에 담는 함수
 function getMajorCreditArr(currentVal) {
   if(currentVal["grade"] === "F") {
     return 0;
   }
+
   if(currentVal["major"]) {
   return currentVal["credit"];
   } else {
       return [];
   }
 }
-  
+
+//creditResult 배열의 reduce함수
 function getCredit(sumCredit, creditVal) {
   sumCredit += creditVal;
   return sumCredit;
@@ -74,7 +78,7 @@ function showCredit(creditResult) {
   return creditResult.reduce(getCredit);
 }
   
-//showCredit 함수의 반환값을 인자로 받아서, 총 평점을 반환하는 함수.
+//showCredit 함수의 반환값과 과목별 평점 값(scoreResult)을 인자로 받아서, 총 평점을 반환하는 함수.
 function showGrade(totalCredit, scoreResult) {
   let gradeResult = 0;
   for (let i = 0; i < scoreResult.length; i++) {
@@ -84,19 +88,21 @@ function showGrade(totalCredit, scoreResult) {
   gradeResult = (gradeResult / totalCredit).toFixed(2);
   return gradeResult;
 }
-  
-const creditResult = courseGradeData.map(getCreditArr);
-const majorCreditResult = courseGradeData.map(getMajorCreditArr);
-const scoreResult = courseGradeData.map(getScoreArr);
-const majorScoreResult = courseGradeData.map(getMajorScoreArr);
-let totalCredit = showCredit(creditResult);
-let majorTotalCredit = showCredit(majorCreditResult);
+
+const dataResult = {
+  "creditResult": creditResult = courseGradeData.map(getCreditArr), //과목별 이수학점 값
+  "majorCreditResult": majorCreditResult = courseGradeData.map(getMajorCreditArr), //전공별 이수학점 값
+  "scoreResult": scoreResult = courseGradeData.map(getScoreArr), //과목별 평점 값
+  "majorScoreResult": majorScoreResult = courseGradeData.map(getMajorScoreArr), //전공별 이수학점 값
+  "totalCredit": totalCredit = showCredit(creditResult), // 총 이수학점을 totalCredit 변수 안에 담기.
+  "majorTotalCredit": majorTotalCredit = showCredit(majorCreditResult) // 전공의 총 이수학점을 majorTotalCredit 변수 안에 담기
+};
 
 console.log(
-  "총 평점: " + showGrade(totalCredit, scoreResult) + ",",
-  "전공 평점: " + showGrade(majorTotalCredit, majorScoreResult) + "," ,
-  "총 이수학점: " + totalCredit + ",",
-  "전공 이수학점: " + majorTotalCredit
+  "총 평점: " + showGrade(dataResult.totalCredit, dataResult.scoreResult) + ",",
+  "전공 평점: " + showGrade(dataResult.majorTotalCredit, dataResult.majorScoreResult) + "," ,
+  "총 이수학점: " + dataResult.totalCredit + ",",
+  "전공 이수학점: " + dataResult.majorTotalCredit
 );
     
   // > "총평점 3.92 , 이수학점 6"
