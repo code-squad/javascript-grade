@@ -18,7 +18,7 @@ const courseGradeData = [
     'major' : false
   }
 ];
-    
+
 const gradeData = {
   "A+": 4.5,
   "A": 4,
@@ -89,6 +89,11 @@ function showGrade(totalCredit, scoreResult) {
   return gradeResult;
 }
 
+function convertGrade(gradeResult) {
+  let convertGrade = (gradeResult / 1.125).toFixed(2);
+  return convertGrade;
+}
+
 const dataResult = {
   "creditResult": creditResult = courseGradeData.map(getCreditArr), //과목별 이수학점 값
   "majorCreditResult": majorCreditResult = courseGradeData.map(getMajorCreditArr), //전공별 이수학점 값
@@ -104,5 +109,7 @@ console.log(
   "총 이수학점: " + dataResult.totalCredit + ",",
   "전공 이수학점: " + dataResult.majorTotalCredit
 );
+
+console.log("4.0학점으로 변환하는 경우 총평점은: " + convertGrade(showGrade(dataResult.totalCredit, dataResult.scoreResult)) + " 입니다.")
     
   // > "총평점 3.92 , 이수학점 6"
