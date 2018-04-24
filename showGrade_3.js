@@ -3,19 +3,19 @@ const courseGradeData = [
       'name': '데이터베이스',
       'grade': 'A',
       'credit': 3,
-      'major' : true
+      'major': true
     },
     {
       'name': '교양영어',
       'grade': 'B+',
       'credit': 1,
-      'major' : false
+      'major': false
     },
     {
       'name': '철학',
       'grade': 'A',
       'credit': 2,
-      'major' : false
+      'major': false
     }
   ];
   
@@ -38,32 +38,32 @@ const courseGradeData = [
   
   //courseGradeData의 전공과목별 전공평점을 gradeData 객체의 점수와 매핑하는 함수.
   function putMajorGradeArr(currentVal) {
-    if(currentVal["major"]) {
+    if (currentVal["major"]) {
       return gradeData[currentVal["grade"]];
     } else {
-        return [];
+      return [];
     }
   }
   
   //courseGradeData의 과목별 이수학점을 getCreditArr에 담는 함수
   function putCreditArr(currentVal) {
-    if(currentVal["grade"] === "F") {
+    if (currentVal["grade"] === "F") {
       return 0;
     }
-    
+  
     return currentVal["credit"];
   }
   
   //courseGradeData의 전공과목별 전공이수학점을 getMajorCreditArr에 담는 함수
   function putMajorCreditArr(currentVal) {
-    if(currentVal["grade"] === "F") {
+    if (currentVal["grade"] === "F") {
       return 0;
     }
   
-    if(currentVal["major"]) {
-    return currentVal["credit"];
+    if (currentVal["major"]) {
+      return currentVal["credit"];
     } else {
-        return [];
+      return 0;
     }
   }
   
@@ -104,12 +104,37 @@ const courseGradeData = [
     return convertGrade;
   }
   
+  function addLecture(lectureData) {
+    lectureData.reduce(function (result, currentVal) {
+      courseGradeData[courseGradeData.length] = currentVal;
+      return courseGradeData;
+    }, []);
+  }
+  
+  //새로운 과목을 추가하는 'addLecture' 라는 함수
+  addLecture(
+    [
+      {
+        'name': '알고리즘',
+        'grade': 'B',
+        'credit': 3,
+        'major': true
+      },
+      {
+        'name': 'javascript',
+        'grade': 'A',
+        'credit': 3,
+        'major': true
+      }
+    ]
+  );
+  
   let totalCredit = showCredit(getCredit(putCreditArr)); // 총 이수학점을 totalCredit 변수 안에 담기.
   let majorTotalCredit = showCredit(getCredit(putMajorCreditArr)); // 전공의 총 이수학점을 majorTotalCredit 변수 안에 담기
   
   console.log(
     "총 평점: " + showGrade(totalCredit, getGrade(putGradeArr)) + ",",
-    "전공 평점: " + showGrade(majorTotalCredit, getGrade(putMajorGradeArr)) + "," ,
+    "전공 평점: " + showGrade(majorTotalCredit, getGrade(putMajorGradeArr)) + ",",
     "총 이수학점: " + totalCredit + ",",
     "전공 이수학점: " + majorTotalCredit
   );
