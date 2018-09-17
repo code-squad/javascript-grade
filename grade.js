@@ -23,7 +23,7 @@ const data =  [
 
 // 데이터 변환(4.5 만점 기준)
 
-function parseData(data){
+function declareData(data){
     // 4.5기준 학점
 
     const parse_data =  {
@@ -46,13 +46,21 @@ function parseData(data){
 
     return data;
 }
+
+// 전공 수업 확인 필터
+
+function checkMajor(data){
+    let major_grades = data.filter((data) => {return !!(data.major)});
+    return major_grades;
+}
+
 // 결과 메세지
 
 function showGrade(data){
-    let result_message = `4.5기준 총평점 : ${calculateTotalCredit(data)}(4.0기준은 ${exchangeGrades(4.0, calculateTotalCredit(data))}),` +
-                        `전공평점:${calculateMajorCredit(data)}(4.0기준은 ${exchangeGrades(4.0, calculateMajorCredit(data))}),  ` +
-                        `이수학점:${checkTotalCreditNumber(data)}, ` +
-                        `전공이수학점:${checkMajorCreditNumber(data)}`
+    let result_message = `4.5기준 총평점 : ${calculateCredit(data)}(4.0기준은 ${exchangeGrades(4.0, calculateCredit(data))}),` +
+                        `전공평점:${calculateCredit(checkMajor(data))}(4.0기준은 ${exchangeGrades(4.0, calculateCredit(checkMajor(data)))}),  ` +
+                        `이수학점:${checkCreditNumber(data)}, ` +
+                        `전공이수학점:${checkCreditNumber(checkMajor(data))}`
     
     console.log(result_message);
 
@@ -65,9 +73,9 @@ function exchangeGrades(conversionNumber, grade){
     return ((conversionNumber * grade) / 4.5).toFixed(2);
 }
 
-// 총 이수학점
+// 이수학점
 
-function checkTotalCreditNumber(data){
+function checkCreditNumber(data){
     let total_credit = 0;
     data.forEach((v) => {
         total_credit += v.credit;
@@ -76,24 +84,11 @@ function checkTotalCreditNumber(data){
     return total_credit;
 }
 
-// 총 전공이수학점
+// 학점 연산
 
-function checkMajorCreditNumber(data){
-    let major_credit = 0;
-    let major_grades = data.filter((data) => {return !!(data.major)});
-
-    major_grades.forEach((v) => {
-        major_credit += v.credit;
-    })
-
-    return major_credit;
-}
-
-// 총 학점 연산
-
-function calculateTotalCredit(data){
+function calculateCredit(data){
     let total_score = 0;
-    const total_grades = checkTotalCreditNumber(data);
+    const total_grades = checkCreditNumber(data);
     
     data.forEach((v) => {
         total_score += v.credit * v.grade;
@@ -102,18 +97,4 @@ function calculateTotalCredit(data){
     return total_score/total_grades;
 }
 
-// 전공 학점 연산
-
-function calculateMajorCredit(data){
-    let major_score = 0;
-    let major_grades = data.filter((data) => {return !!(data.major)});
-    const calculation_major_grades = checkMajorCreditNumber(data);
-    
-    major_grades.forEach((v) => {
-            major_score += v.credit * v.grade;
-    })
-
-    return major_score/calculation_major_grades;
-}
-
-showGrade(parseData(data));
+showGrade(declareData(data));
