@@ -1,3 +1,36 @@
+// Encapsuled method for gpa update & calculation
+const gpa = (function() {
+    const gpaTable = {'A+': 4.5, A: 4, 'B+': 3.5, B: 3, 'C+': 2.5, C: 2, F:0};
+    let accumulatedScore = {total: 0, major: 0};
+    let accumulatedCredit = {total: 0, major: 0};
+
+    return {
+        updateScoreAndCredit(isMajor = true, grade = 'B+', credit = 3) {
+            accumulatedScore.total += gpaTable[grade];
+            accumulatedCredit.total += credit;
+            if(isMajor) {
+                accumulatedScore.major += gpaTable[grade];
+                accumulatedCredit.major += credit;
+            }
+        },
+        average(scope = 'total', gradeSystem = 4.5) {
+            const calculatedGPA = accumulatedScore[scope] / accumulatedCredit[scope];
+            return (gradeSystem === 4.0) ? (calculatedGPA * 4.0 / 4.5).toFixed(2) : calculatedGPA.toFixed(2)
+        },
+        credit(scope = 'total') {return accumulatedCredit[scope]}
+    }
+})();
+
+// Iterate through course grade/credit & log calculated GPA
+function showGrade(dataArr) {
+    for (let course of dataArr) {
+        gpa.updateScoreAndCredit(course.major, course.grade, course.credit);       
+    }
+
+    console.log(`4.5 기준 총평점 : ${gpa.average('total')} (4.0기준은 ${gpa.average('total',4.0)}), 전공평점: ${gpa.average('major')} (4.0기준은 ${gpa.average('major', 4.0)}), 이수학점: ${gpa.credit('total')}, 전공이수학점: ${gpa.credit('major')}`);    
+}
+
+/*
 let sampleData =  [ 
     {
         'name' : '데이터베이스', 
@@ -19,54 +52,7 @@ let sampleData =  [
     }
 ];
 
-function showGrade(dataArr) {
-    const gpaTable = {
-            4.5: {'A+': 4.5, A: 4, 'B+': 3.5, B: 3, 'C+': 2.5, C: 2, F:0},
-            4.0: {'A+': 4.0, A: 4, 'B+': 3.3, B: 3, 'C+': 2.3, C: 2, F:0}
-        };
-    let accumulatedScore = {
-            total: {4.5: 0, 4.0: 0},
-            major: {4.5: 0, 4.0: 0}
-        };
-    let accumulatedCredit = {total: 0, major: 0};
-    let gpa = {
-            total: {4.5: 0, 4.0: 0},
-            major: {4.5: 0, 4.0: 0}
-        };
-    
-    //iterate through array items
-    for (let classes of dataArr) {
-        // get info: grade & credit & major
-        const grade = classes.grade;
-        const credit = classes.credit;
-        const isMajor = classes.major;
-            //save it as accumulated score & credit in both 4.5 / 4.0 score system
-            accumulatedScore.total[4.5] += gpaTable[4.5][grade];
-            accumulatedScore.total[4.0] += gpaTable[4.0][grade];
-            accumulatedCredit.total += credit;
-                
-            // add additinoal info if the course is major
-            if (isMajor) {
-                accumulatedScore.major[4.5] += gpaTable[4.5][grade];
-                accumulatedScore.major[4.0] += gpaTable[4.0][grade];
-                accumulatedCredit.major += credit;
-            }
-    }
-    // Calculate GPA
-    gpa = {
-        total: {
-            4.5: (accumulatedScore.total[4.5] / accumulatedCredit.total).toFixed(2),
-            4.0: (accumulatedScore.total[4.0] / accumulatedCredit.total).toFixed(2)
-        },
-         major: {
-            4.5: (accumulatedScore.major[4.5] / accumulatedCredit.major).toFixed(2),
-            4.0: (accumulatedScore.major[4.0] / accumulatedCredit.major).toFixed(2)}
-        };
-
-    // log gpa info on console
-    console.log(`4.5 기준 총평점 : ${gpa.total[4.5]} (4.0기준은 ${gpa.total[4.0]}, 전공평점: ${gpa.major[4.5]} (4.0기준은 ${gpa.major[4.0]}), 이수학점: ${accumulatedCredit.total}, 전공이수학점: ${accumulatedCredit.major}`);    
-}
-
-
 showGrade(sampleData);
-//> 4.5기준 총평점 : 3.92(4.0기준은 3.40),  전공평점:3.5(4.0기준은 3.10),  이수학점:12, 전공이수학점:6
+//> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
+
+/*
