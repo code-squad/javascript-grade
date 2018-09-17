@@ -20,39 +20,39 @@ let sampleData =  [
 ];
 
 function showGrade(dataArr) {
-    let gpaTable = {
-        4.5: {'A+': 4.5, A: 4, 'B+': 3.5, B: 3, 'C+': 2.5, C: 2, F:0},
-        4.0: {'A+': 4.0, A: 4, 'B+': 3.3, B: 3, 'C+': 2.3, C: 2, F:0}
+    const gpaTable = {
+            4.5: {'A+': 4.5, A: 4, 'B+': 3.5, B: 3, 'C+': 2.5, C: 2, F:0},
+            4.0: {'A+': 4.0, A: 4, 'B+': 3.3, B: 3, 'C+': 2.3, C: 2, F:0}
         };
     let accumulatedScore = {
-        total: {4.5: 0, 4.0: 0},
-         major: {4.5: 0, 4.0: 0}
+            total: {4.5: 0, 4.0: 0},
+            major: {4.5: 0, 4.0: 0}
         };
     let accumulatedCredit = {total: 0, major: 0};
     let gpa = {
-        total: {4.5: 0, 4.0: 0},
-         major: {4.5: 0, 4.0: 0}
+            total: {4.5: 0, 4.0: 0},
+            major: {4.5: 0, 4.0: 0}
         };
-    debugger;
+    
     //iterate through array items
     for (let classes of dataArr) {
         // get info: grade & credit & major
         const grade = classes.grade;
         const credit = classes.credit;
         const isMajor = classes.major;
-            //save it as accumulated score & credit
+            //save it as accumulated score & credit in both 4.5 / 4.0 score system
             accumulatedScore.total[4.5] += gpaTable[4.5][grade];
             accumulatedScore.total[4.0] += gpaTable[4.0][grade];
             accumulatedCredit.total += credit;
                 
-            // add additinoal info if the class is major one
+            // add additinoal info if the course is major
             if (isMajor) {
                 accumulatedScore.major[4.5] += gpaTable[4.5][grade];
                 accumulatedScore.major[4.0] += gpaTable[4.0][grade];
                 accumulatedCredit.major += credit;
             }
     }
-    // calculate final gpa
+    // Calculate GPA
     gpa = {
         total: {
             4.5: (accumulatedScore.total[4.5] / accumulatedCredit.total).toFixed(2),
