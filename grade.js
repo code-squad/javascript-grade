@@ -5,20 +5,26 @@ var data = [{'name' : '데이터베이스', 'grade' : 'A', 'credit' : 3, 'major'
 
 function showGrade(data){
 
-    const grade4_5 = {'A+': 4.5, 'A' : 4.0, 'B+': 3.5, 'B' : 3.0, 'C+': 2.5, 'C' : 2.0, 'D+': 1.5, 'D' : 1.0, 'F' : 0};
-    const grade4 = {'A': 4, 'A-' : 3.7, 'B+': 3.3, 'B' : 3.0, 'B-': 2.7, 'C+' : 2.3, 'C': 2.0, 'C-' : 1.7, 'D+' : 1.3, 'D' : 1.0, 'D-' : 0.7, 'F' : 0};
+    const grade = {'A+': 4.5, 'A' : 4.0, 'B+': 3.5, 'B' : 3.0, 'C+': 2.5, 'C' : 2.0, 'D+': 1.5, 'D' : 1.0, 'F' : 0};
     const major = (data => data.filter(val => val.major))(data);
-    
+
     function getCredit(data){
         const credit = data.map(val => val.credit);
         return credit.reduce((a,b) => a+b);
     }
 
     function getGPA(data, grade){
-        const a = data.map(val => val.credit * grade[val.grade]);
-        return (a.reduce((a,b) => a+b)/getCredit(data)).toFixed(2);           
+        const multiCreditGrade = data.map(val => val.credit * grade[val.grade]);
+        return (multiCreditGrade.reduce((a,b) => a+b)/getCredit(data)).toFixed(2);           
     }
 
-    console.log(`4.5기준 총평점 : ${getGPA(data, grade4_5)}(4.0기준은 ${getGPA(data, grade4)}), 전공평점 : ${getGPA(major, grade4_5)}(4.0기준은 ${getGPA(major, grade4)}), 이수학점 : ${getCredit(data)}, 전공이수학점 : ${getCredit(major)}`);
+    function convertGrade(gpa){
+        return (4.0 * gpa / 4.5).toFixed(2);
+    }
+
+    console.log(`4.5기준 총평점 : ${getGPA(data, grade)}(4.0기준은 ${convertGrade(getGPA(data, grade))}) 
+        전공평점 : ${getGPA(major, grade)}(4.0기준은 ${convertGrade(getGPA(major, grade))}) 
+        이수학점 : ${getCredit(data)} 
+        전공이수학점 : ${getCredit(major)}`);
 
 }
