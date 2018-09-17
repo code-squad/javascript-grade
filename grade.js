@@ -76,25 +76,17 @@ function exchangeGrades(conversionNumber, grade){
 // 이수학점
 
 function checkCreditNumber(data){
-    let total_credit = 0;
-    data.forEach((v) => {
-        total_credit += v.credit;
-    })
-    
-    return total_credit;
+
+    let check_result = data.reduce((accum, curr) => { return  accum + curr.credit; },0)
+    return check_result;
 }
 
 // 학점 연산
 
 function calculateCredit(data){
-    let total_score = 0;
-    const total_grades = checkCreditNumber(data);
     
-    data.forEach((v) => {
-        total_score += v.credit * v.grade;
-    })
-    
-    return total_score/total_grades;
+    let calculation_result = data.reduce((accum, curr) => { return  accum + curr.credit * curr.grade; },0) / checkCreditNumber(data);
+    return calculation_result;
 }
 
 showGrade(declareData(data));
