@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // 학점 계산기 
+        // 과목 정보 객체 생성
+        var data = [
+            {
+                'name': '데이터베이스',
+                'grade': 'A',
+                'credit': 3,
+                'major': false
+            },
+            {
+                'name': '교양영어',
+                'grade': 'B+',
+                'credit': 2,
+                'major': true
+            },
+            {
+                'name': '철학',
+                'grade': 'B+',
+                'credit': 1,
+                'major': false
+            },
+            {
+                'name': '컴퓨터공학',
+                'grade': 'C+',
+                'credit': 2,
+                'major': true
+            },
+            {
+                'name': '자료구조개론',
+                'grade': 'B+',
+                'credit': 2,
+                'major': true
+            },
+            {
+                'name': '빅데이터응용',
+                'grade': 'B',
+                'credit': 3,
+                'major': true
+            }
+        ];
+
+        // 객체 생성(네임 스페이스 설정)
+        const getGrade = {};
+
+
+        // main 메소드 
+        getGrade.showGrade = function (data) {
+            //debugger;
+            console.log(
+                this.showGradeTotal(data) + ", " + // 총평점
+                this.showGradeMajor(data) + ", " +// 전공평점
+                this.showCreditTotal(data) + ", " + // 이수학점
+                this.showCreditMajor(data) //전공이수학점 
+            );
+            console.log(
+                "총과목 수: " + data.length + "\n" + 
+                "전공과목 수: " + this.majorClass.length + "\n" +
+                "교양과목 수: " + (data.length - this.majorClass.length)
+            );
+        }
+
+        // 학점을 숫자로 변환하여 총합을 구하는 메소드(4.5 기준)
+        getGrade.gradeToNumber45 = function (data) {
+            let sumPoint = 0; // 총합
+           // getGrade.countMajor = 0; // 전공 과목수 계산
+            data.forEach(function (val) {
+                if (val.grade === "A+") {
+                    sumPoint += 4.5;
+                }
+                if (val.grade === "A") {
+                    sumPoint += 4;
+                }
+                if (val.grade === "B+") {
+                    sumPoint += 3.5;
+                }
+                if (val.grade === "B") {
+                    sumPoint += 3;
+                }
+                if (val.grade === "C+") {
+                    sumPoint += 2.5;
+                }
+                if (val.grade === "C") {
+                    sumPoint += 2;
+                }
+                if (val.grade === "D+") {
+                    sumPoint += 1.5;
+                }
+                if (val.grade === "D") {
+                    sumPoint += 1;
+                }
+                if (val.major == true) {
+                    //getGrade.countMajor += 1;
+                }
+            });
+            return sumPoint;
+        }
+
+        // 학점을 숫자로 변환하여 총합을 구하는 메소드(4.0 기준)
+        getGrade.gradeToNumber4 = function (data) {
+            let sumPoint = 0; // 총합
+            data.forEach(function (val) {
+                if (val.grade === "A+") {
+                    sumPoint += 4;
+                }
+                if (val.grade === "A") {
+                    sumPoint += 3.5;
+                }
+                if (val.grade === "B+") {
+                    sumPoint += 3;
+                }
+                if (val.grade === "B") {
+                    sumPoint += 2.5;
+                }
+                if (val.grade === "C+") {
+                    sumPoint += 2;
+                }
+                if (val.grade === "C") {
+                    sumPoint += 1.5;
+                }
+                if (val.grade === "D+") {
+                    sumPoint += 1;
+                }
+                if (val.grade === "D") {
+                    sumPoint += 0.5;
+                }
+            });
+            return sumPoint;
+        }
+
+        // 총평점 메소드
+        getGrade.showGradeTotal = function (data) {
+            let gradeTotal45 = (this.gradeToNumber45(data) / data.length).toFixed(2);
+            let gradeTotal4 = (this.gradeToNumber4(data) / data.length).toFixed(2);
+            return "4.5기준 총평점: " + gradeTotal45 + "(4.0기준은 " + gradeTotal4 + ")";
+        }
+
+        // 전공평점 메소드
+        getGrade.showGradeMajor = function (data) { 
+            // 전공에 해당하는 과목에 필터 메소드 적용하여 새 배열 생성
+            getGrade.majorClass = data.filter(function(val){
+                return val.major === true; 
+            })
+            let majorClass = getGrade.majorClass; 
+            let gradeMajor45 = (this.gradeToNumber45(majorClass) / majorClass.length).toFixed(2);
+            let gradeMajor4 = (this.gradeToNumber4(majorClass) / majorClass.length).toFixed(2);
+            return "전공평점: " + gradeMajor45 +"(4.0기준은 " + gradeMajor4 + ")";
+        }
+
+        // 이수학점 메소드
+        getGrade.showCreditTotal = function (data) {
+            let result = 0
+            data.forEach(function (val) {
+                result += val.credit;
+            })
+            return "이수학점: " + result;
+        }
+
+        // 전공이수학점 메소드
+        getGrade.showCreditMajor = function (data) {
+            let result = 0
+            data.forEach(function (val) {
+                if (val.major) {
+                    result += val.credit;
+                }
+            })
+            return "전공이수학점: " + result;
+        }
+
+        getGrade.showGrade(data);
+
+    </script>
+
+</body>
+
+</html>
