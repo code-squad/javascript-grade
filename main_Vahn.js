@@ -40,10 +40,7 @@ function showGrade(dataArr) {
 }
 
 /*
-요구사항 1
-
-새로운 과목을 추가하는 'addLecture' 라는 함수를 만들자. addLecture 를 호출하면 자동으로 다시 평점 결과가 출력된다.
-
+새로운 과목을 추가하는 메소드, addLecture 를 호출하면 자동으로 다시 평점 결과 출력
 > addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
 */
 
@@ -65,7 +62,7 @@ const lectureList =  [
         'name' : '교양영어', 
         'grade' : 'B+', 
         'credit' : 2,
-      'major' : true
+        'major' : true
     },
     {
         'name' : '철학', 
