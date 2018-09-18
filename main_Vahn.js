@@ -21,12 +21,17 @@ const gpa = (function() {
             const calculatedGPA40 = (calculatedGPA45 * 4.0 / 4.5).toFixed(2);
             return (gradeSystem === 4.0) ? calculatedGPA40 : calculatedGPA45
         },
-        credit(scope = 'total') {return accumulatedCredit[scope]}
+        credit(scope = 'total') {return accumulatedCredit[scope]},
+        init() {
+            accumulatedScore = {total: 0, major: 0};
+            accumulatedCredit = {total: 0, major: 0};
+        }
     }
 })();
 
 // Iterate through course grade/credit & log calculated GPA
 function showGrade(dataArr) {
+    gpa.init();
     for (let course of dataArr) {
         gpa.updateScoreAndCredit(course.major, course.grade, course.credit);       
     }
@@ -42,8 +47,9 @@ function showGrade(dataArr) {
 > addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
 */
 
-function addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true}) {
-    lectureList.push(arguments[0]);
+function addLecture(object) {
+    const lectureObject = arguments[0];
+    lectureList.push(lectureObject);
     showGrade(lectureList);
 }
 
@@ -69,6 +75,9 @@ const lectureList =  [
     }
 ];
 
-const testLecture = {'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
-addLecture(lectureList);
+showGrade(lectureList);
 //> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
+
+const testLecture = {'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
+addLecture(testLecture);
+//> 4.5 기준 총평점 : 1.61 (4.0기준은 1.43), 전공평점: 1.40 (4.0기준은 1.24), 이수학점: 9, 전공이수학점: 5
