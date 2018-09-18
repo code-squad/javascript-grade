@@ -14,7 +14,7 @@
         // 학점 계산기 
 
         // 과목 정보 객체 생성
-        var data = [
+        var gradeData = [
             {
                 'name': '데이터베이스',
                 'grade': 'A',
@@ -54,21 +54,20 @@
         ];
 
         // 객체 생성(네임 스페이스 설정)
-        const getGrade = {};
-
+        const gradeInfo = {};
 
         // main 메소드 
-        getGrade.showGrade = function (data) {
+        gradeInfo.showGradeInfo = function (gradeData) {
             console.log(
-                `${this.getGpa(data)},  ${this.getGpaMajor(data)},  ${this.getCredit(data)},  ${this.getCreditMajor(data)}`
+                `${this.calGpaTotal(gradeData)},  ${this.calGpaMajor(gradeData)},  ${this.calCredit(gradeData)},  ${this.calCreditMajor(gradeData)}`
             );
             console.log(
-                `총과목 수: ${data.length}\n전공과목 수: ${this.countMajor}`
+                `총과목 수: ${gradeData.length}\n전공과목 수: ${this.countMajor}`
             );
         }
 
         // 학점, 숫자를 나타내는 객체 생성
-        getGrade.pointScale = {
+        gradeInfo.pointScale = {
             "A+": 4.5,
             "A": 4,
             "B+": 3.5,
@@ -80,9 +79,9 @@
         }
 
         // 4.0기준 학점 계산을 위해 플러스 학점을 일정 부분 제하는 메소드
-        getGrade.subtractPlus = function (data) {
+        gradeInfo.subtractPlus = function (gradeData) {
             let subtractPlus = 0; 
-            data.forEach(val => {
+            gradeData.forEach(val => {
                 if (val.grade === "A+") {
                     subtractPlus += 0.5;
                 }
@@ -94,50 +93,50 @@
         }
 
         // 총평점 메소드
-        getGrade.getGpa = function (data) {
-            let gpa = 0; // 4.5기준 평점
-            let gpa4 = 0; // 4.0기준 평점
-            let sumPoint = 0; // 학점 합계
-            data.forEach(val => {
-                sumPoint += getGrade.pointScale[val.grade];
+        gradeInfo.calGpaTotal = function (gradeData) {
+            let gpaFourPointFive = 0, // 4.5기준 평점
+                gpaFourPointZero = 0, // 4.0기준 평점
+                sumPoint = 0; // 학점 합계
+            gradeData.forEach(val => {
+                sumPoint += gradeInfo.pointScale[val.grade];
             });
-            gpa = (sumPoint / data.length).toFixed(2);
-            gpa4 = ((sumPoint - this.subtractPlus(data)) / data.length).toFixed(2);
-            return `4.5기준 총평점: ${gpa}(4.0기준: ${gpa4})`;
+            gpaFourPointFive = (sumPoint / gradeData.length).toFixed(2);
+            gpaFourPointZero = ((sumPoint - this.subtractPlus(gradeData)) / gradeData.length).toFixed(2);
+            return `4.5기준 총평점: ${gpaFourPointFive}(4.0기준: ${gpaFourPointZero})`;
         }
 
         // 전공평점 메소드
-        getGrade.getGpaMajor = function (data) {
-            let gpa = 0; // 4.5기준 평점
-            let gpa4 = 0; // 4.0기준 평점
-            let sumPoint = 0; // 학점 합계
+        gradeInfo.calGpaMajor = function (gradeData) {
+            let gpaFourPointFive = 0,  // 4.5기준 평점
+                gpaFourPointZero = 0, // 4.0기준 평점
+                sumPoint = 0; // 학점 합계
             this.countMajor = 0; // 전공 과목 수
 
             // 전공 과목만 필터링 후 학점 계산
-            let majorClass = data.filter(val => val.major);
+            let majorClass = gradeData.filter(val => val.major);
 
-            majorClass.forEach(val2 => {
-                sumPoint += getGrade.pointScale[val2.grade];
+            majorClass.forEach(val => {
+                sumPoint += gradeInfo.pointScale[val.grade];
                 this.countMajor += 1;
             });
-            gpa = (sumPoint / this.countMajor).toFixed(2);
-            gpa4 = ((sumPoint - this.subtractPlus(majorClass)) / this.countMajor).toFixed(2);
-            return `전공평점: ${gpa}(4.0기준: ${gpa4})`;
+            gpaFourPointFive = (sumPoint / this.countMajor).toFixed(2);
+            gpaFourPointZero = ((sumPoint - this.subtractPlus(majorClass)) / this.countMajor).toFixed(2);
+            return `전공평점: ${gpaFourPointFive}(4.0기준: ${gpaFourPointZero})`;
         }
 
         // 이수학점 메소드
-        getGrade.getCredit = function (data) {
-            let credit = 0
-            data.forEach(val =>
+        gradeInfo.calCredit = function (gradeData) {
+            let credit = 0;
+            gradeData.forEach(val =>
                 credit += val.credit
             );
             return `이수학점: ${credit}`;
         }
 
         // 전공이수학점 메소드
-        getGrade.getCreditMajor = function (data) {
-            let credit = 0
-            data.forEach(val => {
+        gradeInfo.calCreditMajor = function (gradeData) {
+            let credit = 0;
+            gradeData.forEach(val => {
                 if (val.major) {
                     credit += val.credit;
                 }
@@ -146,7 +145,7 @@
         }
 
         // main 메소드 실행
-        getGrade.showGrade(data);
+        gradeInfo.showGradeInfo(gradeData);
 
     </script>
 
