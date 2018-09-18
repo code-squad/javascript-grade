@@ -6,16 +6,20 @@ const gpa = (function() {
 
     return {
         updateScoreAndCredit(isMajor = true, grade = 'B+', credit = 3) {
+    
             accumulatedScore.total += gpaTable[grade];
             accumulatedCredit.total += credit;
             if(isMajor) {
+        
                 accumulatedScore.major += gpaTable[grade];
                 accumulatedCredit.major += credit;
             }
         },
         average(scope = 'total', gradeSystem = 4.5) {
-            const calculatedGPA = accumulatedScore[scope] / accumulatedCredit[scope];
-            return (gradeSystem === 4.0) ? (calculatedGPA * 4.0 / 4.5).toFixed(2) : calculatedGPA.toFixed(2)
+    
+            const calculatedGPA45 = (accumulatedScore[scope] / accumulatedCredit[scope]).toFixed(2);
+            const calculatedGPA40 = (calculatedGPA45 * 4.0 / 4.5).toFixed(2);
+            return (gradeSystem === 4.0) ? calculatedGPA40 : calculatedGPA45
         },
         credit(scope = 'total') {return accumulatedCredit[scope]}
     }
@@ -31,7 +35,20 @@ function showGrade(dataArr) {
 }
 
 /*
-let sampleData =  [ 
+요구사항 1
+
+새로운 과목을 추가하는 'addLecture' 라는 함수를 만들자. addLecture 를 호출하면 자동으로 다시 평점 결과가 출력된다.
+
+> addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
+*/
+
+function addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true}) {
+    lectureList.push(arguments[0]);
+    showGrade(lectureList);
+}
+
+
+const lectureList =  [ 
     {
         'name' : '데이터베이스', 
         'grade' : 'A', 
@@ -52,7 +69,6 @@ let sampleData =  [
     }
 ];
 
-showGrade(sampleData);
+const testLecture = {'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
+addLecture(lectureList);
 //> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
-
-/*
