@@ -18,7 +18,6 @@ var data = [{
     },
 ];
 
-// calculate credits
 function calculateCredits(data) {
     let grossCredits = 0;
     let grossMajorCredits = 0;
@@ -31,7 +30,6 @@ function calculateCredits(data) {
     return [grossCredits, grossMajorCredits];
 }
 
-// calculate points with 4.0 scale
 function calculatePoints(data) {
     let grossPoints = 0;
     let grossMajorPoints = 0;
@@ -66,7 +64,6 @@ function calculatePoints(data) {
 }
 
 
-// main 
 function gpaCalculator(data){
 let result = '';
 let credits = calculateCredits(data);
