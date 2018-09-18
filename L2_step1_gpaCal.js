@@ -39,7 +39,7 @@ function calculatePoints(data) {
         'A+': 4.3,
         'A': 4.0,
         'A-': 3.7,
-        'B+': 3.5,
+        'B+': 3.3,
         'B': 3.0,
         'B-': 2.7,
         'C+': 2.5,
@@ -64,3 +64,31 @@ function calculatePoints(data) {
     }
     return [grossPoints, grossMajorPoints];
 }
+
+
+// main 
+function gpaCalculator(data){
+let result = '';
+let credits = calculateCredits(data);
+let grossCredits = credits[0];
+let grossMajorCredits = credits[1];
+
+let points = calculatePoints(data);
+let grossPoints = points[0];
+let grossMajorPoints = points[1];
+
+let gpaFourPointThree = (grossPoints / grossCredits).toFixed(2);
+let mgpaFourPointThree = (grossMajorPoints / grossMajorCredits).toFixed(2);
+let gpaFourPointFive = ((grossPoints / grossCredits)*(4.5/4.3)).toFixed(2);
+let mgpaFourPointFive = ((grossMajorPoints / grossMajorCredits)*(4.5/4.3)).toFixed(2);
+
+result = '4.5 기준: 총 평점 = ' + gpaFourPointFive + ' 전공 평점 = ' + mgpaFourPointFive + '\n' +
+'4.3 기준: 총 평점 = ' + gpaFourPointThree + ' 전공 평점 = ' + mgpaFourPointThree + '\n' +
+'이수 학점: ' + grossCredits+ '\n' +
+'전공 이수 학점: ' + grossMajorCredits;
+
+return result;
+}
+
+let result = gpaCalculator(data);
+console.log(result);
