@@ -9,7 +9,7 @@ const data =  [
     },
     {
         'name' : '교양영어', 
-        'grade' : 'D', 
+        'grade' : 'A', 
         'credit' : 3,
         'major' : true
     },
@@ -27,7 +27,7 @@ const data =  [
     },
     {
         'name' : '교양영어', 
-        'grade' : 'D', 
+        'grade' : 'A+', 
         'credit' : 2,
         'major' : true
     },
@@ -135,7 +135,8 @@ function sortMyGrade(data){
     console.log('-------------');
 };
 
-sortMyGrade(data);
+showGrade(declareData(data));
+// sortMyGrade(data);
 // removeLecture('철학', 2000);
 // addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true});
 // showGrade(declareData(data));
