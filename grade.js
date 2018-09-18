@@ -8,10 +8,11 @@ var data = [{'name' : '데이터베이스', 'grade' : 'A', 'credit' : 3, 'major'
             {'name' : '웹프로그래밍', 'grade' : 'A', 'credit' : 3, 'major' : false},
             {'name' : '이산수학', 'grade' : 'B', 'credit' : 3, 'major' : true}];            
 
-function showGrade(data){ 
-    const gradeData = {'A+': 4.5, 'A' : 4.0, 'B+': 3.5, 'B' : 3.0, 'C+': 2.5, 'C' : 2.0, 'D+': 1.5, 'D' : 1.0, 'F' : 0};
-    const majorSubject = (data => data.filter(val => val.major))(data);
+const gradeData = {'A+': 4.5, 'A' : 4.0, 'B+': 3.5, 'B' : 3.0, 'C+': 2.5, 'C' : 2.0, 'D+': 1.5, 'D' : 1.0, 'F' : 0};            
 
+function showGrade(data){
+    const majorSubject = (data => data.filter(val => val.major))(data);
+    
     function getCredit(data){
         const credit = data.map(val => val.credit);
         return credit.reduce((a,b) => a+b);
@@ -24,13 +25,11 @@ function showGrade(data){
 
     function convertGPA(gpa, scoreStandard){
         return scoreStandard === 4.5 ? gpa.toFixed(2) : (scoreStandard * gpa / 4.5).toFixed(2);
-    }
-
+    } 
     console.log(`4.5기준 총평점 : ${convertGPA(getGPA(data, gradeData), 4.5)}(4.0기준은 ${convertGPA(getGPA(data, gradeData), 4.0)}) 
         전공평점 : ${convertGPA(getGPA(majorSubject, gradeData), 4.5)}(4.0기준은 ${convertGPA(getGPA(majorSubject, gradeData), 4.0)}) 
         이수학점 : ${getCredit(data)} 
         전공이수학점 : ${getCredit(majorSubject)}`);
-
 }
 
 function addLecture(lectureData){
@@ -39,8 +38,25 @@ function addLecture(lectureData){
 }
 
 function removeLecture(lectureName, time){
-    data.forEach((lecture, idx) => lecture.name === lectureName ? data.splice(idx, 1) : ''); 
+    data.forEach(function(lecture, idx){
+        if(lecture.name === lectureName) return data.splice(idx, 1);
+    }); 
     return setTimeout(function(){
         return showGrade(data);
     }, time)
+}
+
+function sortMyGrade(data){
+    data.sort((course1, course2) => gradeData[course2.grade] - gradeData[course1.grade]);
+    data.sort(function(course1, course2){
+        if(course1.grade === course2.grade) return course2.credit-course1.credit; 
+    });
+    
+    return printGrade(data);
+}
+
+function printGrade(data){
+    console.log('-------------');
+    data.forEach(lec => console.log(`${lec.name} : ${lec.grade}, ${lec.credit}학점`));
+    console.log('-------------');
 }
