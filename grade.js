@@ -1,10 +1,14 @@
 //data의 값은 사용자에 따라 다를 수 있으므로 var로 할당
 var data = [{'name' : '데이터베이스', 'grade' : 'A', 'credit' : 3, 'major' : false},
-                {'name' : '교양영어', 'grade' : 'B+', 'credit' : 2, 'major' : true},
-                {'name' : '철학', 'grade' : 'B+', 'credit' : 1, 'major' : false}];
+            {'name' : 'Java 완전정복', 'grade' : 'D', 'credit' : 3, 'major' : true},
+            {'name' : '프로그래밍 설계', 'grade' : 'B', 'credit' : 2, 'major' : false},
+            {'name' : '네트워크실습', 'grade' : 'A', 'credit' : 1, 'major' : true},
+            {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : false},
+            {'name' : 'VIM으로 최강속도 코딩하기', 'grade' : 'D', 'credit' : 1, 'major' : true},
+            {'name' : '웹프로그래밍', 'grade' : 'A', 'credit' : 3, 'major' : false},
+            {'name' : '이산수학', 'grade' : 'B', 'credit' : 3, 'major' : true}];            
 
-function showGrade(data){
-
+function showGrade(data){ 
     const gradeData = {'A+': 4.5, 'A' : 4.0, 'B+': 3.5, 'B' : 3.0, 'C+': 2.5, 'C' : 2.0, 'D+': 1.5, 'D' : 1.0, 'F' : 0};
     const majorSubject = (data => data.filter(val => val.major))(data);
 
@@ -27,4 +31,16 @@ function showGrade(data){
         이수학점 : ${getCredit(data)} 
         전공이수학점 : ${getCredit(majorSubject)}`);
 
+}
+
+function addLecture(lectureData){
+    data.push(lectureData);
+    return showGrade(data);
+}
+
+function removeLecture(lectureName, time){
+    data.forEach((lecture, idx) => lecture.name === lectureName ? data.splice(idx, 1) : ''); 
+    return setTimeout(function(){
+        return showGrade(data);
+    }, time)
 }
