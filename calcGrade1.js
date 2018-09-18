@@ -19,7 +19,7 @@ var data = [
     }
 ];
 //영어학점을 숫자로 변환
-const gradeScore = {
+const gradeScoreObject = {
     'A+':4.5,
     'A':4,
     'B+':3.5,
@@ -42,8 +42,8 @@ function convertGradeAverage(gradeAverage) {
 }
 //출력해주는 함수
 function printGrade(gradeAverage, majorGradeAverage, credit, majorCredit) {
-    console.log('4.5기준 총평점 : ' + gradeAverage + '(4.0기준은 ' + changeGradeAverage(gradeAverage) + ')');
-    console.log('4.5기준 전공평점 : ' + majorGradeAverage + '(4.0기준은 ' + changeGradeAverage(majorGradeAverage) + ')');
+    console.log('4.5기준 총평점 : ' + gradeAverage + '(4.0기준은 ' + convertGradeAverage(gradeAverage) + ')');
+    console.log('4.5기준 전공평점 : ' + majorGradeAverage + '(4.0기준은 ' + convertGradeAverage(majorGradeAverage) + ')');
     console.log('이수학점 : ' + credit);
     console.log('전공이수학점 : ' + majorCredit);
 }
@@ -56,16 +56,19 @@ function showGrade(gradeData) {
     
     gradeData.forEach(classObject => {
         for(classValue in classObject) {
+            const classCredit = classObject['credit']
+            const classGrade = gradeScoreObject[classObject['grade']] * classObject['credit']
             if(classValue === 'grade') {
-                totalGrade = totalGrade + (gradeScore[classObject['grade']] * classObject['credit'])
-            } else if (classValue === 'major' && classObject['major']) {
-                totalMajorCredit = totalMajorCredit + classObject['credit']
-                totalMajorGrade = totalMajorGrade + (gradeScore[classObject['grade']] * classObject['credit'])
+                totalGrade = totalGrade + classGrade
             } else if (classValue === 'credit') {
-                totalCredit = totalCredit + classObject['credit']
+                totalCredit = totalCredit + classCredit
+            } else if (classValue === 'major' && classObject['major']) {
+                totalMajorCredit = totalMajorCredit + classCredit
+                totalMajorGrade = totalMajorGrade + classGrade
             }
         }
-    })
+    });
+    
     const gradeAverage = calcGradeAverage(totalGrade, totalCredit)
     const majorGradeAverage = calcGradeAverage(totalMajorGrade, totalMajorCredit)
     printGrade(gradeAverage, majorGradeAverage, totalCredit, totalMajorCredit);
