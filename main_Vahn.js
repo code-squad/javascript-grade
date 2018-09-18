@@ -43,9 +43,9 @@ function showGrade(dataArr) {
 새로운 과목을 추가하는 메소드. 객체 형태 과목정보를 인자로 받는다. addLecture 를 호출하면 자동으로 다시 평점 결과 출력
 > addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
 */
-function addLecture(object) {
-    const lectureObject = arguments[0];
-    lectureList.push(lectureObject);
+function addLecture(lectureObject) {
+    const lecture = arguments[0];
+    lectureList.push(lecture);
     showGrade(lectureList);
 }
 
@@ -66,44 +66,50 @@ function removeLecture(lectureToRemove = "name", timeout = 2000) {
 }
 
 //수업들의 이수학점/평점을 서식에 맞게 출력하는 메소드. 수업목록 행렬을 인자로 받는다.
-function sortGrade(lectureList) {
-    debugger;
-    let result = ``;
+function sortGrade(lectureListArr) {
+    const lecturesWithSameGrade = groupLecturesByGrade(lectureListArr);
+    const resultStr = stringifyLectures(lecturesWithSameGrade);
+
+    console.log(`-------------\n${resultStr}\n-------------`);
+}
+
+function groupLecturesByGrade(lectureListArr) {
     const lecturesWithSameGrade = {'A+': [], 'A': [], 'B+': [], 'B': [], 'C+': [], 'C': [], 'D': []};
-    
-    // 학점객체 순서대로 루프 (A+ > A > B+ ...)
+    // 수업들을 각 평점별로 행렬에 저장
     for (let targetGrade in lecturesWithSameGrade){
-        for (let lecture of lectureList) {
+        for (let lecture of lectureListArr) {
             if (lecture.grade === targetGrade) lecturesWithSameGrade[targetGrade].push(lecture);
         }
-        // 동일학점 수업 목록을 학점순으로 정렬
+        // 행렬에 저장한 수업들을 학점순으로 정렬
         lecturesWithSameGrade[targetGrade].sort((a,b) => a.credit < b.credit);
     }
 
-    
-    //동일학점 수업목록을 출력 문자열에 저장
-    for (let targetGrade in lecturesWithSameGrade) {
+    return lecturesWithSameGrade
+}
+
+function stringifyLectures(lecturesWithSameGrade) {
+    let resultStr = ``;
+     //동일평점 수업목록을 출력 문자열에 저장
+     for (let targetGrade in lecturesWithSameGrade) {
         const lecturesInCertainGrade = lecturesWithSameGrade[targetGrade];
-        //해당 학점 수업 없으면 패스
+        //해당 평점받은 수업 없으면 패스
         if(!lecturesInCertainGrade[0]) continue;
-        debugger;
-        //수업 있으면 서식을 적용해 문자열로 저장
-        if(!!result) result += `\n\n`;
+        //이미 저장된 문자열이 있다면 줄바꿈 추가
+        if(!!resultStr) resultStr += `\n\n`;
+        
         let lecturesStr = ``;
-        for (let i = 0; i < lecturesInCertainGrade.length; i++) {
-            let lecture = lecturesInCertainGrade[i];
+        for (let lecture of lecturesInCertainGrade) {
             if(!!lecturesStr) lecturesStr += '\n';
             lecturesStr += `\'${lecture.name}\', \'${lecture.grade}\', ${lecture.credit}학점`;
         }
-        //저장한 문자열을 결과값에 추가
-        result += lecturesStr;
+        resultStr += lecturesStr;
     }
 
-    //결과 출력
-    console.log(
-        `-------------\n${result}\n-------------`
-    );
+    return resultStr
 }
+
+
+/* Test Cases
 
 const lectureList =  [ 
     {
@@ -113,10 +119,46 @@ const lectureList =  [
         'major' : false
     },
     {
+        'name' : 'VIM으로 최강속도 코딩하기', 
+        'grade' : 'D', 
+        'credit' : 1,
+        'major' : false
+    },
+    {
         'name' : '교양영어', 
         'grade' : 'B+', 
         'credit' : 2,
         'major' : true
+    },
+    {
+        'name' : '웹프로그래밍', 
+        'grade' : 'A', 
+        'credit' : 3,
+        'major' : true
+    },
+    {
+        'name' : 'Java완전정복', 
+        'grade' : 'D', 
+        'credit' : 3,
+        'major' : false
+    },
+    {
+        'name' : '프로그래밍 설계', 
+        'grade' : 'B', 
+        'credit' : 2,
+        'major' : true
+    },
+    {
+        'name' : '네트워크실습', 
+        'grade' : 'A', 
+        'credit' : 1,
+        'major' : false
+    },
+    {
+        'name' : '이산수학', 
+        'grade' : 'B', 
+        'credit' : 3,
+        'major' : false
     },
     {
         'name' : '철학', 
@@ -129,13 +171,26 @@ const lectureList =  [
 showGrade(lectureList);
 //> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
 
-const testLecture = {'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
-addLecture(testLecture);
+const lectureToAdd = {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
+addLecture(lectureToAdd);
 //> 4.5 기준 총평점 : 1.61 (4.0기준은 1.43), 전공평점: 1.40 (4.0기준은 1.24), 이수학점: 9, 전공이수학점: 5
 
 removeLecture('알고리즘', 1000);
 //> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
 
-
-
 sortGrade(lectureList);
+    -------------
+    '데이터베이스', 'A' , 3학점
+    '웹프로그래밍', 'A' , 3학점
+    '네트워크실습', 'A' , 1학점
+
+    '자료구조와 알고리즘', 'B' , 3학점
+    '프로그래밍 설계', 'B' , 2학점
+    '이산수학', 'B' , 3학점
+
+    'Java완전정복', 'D' , 3학점
+    'VIM으로최강속도코딩하기', 'D , 1학점
+    -------------
+
+
+*/
