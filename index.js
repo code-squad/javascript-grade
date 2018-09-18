@@ -75,11 +75,11 @@ let getTotalofMajorCredit = function (gradesData) {
     return TotalofMajorCredit;
 };
 // 출력함수
-function showGrade(gradesData, rating1, rating2) {
-    console.log('(4.0)기준 총 평점 : ' + calculateFourPointZeroCredit(gradesData, rating1));
-    console.log('(4.5)기준 총 평점 : ' + calculateFourPointFiveCredit(gradesData, rating1));
-    console.log('(4.0)기준 전공 학점 : ' + calculateFourPointZeroCredit(filterlingMajorGradeObj(gradesData), rating1));
-    console.log('(4.5)기준 전공 학점 : ' + calculateFourPointFiveCredit(filterlingMajorGradeObj(gradesData), rating1));
+function showGrade(gradesData, rating) {
+    console.log('(4.0)기준 총 평점 : ' + calculateFourPointZeroCredit(gradesData, rating));
+    console.log('(4.5)기준 총 평점 : ' + calculateFourPointFiveCredit(gradesData, rating));
+    console.log('(4.0)기준 전공 학점 : ' + calculateFourPointZeroCredit(filterlingMajorGradeObj(gradesData), rating));
+    console.log('(4.5)기준 전공 학점 : ' + calculateFourPointFiveCredit(filterlingMajorGradeObj(gradesData), rating));
     console.log('총 이수학점 : ' + getTotalOfCredits(gradesData));
     console.log('총 전공이수학점 : ' + getTotalofMajorCredit(gradesData));
 }
