@@ -36,8 +36,8 @@ function calcGradeAverage(totalGrade, totalCredit) {
     return (totalGrade / totalCredit).toFixed(2)
 }
 
-//학점평균을 만점이4.0일때의 학점평균(소수 두번째 자리까지)을 구하는함수
-function calcIfPerfectScore4(GradeAverage) {
+//학점평균을 만점이4.0일때의 학점평균(소수 두번째 자리까지)로 바꾸어주는 함수
+function calc(GradeAverage) {
     return (GradeAverage * 8 / 9).toFixed(2)
 }
 //출력해주는 함수
@@ -54,15 +54,15 @@ function showGrade(gradeData) {
     let totalCredit = 0
     let totalMajorCredit = 0
     
-    gradeData.forEach(value1 => {
-        for(value2 in value1) {
-            if(value2 === 'grade') {
-                totalGrade = totalGrade + (gradeScore[value1['grade']] * value1['credit'])
-            } else if (value2 === 'major' && value1['major']) {
-                totalMajorCredit = totalMajorCredit + value1['credit']
-                totalMajorGrade = totalMajorGrade + (gradeScore[value1['grade']] * value1['credit'])
-            } else if (value2 === 'credit') {
-                totalCredit = totalCredit + value1['credit']
+    gradeData.forEach(classObject => {
+        for(classValue in classObject) {
+            if(classValue === 'grade') {
+                totalGrade = totalGrade + (gradeScore[classObject['grade']] * classObject['credit'])
+            } else if (classValue === 'major' && classObject['major']) {
+                totalMajorCredit = totalMajorCredit + classObject['credit']
+                totalMajorGrade = totalMajorGrade + (gradeScore[classObject['grade']] * classObject['credit'])
+            } else if (classValue === 'credit') {
+                totalCredit = totalCredit + classObject['credit']
             }
         }
     })
