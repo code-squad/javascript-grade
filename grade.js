@@ -77,14 +77,12 @@ function exchangeGrades(conversionNumber, grade){
 // 이수학점
 
 function checkCreditNumber(data){
-
     return data.reduce((accum, curr) => { return  accum + curr.credit; },0);
 }
 
 // 학점 연산
 
 function calculateCredit(data){    
-    
     return data.reduce((accum, curr) => { return  accum + curr.credit * curr.grade; },0) / checkCreditNumber(data);
 }
 
@@ -92,14 +90,19 @@ function calculateCredit(data){
 
 function addLecture(newData){
     data.push(newData);
-    console.log(data);
-    return data;
+    return showGrade(declareData(data));
 }
 
 // 기존 과목 제거
 
 function removeLecture(deleteData, timeout){
-    
+    let remove_data = data.filter((d)=>{return d.name === deleteData;});
+    setTimeout(() => {
+        data.forEach((v,i)=> {
+            if(v.name === remove_data[0].name) {data.splice(i,1)};
+        })
+        return showGrade(declareData(data));
+    }, timeout);
 }
 
 // 데이터 정렬
@@ -108,5 +111,6 @@ function sortMyGrade(data){
 
 };
 
-addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});
+removeLecture('철학', 2000);
+// addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true});
 // showGrade(declareData(data));
