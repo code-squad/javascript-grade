@@ -34,20 +34,21 @@ const gradeScore = {
 //필요한값은 총학점평균(총학점, 총학점점수), 전공학점평균(전공학점, 전공학점점수), 
 //총이수학점(학점), 전공이수학점(전공학점)
 //필요한 인자는 두가지 학점과 학점점수
-//전공일때 아닐때 함수에 넣는값을 다르게해서 함수값을 배열에 push
+//전공일때 아닐때 구분해서 값을 준다
 //학점평균을 구하는 법 => 함수이용
-function calcCreditAverage(totolGrade, totalCredit) {
-    //전체학점평균을 구하는 공식
+function calcGradeAverage(totalGrade, totalCredit) {
+    return (totalGrade / totalCredit).toFixed(2)
 }
-//전공학점 평균을 구하는 법 => for in에서 if문을 이용해서 major가 true일때 위의함수에 넣음
-//총이수학점을 구하는 법  => 함수이용
-function allCredit(credit) {
-    //쓸데없는 함수가 될 가능성이 높지만 우선 뼈대는 만들어놓자
+
+function calcPerfectScore4(GradeAverage) {
+    return (GradeAverage * 8 / 9).toFixed(2)
 }
 //전공이수학점을 구하는 함수 => for in에서 if문을 이용해서 major가 true일때 위의함수에 넣음
-
-//변수를 네가지 선언하고
+// * 8 / 9  = 4.0이 만점일때
+//변수를 네가지 선언하고 빈배열 선언 ->빈배열에는 나중에 계산한 결과값들을 집어넣음.
+//계산한 결과값이 총학점평균, 전공학점평균, 총이수학점(이미변수), 전공이수학점(이미변수)
 function showGrade(gradeData) {
+    const result = []
     let totalGrade = 0
     let totalMajorGrade = 0
     let totalCredit = 0
@@ -65,10 +66,10 @@ function showGrade(gradeData) {
             }
         }
     })
-    console.log(totalMajorGrade)
-    console.log(totalGrade)
-    console.log(totalCredit)
-    console.log(totalMajorCredit)
+    const gradeAverage = calcGradeAverage(totalGrade, totalCredit)
+    const majorGradeAverage = calcGradeAverage(totalMajorGrade, totalMajorCredit)
+    console.log('학점평균 : ' + gradeAverage + '(4.0일 경우엔' + calcPerfectScore4(gradeAverage) + ')' + '전공학점평균 : ' + majorGradeAverage + '(4.0일 경우엔' + calcPerfectScore4(majorGradeAverage) + ')')
+    console.log('총 이수학점 : ' + totalCredit + ' 전공이수학점 : ' + totalMajorCredit)
 }
-//소수점 두자리수까지 변환해야하니까 toFixed()메서드 사용
+//소수점 두자리수까지 변환해야하니까 나중에 num.toFixed(2)메서드 사용
 showGrade(data);
