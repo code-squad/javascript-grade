@@ -36,14 +36,14 @@ function calcGradeAverage(totalGrade, totalCredit) {
     return (totalGrade / totalCredit).toFixed(2)
 }
 
-//학점평균을 만점이4.0일때의 학점평균(소수 두번째 자리까지)로 바꾸어주는 함수
-function calc(GradeAverage) {
-    return (GradeAverage * 8 / 9).toFixed(2)
+//학점평균을 인자로 입력받아 만점이4.0일때의 학점평균(소수 두번째 자리까지)으로 바꾸어주는 함수
+function convertGradeAverage(gradeAverage) {
+    return (gradeAverage * 4.0 / 4.5).toFixed(2)
 }
 //출력해주는 함수
 function printGrade(gradeAverage, majorGradeAverage, credit, majorCredit) {
-    console.log('4.5기준 총평점 : ' + gradeAverage + '(4.0기준은 ' + calcIfPerfectScore4(gradeAverage) + ')');
-    console.log('4.5기준 전공평점 : ' + majorGradeAverage + '(4.0기준은 ' + calcIfPerfectScore4(majorGradeAverage) + ')');
+    console.log('4.5기준 총평점 : ' + gradeAverage + '(4.0기준은 ' + changeGradeAverage(gradeAverage) + ')');
+    console.log('4.5기준 전공평점 : ' + majorGradeAverage + '(4.0기준은 ' + changeGradeAverage(majorGradeAverage) + ')');
     console.log('이수학점 : ' + credit);
     console.log('전공이수학점 : ' + majorCredit);
 }
