@@ -43,13 +43,27 @@ function showGrade(dataArr) {
 새로운 과목을 추가하는 메소드, addLecture 를 호출하면 자동으로 다시 평점 결과 출력
 > addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
 */
-
 function addLecture(object) {
     const lectureObject = arguments[0];
     lectureList.push(lectureObject);
     showGrade(lectureList);
 }
 
+/*
+기존 과목을 삭제하는 메소드 과목명만 인자로 받는다. removeLecture를 호출하면 다시 평점 결과 출력
+removeLecutre 는 지정된 시간에 따라(함수의 인자로 받은 시간값)서 지연출력된다.
+> removeLecture('알고리즘', 2000);  // 2초뒤에 다시 결과 출력
+*/
+function removeLecture(lectureToRemove = "name", timeout = 2000) {
+    for (let i = 0; i < lectureList.length; i++) {
+        const lecture = lectureList[i];
+        if(lecture.name === lectureToRemove) {
+            lectureList.splice(i,1);
+            break;
+        }
+    }
+    setTimeout(showGrade, timeout, lectureList);
+}
 
 const lectureList =  [ 
     {
@@ -78,3 +92,5 @@ showGrade(lectureList);
 const testLecture = {'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
 addLecture(testLecture);
 //> 4.5 기준 총평점 : 1.61 (4.0기준은 1.43), 전공평점: 1.40 (4.0기준은 1.24), 이수학점: 9, 전공이수학점: 5
+
+removeLecture('알고리즘', 1000);
