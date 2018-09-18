@@ -12,6 +12,7 @@
     <script>
 
         // 학점 계산기 
+
         // 과목 정보 객체 생성
         var data = [
             {
@@ -22,7 +23,7 @@
             },
             {
                 'name': '교양영어',
-                'grade': 'B+',
+                'grade': 'A+',
                 'credit': 2,
                 'major': true
             },
@@ -58,127 +59,93 @@
 
         // main 메소드 
         getGrade.showGrade = function (data) {
-            //debugger;
             console.log(
-                this.showGradeTotal(data) + ", " + // 총평점
-                this.showGradeMajor(data) + ", " +// 전공평점
-                this.showCreditTotal(data) + ", " + // 이수학점
-                this.showCreditMajor(data) //전공이수학점 
+                `${this.getGpa(data)},  ${this.getGpaMajor(data)},  ${this.getCredit(data)},  ${this.getCreditMajor(data)}`
             );
             console.log(
-                "총과목 수: " + data.length + "\n" + 
-                "전공과목 수: " + this.majorClass.length + "\n" +
-                "교양과목 수: " + (data.length - this.majorClass.length)
+                `총과목 수: ${data.length}\n전공과목 수: ${this.countMajor}`
             );
         }
 
-        // 학점을 숫자로 변환하여 총합을 구하는 메소드(4.5 기준)
-        getGrade.gradeToNumber45 = function (data) {
-            let sumPoint = 0; // 총합
-           // getGrade.countMajor = 0; // 전공 과목수 계산
-            data.forEach(function (val) {
-                if (val.grade === "A+") {
-                    sumPoint += 4.5;
-                }
-                if (val.grade === "A") {
-                    sumPoint += 4;
-                }
-                if (val.grade === "B+") {
-                    sumPoint += 3.5;
-                }
-                if (val.grade === "B") {
-                    sumPoint += 3;
-                }
-                if (val.grade === "C+") {
-                    sumPoint += 2.5;
-                }
-                if (val.grade === "C") {
-                    sumPoint += 2;
-                }
-                if (val.grade === "D+") {
-                    sumPoint += 1.5;
-                }
-                if (val.grade === "D") {
-                    sumPoint += 1;
-                }
-                if (val.major == true) {
-                    //getGrade.countMajor += 1;
-                }
-            });
-            return sumPoint;
+        // 학점, 숫자를 나타내는 객체 생성
+        getGrade.pointScale = {
+            "A+": 4.5,
+            "A": 4,
+            "B+": 3.5,
+            "B": 3,
+            "C+": 2.5,
+            "C": 2,
+            "D+": 1.5,
+            "D": 1
         }
 
-        // 학점을 숫자로 변환하여 총합을 구하는 메소드(4.0 기준)
-        getGrade.gradeToNumber4 = function (data) {
-            let sumPoint = 0; // 총합
-            data.forEach(function (val) {
+        // 4.0기준 학점 계산을 위해 플러스 학점을 일정 부분 제하는 메소드
+        getGrade.subtractPlus = function (data) {
+            let subtractPlus = 0; 
+            data.forEach(val => {
                 if (val.grade === "A+") {
-                    sumPoint += 4;
+                    subtractPlus += 0.5;
                 }
-                if (val.grade === "A") {
-                    sumPoint += 3.5;
+                if (val.grade === "B+" || val.grade === "C+" || val.grade === "D+") {
+                    subtractPlus += 0.2;
                 }
-                if (val.grade === "B+") {
-                    sumPoint += 3;
-                }
-                if (val.grade === "B") {
-                    sumPoint += 2.5;
-                }
-                if (val.grade === "C+") {
-                    sumPoint += 2;
-                }
-                if (val.grade === "C") {
-                    sumPoint += 1.5;
-                }
-                if (val.grade === "D+") {
-                    sumPoint += 1;
-                }
-                if (val.grade === "D") {
-                    sumPoint += 0.5;
-                }
-            });
-            return sumPoint;
+            })
+            return subtractPlus;
         }
 
         // 총평점 메소드
-        getGrade.showGradeTotal = function (data) {
-            let gradeTotal45 = (this.gradeToNumber45(data) / data.length).toFixed(2);
-            let gradeTotal4 = (this.gradeToNumber4(data) / data.length).toFixed(2);
-            return "4.5기준 총평점: " + gradeTotal45 + "(4.0기준은 " + gradeTotal4 + ")";
+        getGrade.getGpa = function (data) {
+            let gpa = 0; // 4.5기준 평점
+            let gpa4 = 0; // 4.0기준 평점
+            let sumPoint = 0; // 학점 합계
+            data.forEach(val => {
+                sumPoint += getGrade.pointScale[val.grade];
+            });
+            gpa = (sumPoint / data.length).toFixed(2);
+            gpa4 = ((sumPoint - this.subtractPlus(data)) / data.length).toFixed(2);
+            return `4.5기준 총평점: ${gpa}(4.0기준: ${gpa4})`;
         }
 
         // 전공평점 메소드
-        getGrade.showGradeMajor = function (data) { 
-            // 전공에 해당하는 과목에 필터 메소드 적용하여 새 배열 생성
-            getGrade.majorClass = data.filter(function(val){
-                return val.major === true; 
-            })
-            let majorClass = getGrade.majorClass; 
-            let gradeMajor45 = (this.gradeToNumber45(majorClass) / majorClass.length).toFixed(2);
-            let gradeMajor4 = (this.gradeToNumber4(majorClass) / majorClass.length).toFixed(2);
-            return "전공평점: " + gradeMajor45 +"(4.0기준은 " + gradeMajor4 + ")";
+        getGrade.getGpaMajor = function (data) {
+            let gpa = 0; // 4.5기준 평점
+            let gpa4 = 0; // 4.0기준 평점
+            let sumPoint = 0; // 학점 합계
+            this.countMajor = 0; // 전공 과목 수
+
+            // 전공 과목만 필터링 후 학점 계산
+            let majorClass = data.filter(val => val.major);
+
+            majorClass.forEach(val2 => {
+                sumPoint += getGrade.pointScale[val2.grade];
+                this.countMajor += 1;
+            });
+            gpa = (sumPoint / this.countMajor).toFixed(2);
+            gpa4 = ((sumPoint - this.subtractPlus(majorClass)) / this.countMajor).toFixed(2);
+            return `전공평점: ${gpa}(4.0기준: ${gpa4})`;
         }
 
         // 이수학점 메소드
-        getGrade.showCreditTotal = function (data) {
-            let result = 0
-            data.forEach(function (val) {
-                result += val.credit;
-            })
-            return "이수학점: " + result;
+        getGrade.getCredit = function (data) {
+            let credit = 0
+            data.forEach(val =>
+                credit += val.credit
+            );
+            return `이수학점: ${credit}`;
         }
 
         // 전공이수학점 메소드
-        getGrade.showCreditMajor = function (data) {
-            let result = 0
-            data.forEach(function (val) {
+        getGrade.getCreditMajor = function (data) {
+            let credit = 0
+            data.forEach(val => {
                 if (val.major) {
-                    result += val.credit;
+                    credit += val.credit;
                 }
             })
-            return "전공이수학점: " + result;
+            return `전공이수학점: ${credit}`;
         }
 
+        // main 메소드 실행
         getGrade.showGrade(data);
 
     </script>
