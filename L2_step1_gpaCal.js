@@ -20,15 +20,15 @@ var data = [{
 
 // calculate credits
 function calculateCredits(data) {
-    let credits = 0;
-    let majorCredits = 0;
+    let grossCredits = 0;
+    let grossMajorCredits = 0;
     for (let key in data) {
-        credits += data[key].credit;
+        grossCredits += data[key].credit;
         if (data[key].major) {
-            majorCredits += data[key].credit;
+            grossMajorCredits += data[key].credit;
         }
     }
-    return [credits, majorCredits];
+    return [grossCredits, grossMajorCredits];
 }
 
 // calculate points with 4.0 scale
