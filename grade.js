@@ -3,20 +3,38 @@
 const data =  [ 
     {
         'name' : '데이터베이스', 
-        'grade' : 'A', 
-        'credit' : 3,
+        'grade' : 'B+', 
+        'credit' : 1,
         'major' : false
     },
     {
         'name' : '교양영어', 
+        'grade' : 'D', 
+        'credit' : 3,
+        'major' : true
+    },
+    {
+        'name' : '철학', 
+        'grade' : 'A', 
+        'credit' : 2,
+        'major' : false
+    },
+    {
+        'name' : '데이터베이스', 
         'grade' : 'B+', 
+        'credit' : 2,
+        'major' : false
+    },
+    {
+        'name' : '교양영어', 
+        'grade' : 'D', 
         'credit' : 2,
         'major' : true
     },
     {
         'name' : '철학', 
-        'grade' : 'B+', 
-        'credit' : 1,
+        'grade' : 'C', 
+        'credit' : 2,
         'major' : false
     }
 ];   
@@ -50,7 +68,6 @@ function declareData(data){
 // 전공 수업 확인 필터
 
 function checkMajor(data){
-    
     return data.filter((data) => {return data.major});
 }
 
@@ -58,13 +75,12 @@ function checkMajor(data){
 
 function showGrade(data){
     let result_message = 
-`4.5기준 총평점 : ${calculateCredit(data)}(4.0기준은 ${exchangeGrades(4.0, calculateCredit(data))}),
+`4.5기준 총평점 : ${calculateCredit(data).toFixed(2)}(4.0기준은 ${exchangeGrades(4.0, calculateCredit(data))}),
 전공평점:${calculateCredit(checkMajor(data))}(4.0기준은 ${exchangeGrades(4.0, calculateCredit(checkMajor(data)))}),  
 이수학점:${checkCreditNumber(data)}, 
 전공이수학점:${checkCreditNumber(checkMajor(data))}`;
     
     console.log(result_message);
-
     return result_message;
 }
 
@@ -96,10 +112,9 @@ function addLecture(newData){
 // 기존 과목 제거
 
 function removeLecture(deleteData, timeout){
-    let remove_data = data.filter((d)=>{return d.name === deleteData;});
     setTimeout(() => {
         data.forEach((v,i)=> {
-            if(v.name === remove_data[0].name) {data.splice(i,1)};
+            if(v.name === deleteData) {data.splice(i,1)};
         })
         return showGrade(declareData(data));
     }, timeout);
@@ -108,9 +123,19 @@ function removeLecture(deleteData, timeout){
 // 데이터 정렬
 
 function sortMyGrade(data){
-
+    data.sort((acc, curr) => { 
+        return +(acc.grade > curr.grade); 
+    });
+    data.sort((acc, curr) => { 
+        if(acc.grade === curr.grade) return +(acc.credit < curr.credit);
+    });
+    console.log('-------------');
+    data.forEach((v) => {
+        console.log(`${v.name}, ${v.grade}, ${v.credit}학점`)});
+    console.log('-------------');
 };
 
-removeLecture('철학', 2000);
+sortMyGrade(data);
+// removeLecture('철학', 2000);
 // addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true});
 // showGrade(declareData(data));
