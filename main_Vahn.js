@@ -6,17 +6,14 @@ const gpa = (function() {
 
     return {
         updateScoreAndCredit(isMajor = true, grade = 'B+', credit = 3) {
-    
             accumulatedScore.total += gpaTable[grade];
             accumulatedCredit.total += credit;
             if(isMajor) {
-        
                 accumulatedScore.major += gpaTable[grade];
                 accumulatedCredit.major += credit;
             }
         },
         average(scope = 'total', gradeSystem = 4.5) {
-    
             const calculatedGPA45 = (accumulatedScore[scope] / accumulatedCredit[scope]).toFixed(2);
             const calculatedGPA40 = (calculatedGPA45 * 4.0 / 4.5).toFixed(2);
             return (gradeSystem === 4.0) ? calculatedGPA40 : calculatedGPA45
