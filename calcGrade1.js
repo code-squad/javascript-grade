@@ -18,7 +18,7 @@ var data = [
         'major': false
     }
 ];
-//영어학점을 숫자로 변환해주는게 필요 어떻게변환?
+//영어학점을 숫자로 변환
 const gradeScore = {
     'A+':4.5,
     'A':4,
@@ -31,24 +31,24 @@ const gradeScore = {
     'F':0
 }
 
-//필요한값은 총학점평균(총학점, 총학점점수), 전공학점평균(전공학점, 전공학점점수), 
-//총이수학점(학점), 전공이수학점(전공학점)
-//필요한 인자는 두가지 학점과 학점점수
-//전공일때 아닐때 구분해서 값을 준다
-//학점평균을 구하는 법 => 함수이용
+//학점평균을 소수 두번째 자리까지 구하는 함수
 function calcGradeAverage(totalGrade, totalCredit) {
     return (totalGrade / totalCredit).toFixed(2)
 }
 
-function calcPerfectScore4(GradeAverage) {
+//학점평균을 만점이4.0일때의 학점평균(소수 두번째 자리까지)을 구하는함수
+function calcIfPerfectScore4(GradeAverage) {
     return (GradeAverage * 8 / 9).toFixed(2)
 }
-//전공이수학점을 구하는 함수 => for in에서 if문을 이용해서 major가 true일때 위의함수에 넣음
-// * 8 / 9  = 4.0이 만점일때
-//변수를 네가지 선언하고 빈배열 선언 ->빈배열에는 나중에 계산한 결과값들을 집어넣음.
-//계산한 결과값이 총학점평균, 전공학점평균, 총이수학점(이미변수), 전공이수학점(이미변수)
+//출력해주는 함수
+function printGrade(gradeAverage, majorGradeAverage, credit, majorCredit) {
+    console.log('4.5기준 총평점 : ' + gradeAverage + '(4.0기준은 ' + calcIfPerfectScore4(gradeAverage) + ')');
+    console.log('4.5기준 전공평점 : ' + majorGradeAverage + '(4.0기준은 ' + calcIfPerfectScore4(majorGradeAverage) + ')');
+    console.log('이수학점 : ' + credit);
+    console.log('전공이수학점 : ' + majorCredit);
+}
+//Data를 반영해 학점평균을 구하기위한 값들과 학점을 구하는 함수
 function showGrade(gradeData) {
-    const result = []
     let totalGrade = 0
     let totalMajorGrade = 0
     let totalCredit = 0
@@ -68,8 +68,7 @@ function showGrade(gradeData) {
     })
     const gradeAverage = calcGradeAverage(totalGrade, totalCredit)
     const majorGradeAverage = calcGradeAverage(totalMajorGrade, totalMajorCredit)
-    console.log('학점평균 : ' + gradeAverage + '(4.0일 경우엔' + calcPerfectScore4(gradeAverage) + ')' + '전공학점평균 : ' + majorGradeAverage + '(4.0일 경우엔' + calcPerfectScore4(majorGradeAverage) + ')')
-    console.log('총 이수학점 : ' + totalCredit + ' 전공이수학점 : ' + totalMajorCredit)
+    printGrade(gradeAverage, majorGradeAverage, totalCredit, totalMajorCredit);
 }
-//소수점 두자리수까지 변환해야하니까 나중에 num.toFixed(2)메서드 사용
+
 showGrade(data);
