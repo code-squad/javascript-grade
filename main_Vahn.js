@@ -65,26 +65,7 @@ function removeLecture(lectureToRemove = "name", timeout = 2000) {
     setTimeout(showGrade, timeout, lectureList);
 }
 
-/* 
-다음과 같이 정렬한 형태로 출력되도록 sortGrade 함수를 만든다. grade를 우선정렬하고, 그 안에서는 학점으로 정렬된다.
-
-const data = [{...}, {....}., {...}];
-
-> sortMyGrade(data);
-
--------------
-'데이터베이스', 'A' , 3학점
-'웹프로그래밍', 'A' , 3학점
-'네트워크실습', 'A' , 1학점
-
-'자료구조와 알고리즘', 'B' , 3학점
-'프로그래밍 설계', 'B' , 2학점
-'이산수학', 'B' , 3학점
-
-'Java완전정복', 'D' , 3학점
-'VIM으로최강속도코딩하기', 'D , 1학점
--------------
-*/
+//수업들의 이수학점/평점을 서식에 맞게 출력하는 메소드. 수업목록 행렬을 인자로 받는다.
 function sortGrade(lectureList) {
     debugger;
     let result = ``;
@@ -99,28 +80,28 @@ function sortGrade(lectureList) {
         lecturesWithSameGrade[targetGrade].sort((a,b) => a.credit < b.credit);
     }
 
+    
     //동일학점 수업목록을 출력 문자열에 저장
     for (let targetGrade in lecturesWithSameGrade) {
         const lecturesInCertainGrade = lecturesWithSameGrade[targetGrade];
         //해당 학점 수업 없으면 패스
-        if(lecturesInCertainGrade.length === 0) continue;
-        //수업 있으면 서식 맞춰서 문자열에 추가
+        if(!lecturesInCertainGrade[0]) continue;
+        debugger;
+        //수업 있으면 서식을 적용해 문자열로 저장
+        if(!!result) result += `\n\n`;
+        let lecturesStr = ``;
         for (let i = 0; i < lecturesInCertainGrade.length; i++) {
             let lecture = lecturesInCertainGrade[i];
-            result += `\'${lecture.name}\', \'${lecture.grade}\', ${lecture.credit}학점`;
-            if(i !== lecturesInCertainGrade.length) result += '\n';
+            if(!!lecturesStr) lecturesStr += '\n';
+            lecturesStr += `\'${lecture.name}\', \'${lecture.grade}\', ${lecture.credit}학점`;
         }
-        // 앞에 존재하는 값 있으면 문자열 맨 앞에 줄바꿈 추가
-
+        //저장한 문자열을 결과값에 추가
+        result += lecturesStr;
     }
 
     //결과 출력
     console.log(
-        `
-        -------------
-        ${result}
-        -------------
-        `
+        `-------------\n${result}\n-------------`
     );
 }
 
