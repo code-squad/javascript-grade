@@ -1,6 +1,6 @@
 // Encapsuled method for gpa update & calculation
 const gpa = (function() {
-    const gpaTable = {'A+': 4.5, A: 4, 'B+': 3.5, B: 3, 'C+': 2.5, C: 2, F:0};
+    const gpaTable = {'A+': 4.5, A: 4, 'B+': 3.5, B: 3, 'C+': 2.5, C: 2, D: 1, F:0};
     let accumulatedScore = {total: 0, major: 0};
     let accumulatedCredit = {total: 0, major: 0};
 
@@ -29,6 +29,7 @@ const gpa = (function() {
 // Iterate through course grade/credit & log calculated GPA
 function showGrade(dataArr) {
     gpa.init();
+    debugger;
     for (let course of dataArr) {
         gpa.updateScoreAndCredit(course.major, course.grade, course.credit);       
     }
@@ -102,7 +103,7 @@ function stringifyLectures(lecturesWithSameGrade) {
         //맨 첫줄이 아니며 앞선 수업과 평점이 다르면 줄바꿈 추가
         if(resultStr !== `` && lecture1.grade !== lecture2.grade) resultStr += `\n`;
         resultStr += `\n` + lecture2.str;
-        
+
         return lecture2
     }
 
@@ -169,15 +170,15 @@ const lectureList =  [
     }
 ];
 
-//showGrade(lectureList);
-//> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
+/*
 
 const lectureToAdd = {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
 addLecture(lectureToAdd);
-//> 4.5 기준 총평점 : 1.61 (4.0기준은 1.43), 전공평점: 1.40 (4.0기준은 1.24), 이수학점: 9, 전공이수학점: 5
+//> 4.5 기준 총평점 : 1.36 (4.0기준은 1.21), 전공평점: 1.35 (4.0기준은 1.20), 이수학점: 22, 전공이수학점: 10
 
 removeLecture('자료구조와 알고리즘', 1000);
-//> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
+4.5 기준 총평점 : 1.42 (4.0기준은 1.26), 전공평점: 1.50 (4.0기준은 1.33), 이수학점: 19, 전공이수학점: 7
+
 
 sortGrade(lectureList);
 /*
