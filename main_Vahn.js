@@ -71,12 +71,14 @@ function sortGrade(lectureListArr) {
 
 function groupLecturesByGrade(lectureListArr) {
     const lecturesWithSameGrade = {'A+': [], 'A': [], 'B+': [], 'B': [], 'C+': [], 'C': [], 'D': []};
-    // 수업들을 각 평점별로 행렬에 저장
+    // 수업들을 각 평점별로 배열에 저장
     for (let targetGrade in lecturesWithSameGrade){
-        for (let lecture of lectureListArr) {
+        lectureListArr.forEach(function(lecture) {
             if (lecture.grade === targetGrade) lecturesWithSameGrade[targetGrade].push(lecture);
-        }
-        // 행렬에 저장한 수업들을 학점순으로 정렬
+        });
+    }
+    // 각 평점별 수업 배열을 학점순으로 정렬
+    for (let targetGrade in lecturesWithSameGrade){
         lecturesWithSameGrade[targetGrade].sort((a,b) => a.credit < b.credit);
     }
 
