@@ -1,5 +1,4 @@
-//data의 값은 사용자에 따라 다를 수 있으므로 var로 할당
-var data = [{'name' : '데이터베이스', 'grade' : 'A', 'credit' : 3, 'major' : false},
+const data = [{'name' : '데이터베이스', 'grade' : 'A', 'credit' : 3, 'major' : false},
             {'name' : 'Java 완전정복', 'grade' : 'D', 'credit' : 3, 'major' : true},
             {'name' : '프로그래밍 설계', 'grade' : 'B', 'credit' : 2, 'major' : false},
             {'name' : '네트워크실습', 'grade' : 'A', 'credit' : 1, 'major' : true},
@@ -14,13 +13,15 @@ function showGrade(data){
     const majorSubject = (data => data.filter(val => val.major))(data);
     
     function getCredit(data){
-        const credit = data.map(val => val.credit);
-        return credit.reduce((a,b) => a+b);
+        const creditArr = data.map(val => val.credit);
+        const sumCredit = creditArr.reduce((a,b) => a+b);
+        return sumCredit;
     }
 
     function getGPA(data, grade){
         const multiCreditGrade = data.map(val => val.credit * grade[val.grade]);
-        return (multiCreditGrade.reduce((a,b) => a+b) / getCredit(data));           
+        const gpa = multiCreditGrade.reduce((a,b) => a+b) / getCredit(data); 
+        return gpa;           
     }
 
     function convertGPA(gpa, scoreStandard){
@@ -34,25 +35,23 @@ function showGrade(data){
 
 function addLecture(lectureData){
     data.push(lectureData);
-    return showGrade(data);
+    showGrade(data);
 }
 
 function removeLecture(lectureName, time){
-    data.forEach(function(lecture, idx){
-        if(lecture.name === lectureName) return data.splice(idx, 1);
+    data.forEach((lecture, idx) => {
+        if(lecture.name === lectureName) data.splice(idx, 1);
     }); 
-    return setTimeout(function(){
-        return showGrade(data);
-    }, time)
+    setTimeout(showGrade, time, data);
 }
 
 function sortMyGrade(data){
-    data.sort((course1, course2) => gradeData[course2.grade] - gradeData[course1.grade]);
-    data.sort(function(course1, course2){
-        if(course1.grade === course2.grade) return course2.credit-course1.credit; 
+    data.sort((lecture1, lecture2) => gradeData[lecture2.grade] - gradeData[lecture1.grade]);
+    data.sort((lecture1, lecture2) => {
+        if(lecture1.grade === lecture2.grade) return lecture2.credit-lecture1.credit; 
     });
     
-    return printGrade(data);
+    printGrade(data);
 }
 
 function printGrade(data){
@@ -60,3 +59,11 @@ function printGrade(data){
     data.forEach(lec => console.log(`${lec.name} : ${lec.grade}, ${lec.credit}학점`));
     console.log('-------------');
 }
+
+/*
+console.log(data);
+showGrade(data);
+addLecture({'name' : '알고리즘', 'grade' : 'B+', 'credit' : 3, 'major' : true});
+removeLecture('알고리즘', 1000);
+sortMyGrade(data);
+*/
