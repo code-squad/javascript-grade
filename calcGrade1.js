@@ -45,6 +45,16 @@ function getClassCredit(classData) {
     return classCredit
 }
 
+function getMajorClassGrade(classData) {
+    const majorClassGrade = []
+    classData.forEach(classObject => {
+        if(classObject.major) {
+            majorClassGrade.push(classObject.grade)
+        }
+    })
+    return majorClassGrade 
+}
+
 function showGrade(gradeData) {
     let totalGrade = 0
     let totalMajorGrade = 0
