@@ -51,13 +51,13 @@ removeLecutre 는 지정된 시간에 따라(함수의 인자로 받은 시간�
 > removeLecture('알고리즘', 2000);  // 2초뒤에 다시 결과 출력
 */
 function removeLecture(lectureToRemove = "name", timeout = 2000) {
-    for (let i = 0; i < lectureList.length; i++) {
+    for (let i in lectureList) {
         const lecture = lectureList[i];
         if(lecture.name === lectureToRemove) {
             lectureList.splice(i,1);
-            break;
         }
     }
+    
     setTimeout(showGrade, timeout, lectureList);
 }
 
@@ -168,13 +168,13 @@ const lectureList =  [
 //> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
 
 const lectureToAdd = {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
-//addLecture(lectureToAdd);
+addLecture(lectureToAdd);
 //> 4.5 기준 총평점 : 1.61 (4.0기준은 1.43), 전공평점: 1.40 (4.0기준은 1.24), 이수학점: 9, 전공이수학점: 5
 
-//removeLecture('알고리즘', 1000);
+removeLecture('자료구조와 알고리즘', 1000);
 //> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
 
-sortGrade(lectureList);
+//sortGrade(lectureList);
 /*
     -------------
     '데이터베이스', 'A' , 3학점
