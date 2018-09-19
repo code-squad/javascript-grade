@@ -92,18 +92,20 @@ function stringifyLectures(lecturesWithSameGrade) {
     for (let targetGrade in lecturesWithSameGrade) {
         orderedLecturesArray.push(...lecturesWithSameGrade[targetGrade]);
     }
-    //각 수업 정보에 출력용 문자열을 추가
+    //위 배열 속 수업 정보들에 출력용 문자열을 추가
     for (let lecture of orderedLecturesArray) {
         lecture.str = `\'${lecture.name}\', \'${lecture.grade}\', ${lecture.credit}학점`;
     }
     //각 수업별 문자열을 출력용 변수에 저장
-    resultStr += orderedLecturesArray[0].str;
-    orderedLecturesArray.reduce(function (lecture1, lecture2) {
-        if(lecture1.grade !== lecture2.grade) resultStr += `\n`;
+    orderedLecturesArray.reduce(addLectureStrToResult, resultStr);
+    function addLectureStrToResult(lecture1, lecture2) {
+        //맨 첫줄이 아니며 앞선 수업과 평점이 다르면 줄바꿈 추가
+        if(resultStr !== `` && lecture1.grade !== lecture2.grade) resultStr += `\n`;
         resultStr += `\n` + lecture2.str;
+        
         return lecture2
-    });
-    
+    }
+
     return resultStr
 }
 
