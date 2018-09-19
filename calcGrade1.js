@@ -15,7 +15,7 @@ var data = [
         'name': '철학',
         'grade': 'B+',
         'credit': 1,
-        'major': false
+        'major': true
     }
 ];
 //영어학점을 숫자로 변환
@@ -54,6 +54,18 @@ function getMajorClassGrade(classData) {
     })
     return majorClassGrade 
 }
+
+function getMajorClassCredit(classData) {
+    const majorClassCredit = []
+    classData.forEach(classObject => {
+        if(classObject.major) {
+            majorClassCredit.push(classObject.grade)
+        }
+    })
+    return majorClassCredit
+}
+var a = getMajorClassCredit(data)
+console.log(a)
 
 function showGrade(gradeData) {
     let totalGrade = 0
