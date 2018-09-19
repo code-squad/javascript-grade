@@ -55,31 +55,25 @@ function calculatePoints(data) {
     return [grossPoints, grossMajorPoints];
 }
 
-console.log(calculatePoints(data));
 
-
-function gpaCalculator(data) {
-    let result = '';
-    const credits = calculateCredits(data);
-    const grossCredits = credits[0];
-    const grossMajorCredits = credits[1];
-
-    const points = calculatePoints(data);
-    const grossPoints = points[0];
-    const grossMajorPoints = points[1];
-
-    const gpaFourPointThree = (grossPoints / grossCredits).toFixed(2);
-    const mgpaFourPointThree = (grossMajorPoints / grossMajorCredits).toFixed(2);
-    const gpaFourPointFive = ((grossPoints / grossCredits) * (4.5 / 4.3)).toFixed(2);
-    const mgpaFourPointFive = ((grossMajorPoints / grossMajorCredits) * (4.5 / 4.3)).toFixed(2);
-
-    result = '4.5 기준: 총 평점 = ' + gpaFourPointFive + ' 전공 평점 = ' + mgpaFourPointFive + '\n' +
+function getValues(data) {
+    const values = {};
+    values.grossCredits = calculateCredits(data)[0];
+    values.grossMajorCredits = calculateCredits(data)[1];
+    values.grossPoints = calculatePoints(data)[0];
+    values.grossMajorPoints = calculatePoints(data)[1];
+    values.gpa = (values.grossPoints / values.grossCredits).toFixed(2);
+    values.mgpa = (values.grossMajorPoints / values.grossMajorCredits).toFixed(2);
+  
+  /*  result = '4.5 기준: 총 평점 = ' + gpaFourPointFive + ' 전공 평점 = ' + mgpaFourPointFive + '\n' +
         '4.3 기준: 총 평점 = ' + gpaFourPointThree + ' 전공 평점 = ' + mgpaFourPointThree + '\n' +
         '이수 학점: ' + grossCredits + '\n' +
         '전공 이수 학점: ' + grossMajorCredits;
-
-    return result;
+*/
+    return values;
 }
 
-const result = gpaCalculator(data);
-console.log(result);
+// const result = gpaCalculator(data);
+// console.log(result);
+
+console.log(getValues(data));
