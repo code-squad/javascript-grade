@@ -6,10 +6,10 @@ const gpa = (function() {
 
     return {
         updateScoreAndCredit(isMajor = true, grade = 'B+', credit = 3) {
-            accumulatedScore.total += gpaTable[grade];
+            accumulatedScore.total += gpaTable[grade] * credit;
             accumulatedCredit.total += credit;
             if(isMajor) {
-                accumulatedScore.major += gpaTable[grade];
+                accumulatedScore.major += gpaTable[grade] * credit;
                 accumulatedCredit.major += credit;
             }
         },
@@ -170,14 +170,14 @@ const lectureList =  [
     }
 ];
 
-/*
 
+/*
 const lectureToAdd = {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
 addLecture(lectureToAdd);
 //> 4.5 기준 총평점 : 1.36 (4.0기준은 1.21), 전공평점: 1.35 (4.0기준은 1.20), 이수학점: 22, 전공이수학점: 10
 
 removeLecture('자료구조와 알고리즘', 1000);
-4.5 기준 총평점 : 1.42 (4.0기준은 1.26), 전공평점: 1.50 (4.0기준은 1.33), 이수학점: 19, 전공이수학점: 7
+//4.5 기준 총평점 : 1.42 (4.0기준은 1.26), 전공평점: 1.50 (4.0기준은 1.33), 이수학점: 19, 전공이수학점: 7
 
 
 sortGrade(lectureList);
