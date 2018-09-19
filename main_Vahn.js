@@ -62,20 +62,19 @@ function removeLecture(lectureToRemove = "name", timeout = 2000) {
 }
 
 //수업들의 이수학점/평점을 서식에 맞게 출력하는 메소드. 수업목록 행렬을 인자로 받는다.
-function sortGrade(lectureListArr) {
-    const lecturesWithSameGrade = groupLecturesByGrade(lectureListArr);
+function sortGrade(lectureList) {
+    const lecturesWithSameGrade = groupLecturesByGrade(lectureList);
     const resultStr = stringifyLectures(lecturesWithSameGrade);
 
     console.log(`-------------\n${resultStr}\n-------------`);
 }
 
-function groupLecturesByGrade(lectureListArr) {
+function groupLecturesByGrade(lectureList) {
     const lecturesWithSameGrade = {'A+': [], 'A': [], 'B+': [], 'B': [], 'C+': [], 'C': [], 'D': []};
-    // 수업들을 각 평점별로 배열에 저장
-    for (let targetGrade in lecturesWithSameGrade){
-        lectureListArr.forEach(function(lecture) {
-            if (lecture.grade === targetGrade) lecturesWithSameGrade[targetGrade].push(lecture);
-        });
+    // 수업들을 평점별로 묶어 저장
+    for (let lecture of lectureList) {
+        const grade = lecture.grade;
+        lecturesWithSameGrade[grade].push(lecture);
     }
     // 각 평점별 수업 배열을 학점순으로 정렬
     for (let targetGrade in lecturesWithSameGrade){
