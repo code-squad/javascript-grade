@@ -65,15 +65,17 @@ function getValues(data) {
     values.gpa = (values.grossPoints / values.grossCredits).toFixed(2);
     values.mgpa = (values.grossMajorPoints / values.grossMajorCredits).toFixed(2);
   
-  /*  result = '4.5 기준: 총 평점 = ' + gpaFourPointFive + ' 전공 평점 = ' + mgpaFourPointFive + '\n' +
-        '4.3 기준: 총 평점 = ' + gpaFourPointThree + ' 전공 평점 = ' + mgpaFourPointThree + '\n' +
-        '이수 학점: ' + grossCredits + '\n' +
-        '전공 이수 학점: ' + grossMajorCredits;
-*/
     return values;
 }
 
-// const result = gpaCalculator(data);
-// console.log(result);
+function gpaCalculator(scale){
+    let result = "";
+    const values = getValues(data);
+    result = '4.5 기준: 총 평점 = ' + values.gpa + ' 전공 평점 = ' + values.mgpa + '\n' +
+        scale.toFixed(1) +' 기준: 총 평점 = ' + ((values.gpa)*(scale/4.5)).toFixed(2) + ' 전공 평점 = ' + ((values.mgpa)*(scale/4.5)).toFixed(2) + '\n' +
+        '이수 학점: ' + values.grossCredits + '\n' +
+        '전공 이수 학점: ' + values.grossMajorCredits;
+    return result;
+}
 
-console.log(getValues(data));
+console.log(gpaCalculator(4.0));
