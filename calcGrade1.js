@@ -38,6 +38,13 @@ function getClassGrade(classData) {
     return classGrade
 }
 
+function getClassCredit(classData) {
+    const classCredit = classData.map(classObject => {
+        return classObject.credit
+    })
+    return classCredit
+}
+
 function showGrade(gradeData) {
     let totalGrade = 0
     let totalMajorGrade = 0
