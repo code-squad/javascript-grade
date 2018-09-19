@@ -15,7 +15,7 @@ var data = [
         'name': '철학',
         'grade': 'B+',
         'credit': 1,
-        'major': true
+        'major': false
     }
 ];
 //영어학점을 숫자로 변환
@@ -64,8 +64,16 @@ function getMajorClassCredit(classData) {
     })
     return majorClassCredit
 }
-var a = getMajorClassCredit(data)
-console.log(a)
+
+function getGradeAverage(classGrade, classCredit) {
+    const gradeScore = classGrade.map(gradeValue => {return gradeScoreObject[gradeValue]})
+    const multedGradeScore = classCredit.map((creditValue, index) => {
+        return gradeScore[index] * classCredit[index]
+    })
+    const sumOfGradeScore = multedGradeScore.reduce((beforeValue, CurrentValue) => {return beforeValue + CurrentValue})
+    const sumOfClassCredit = classCredit.reduce((beforeValue, CurrentValue) => {return beforeValue + CurrentValue})
+    return sumOfGradeScore / sumOfClassCredit
+}
 
 function showGrade(gradeData) {
     let totalGrade = 0
