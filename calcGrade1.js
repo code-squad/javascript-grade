@@ -55,11 +55,12 @@ function getMajorClassGrade(classData) {
     return majorClassGrade
 }
 
+
 function getMajorClassCredit(classData) {
     const majorClassCredit = []
     classData.forEach(classObject => {
         if (classObject.major) {
-            majorClassCredit.push(classObject.grade)
+            majorClassCredit.push(classObject.credit)
         }
     })
     return majorClassCredit
@@ -82,7 +83,7 @@ function getGradeAverage(classGrade, classCredit) {
 }
 
 function convertGradeScore(score) {
-    return score / 4.5 * 4.0
+    return (score / 4.5 * 4.0).toFixed(2)
 }
 
 function printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit) {
@@ -97,7 +98,7 @@ function showGrade(gradeData) {
     const classCredit = getClassCredit(gradeData)
     const majorClassGrade = getMajorClassGrade(gradeData)
     const majorClassCredit = getMajorClassCredit(gradeData)
-    const gradeAverage = getGradeAverage(classGrade, classCredit)
+    const gradeAverage = getGradeAverage(classGrade, classCredit).toFixed(2)
     const majorGradeAverage = getGradeAverage(majorClassGrade, majorClassCredit)
     const sumOfCredit = classCredit.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
