@@ -11,7 +11,7 @@
 <body>
     <script>
 
-        // 학점 계산기 
+        // 학점 계산기 modified4
 
         // 과목 정보 객체 생성
         var gradeData = [
@@ -54,98 +54,73 @@
         ];
 
         // 객체 생성(네임 스페이스 설정)
-        const gradeInfo = {};
+        const gradeInfo = {
 
-        // main 메소드 
-        gradeInfo.showGradeInfo = function (gradeData) {
-            console.log(
-                `${this.calGpaTotal(gradeData)},  ${this.calGpaMajor(gradeData)},  ${this.calCredit(gradeData)},  ${this.calCreditMajor(gradeData)}`
-            );
-            console.log(
-                `총과목 수: ${gradeData.length}\n전공과목 수: ${this.countMajor}`
-            );
-        }
+            // main 메소드 
+            showGradeInfo(gradeData, otherScale) {
+                this.sumGradeData(gradeData);
+                console.log(
+                    `${this.calGpaTotal(gradeData, otherScale)},  ${this.calGpaMajor(gradeData, otherScale)}, 총 이수학점: ${this.sumCredit}, 전공 이수학점: ${this.sumCreditMajor}`
+                );
+                console.log(
+                    `총과목 수: ${gradeData.length}\n전공과목 수: ${this.countMajor}`
+                );
+            },
 
-        // 학점, 숫자를 나타내는 객체 생성
-        gradeInfo.pointScale = {
-            "A+": 4.5,
-            "A": 4,
-            "B+": 3.5,
-            "B": 3,
-            "C+": 2.5,
-            "C": 2,
-            "D+": 1.5,
-            "D": 1
-        }
+            // 4.5기준 학점 환산 척도
+            standardScale : {
+                "A+": 4.5,
+                "A": 4,
+                "B+": 3.5,
+                "B": 3,
+                "C+": 2.5,
+                "C": 2,
+                "D+": 1.5,
+                "D": 1
+            },
 
-        // 4.0기준 학점 계산을 위해 플러스 학점을 일정 부분 제하는 메소드
-        gradeInfo.subtractPlus = function (gradeData) {
-            let subtractPlus = 0; 
-            gradeData.forEach(val => {
-                if (val.grade === "A+") {
-                    subtractPlus += 0.5;
-                }
-                if (val.grade === "B+" || val.grade === "C+" || val.grade === "D+") {
-                    subtractPlus += 0.2;
-                }
-            })
-            return subtractPlus;
-        }
+            // 총 학점 합계, 전공 학점 합계, 전공 과목수, 총이수학점, 전공이수학점 구하기 메소드
+            // forEach 함수를 단 한 번만 이용하여 연산의 중복 방지.
+            sumGradeData(gradeData) {
+                this.sumPoint = 0; // 총 학점 합계
+                this.sumPointMajor = 0; // 전공 학점 합계
+                this.countMajor = 0; // 전공 과목수
+                this.sumCredit = 0; // 총 이수학점
+                this.sumCreditMajor = 0; // 전공 이수학점
 
-        // 총평점 메소드
-        gradeInfo.calGpaTotal = function (gradeData) {
-            let gpaFourPointFive = 0, // 4.5기준 평점
-                gpaFourPointZero = 0, // 4.0기준 평점
-                sumPoint = 0; // 학점 합계
-            gradeData.forEach(val => {
-                sumPoint += gradeInfo.pointScale[val.grade];
-            });
-            gpaFourPointFive = (sumPoint / gradeData.length).toFixed(2);
-            gpaFourPointZero = ((sumPoint - this.subtractPlus(gradeData)) / gradeData.length).toFixed(2);
-            return `4.5기준 총평점: ${gpaFourPointFive}(4.0기준: ${gpaFourPointZero})`;
-        }
+                // forEach 함수
+                gradeData.forEach(val => {
+                    this.sumPoint += this.standardScale[val.grade];
+                    this.sumCredit += val.credit;
+                    if (val.major) {  // 전공과목인 경우 별도의 변수에 할당
+                        this.sumPointMajor += this.standardScale[val.grade];
+                        this.countMajor += 1;
+                        this.sumCreditMajor += val.credit;
+                    }
+                });
+            },
 
-        // 전공평점 메소드
-        gradeInfo.calGpaMajor = function (gradeData) {
-            let gpaFourPointFive = 0,  // 4.5기준 평점
-                gpaFourPointZero = 0, // 4.0기준 평점
-                sumPoint = 0; // 학점 합계
-            this.countMajor = 0; // 전공 과목 수
+            // 총평점 계산 메소드
+            calGpaTotal(gradeData, otherScale) {
+                let gpaStandard = 0, // 4.5기준 평점
+                    gpaOtherScale = 0; // 기타 기준 평점
+                gpaStandard = (this.sumPoint / gradeData.length).toFixed(2);
+                gpaOtherScale = ((gpaStandard / 4.5) * otherScale).toFixed(2);
+                return `4.5기준 총평점: ${gpaStandard}(${otherScale}기준 ${gpaOtherScale})`;
+            },
 
-            // 전공 과목만 필터링 후 학점 계산
-            let majorClass = gradeData.filter(val => val.major);
+            // 전공평점 계산 메소드
+            calGpaMajor(gradeData, otherScale) {
+                let gpaStandard = 0,  // 4.5기준 평점
+                    gpaOtherScale = 0; // 기타 기준 평점
+                gpaStandard = (this.sumPointMajor / this.countMajor).toFixed(2);
+                gpaOtherScale = ((gpaStandard / 4.5) * otherScale).toFixed(2);
+                return `전공평점: ${gpaStandard}(${otherScale}기준 ${gpaOtherScale})`;
+            },
+        };
 
-            majorClass.forEach(val => {
-                sumPoint += gradeInfo.pointScale[val.grade];
-                this.countMajor += 1;
-            });
-            gpaFourPointFive = (sumPoint / this.countMajor).toFixed(2);
-            gpaFourPointZero = ((sumPoint - this.subtractPlus(majorClass)) / this.countMajor).toFixed(2);
-            return `전공평점: ${gpaFourPointFive}(4.0기준: ${gpaFourPointZero})`;
-        }
-
-        // 이수학점 메소드
-        gradeInfo.calCredit = function (gradeData) {
-            let credit = 0;
-            gradeData.forEach(val =>
-                credit += val.credit
-            );
-            return `이수학점: ${credit}`;
-        }
-
-        // 전공이수학점 메소드
-        gradeInfo.calCreditMajor = function (gradeData) {
-            let credit = 0;
-            gradeData.forEach(val => {
-                if (val.major) {
-                    credit += val.credit;
-                }
-            })
-            return `전공이수학점: ${credit}`;
-        }
-
-        // main 메소드 실행
-        gradeInfo.showGradeInfo(gradeData);
+        //main 메소드 호출(기타 기준 추가)
+        gradeInfo.showGradeInfo(gradeData, 4.3);
 
     </script>
 
