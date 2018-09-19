@@ -57,7 +57,7 @@ function removeLecture(lectureToRemove = "name", timeout = 2000) {
             lectureList.splice(i,1);
         }
     }
-    
+
     setTimeout(showGrade, timeout, lectureList);
 }
 
@@ -91,11 +91,11 @@ function stringifyLectures(lecturesWithSameGrade) {
         //해당 평점받은 수업 없으면 패스
         if(!lecturesInCertainGrade[0]) continue;
         //이미 저장된 문자열이 있다면 줄바꿈 추가
-        if(!!resultStr) resultStr += `\n\n`;
+        if(resultStr) resultStr += `\n\n`;
         
         let lecturesStr = ``;
         for (let lecture of lecturesInCertainGrade) {
-            if(!!lecturesStr) lecturesStr += '\n';
+            if(lecturesStr) lecturesStr += '\n';
             lecturesStr += `\'${lecture.name}\', \'${lecture.grade}\', ${lecture.credit}학점`;
         }
         resultStr += lecturesStr;
@@ -174,7 +174,7 @@ addLecture(lectureToAdd);
 removeLecture('자료구조와 알고리즘', 1000);
 //> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
 
-//sortGrade(lectureList);
+sortGrade(lectureList);
 /*
     -------------
     '데이터베이스', 'A' , 3학점
