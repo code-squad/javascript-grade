@@ -31,12 +31,6 @@ const gradeScoreObject = {
     'F':0
 }
 
-//학점평균을 점수기준을 받아 소수 두번째 자리까지 구하는 함수
-function calcGradeAverage(totalGrade, totalCredit, scoreStandard) {
-    return scoreStandard === 4.5 ? (totalGrade / totalCredit).toFixed(2) : ((totalGrade / totalCredit) * scoreStandard / 4.5).toFixed(2)
-}
-
-//Data를 반영해 학점평균을 구하기위한 값들과 학점을 구하는 함수
 function showGrade(gradeData) {
     let totalGrade = 0
     let totalMajorGrade = 0
@@ -57,6 +51,7 @@ function showGrade(gradeData) {
             }
         }
     });
+
     const gradeAverage = calcGradeAverage(totalGrade, totalCredit, 4.5)
     const majorGradeAverage = calcGradeAverage(totalMajorGrade, totalMajorCredit, 4.5)
     const convertedGradeAverage = calcGradeAverage(totalGrade, totalCredit, 4.0)
@@ -66,5 +61,3 @@ function showGrade(gradeData) {
     console.log('이수학점 : ' + totalCredit);
     console.log('전공이수학점 : ' + totalMajorCredit);
 }
-
-showGrade(data);
