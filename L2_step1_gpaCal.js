@@ -1,4 +1,4 @@
-var data = [{
+const data = [{
         'name': '데이터베이스',
         'grade': 'A',
         'credit': 3,
@@ -21,7 +21,7 @@ var data = [{
 function calculateCredits(data) {
     let grossCredits = 0;
     let grossMajorCredits = 0;
-    for (let key in data) {
+    for (const key in data) {
         grossCredits += data[key].credit;
         if (data[key].major) {
             grossMajorCredits += data[key].credit;
@@ -45,8 +45,8 @@ function calculatePoints(data) {
         'F': 0,
     }
 
-    for (let i in data) {
-        for (let key in data[i]) {
+    for (const i in data) {
+        for (const key in data[i]) {
             if (key === 'grade') {
                 grossPoints += (data[i].credit * fourPointFiveTable[data[i][key]]);
                 if (data[i].major) {
@@ -59,22 +59,20 @@ function calculatePoints(data) {
     return [grossPoints, grossMajorPoints];
 }
 
-console.log(calculatePoints(data));
-
 function gpaCalculator(data){
 let result = '';
-let credits = calculateCredits(data);
-let grossCredits = credits[0];
-let grossMajorCredits = credits[1];
+const credits = calculateCredits(data);
+const grossCredits = credits[0];
+const grossMajorCredits = credits[1];
 
-let points = calculatePoints(data);
-let grossPoints = points[0];
-let grossMajorPoints = points[1];
+const points = calculatePoints(data);
+const grossPoints = points[0];
+const grossMajorPoints = points[1];
 
-let gpaFourPointThree = (grossPoints / grossCredits).toFixed(2);
-let mgpaFourPointThree = (grossMajorPoints / grossMajorCredits).toFixed(2);
-let gpaFourPointFive = ((grossPoints / grossCredits)*(4.5/4.3)).toFixed(2);
-let mgpaFourPointFive = ((grossMajorPoints / grossMajorCredits)*(4.5/4.3)).toFixed(2);
+const gpaFourPointThree = (grossPoints / grossCredits).toFixed(2);
+const mgpaFourPointThree = (grossMajorPoints / grossMajorCredits).toFixed(2);
+const gpaFourPointFive = ((grossPoints / grossCredits)*(4.5/4.3)).toFixed(2);
+const mgpaFourPointFive = ((grossMajorPoints / grossMajorCredits)*(4.5/4.3)).toFixed(2);
 
 result = '4.5 기준: 총 평점 = ' + gpaFourPointFive + ' 전공 평점 = ' + mgpaFourPointFive + '\n' +
 '4.3 기준: 총 평점 = ' + gpaFourPointThree + ' 전공 평점 = ' + mgpaFourPointThree + '\n' +
@@ -84,5 +82,5 @@ result = '4.5 기준: 총 평점 = ' + gpaFourPointFive + ' 전공 평점 = ' + 
 return result;
 }
 
-// let result = gpaCalculator(data);
-// console.log(result);
+const result = gpaCalculator(data);
+console.log(result);
