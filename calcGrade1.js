@@ -1,19 +1,19 @@
 var data = [
     {
         'name': '데이터베이스',
-        'grade': 'A',
+        'grade': 'B',
         'credit': 3,
         'major': false
     },
     {
         'name': '교양영어',
-        'grade': 'B+',
+        'grade': 'A+',
         'credit': 2,
         'major': true
     },
     {
         'name': '철학',
-        'grade': 'B+',
+        'grade': 'C+',
         'credit': 1,
         'major': false
     }
@@ -29,6 +29,36 @@ const gradeScoreObject = {
     'D+': 1.5,
     'D': 1,
     'F': 0
+}
+
+//1. 강의를 추가하는 함수
+function addLecture(className, classGrade, classCredit, isClassMajor) {
+    var newLecture = {
+        'name': className,
+        'grade': classGrade,
+        'credit': classCredit,
+        'major': isClassMajor
+    }
+    data.push(newLecture)
+    showGrade(data)
+}
+
+//2. 강의를 제거하는 함수
+function removeLecture(className, PrintTime) {
+    //forEach,
+    //setTimeOut사용
+}
+
+//3. 강의를 정렬해주는 함수
+//3-1. data 를 입력받아 학점을 정렬해주는 함수
+// sort이용해서 정렬
+
+function sortGrade(data) {
+    //정렬 후
+    //--------를먼저 출력
+    //forEach 이용해서 전부console
+    //data[0].name, data[0].grade, data[0].credit
+    //후------------출력
 }
 
 function getClassGrade(classData) {
@@ -99,7 +129,7 @@ function showGrade(gradeData) {
     const majorClassGrade = getMajorClassGrade(gradeData)
     const majorClassCredit = getMajorClassCredit(gradeData)
     const gradeAverage = getGradeAverage(classGrade, classCredit).toFixed(2)
-    const majorGradeAverage = getGradeAverage(majorClassGrade, majorClassCredit)
+    const majorGradeAverage = getGradeAverage(majorClassGrade, majorClassCredit).toFixed(2)
     const sumOfCredit = classCredit.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     })
@@ -109,4 +139,4 @@ function showGrade(gradeData) {
     printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit)
 }
 
-showGrade(data)
+
