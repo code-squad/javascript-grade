@@ -72,20 +72,31 @@ function getGradeAverage(classGrade, classCredit) {
     const multedGradeScore = classCredit.map((creditValue, index) => {
         return gradeScore[index] * classCredit[index]
     })
-    const sumOfGradeScore = multedGradeScore.reduce((beforeValue, currentValue) => {
+    const summedGradeScore = multedGradeScore.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue
     })
-    const sumOfClassCredit = classCredit.reduce((beforeValue, currentValue) => {
+    const summedClassCredit = classCredit.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue
     })
-    return sumOfGradeScore / sumOfClassCredit
+    return summedGradeScore / summedClassCredit
+}
+
+function convertGradeScore(score) {
+    return score / 4.5 * 4.0
+}
+
+function printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit) {
+    console.log('총평점 : ' + gradeAverage + '(4.0 기준 : ' + convertGradeScore(gradeAverage) + ')');
+    console.log('전공평점 : ' + majorGradeAverage + '(4.0기준 : ' + convertGradeScore(gradeAverage) + ')');
+    console.log('이수학점 : ' + sumOfCredit)
+    console.log('전공이수학점 : ' + sumOfMajorCredit) 
 }
 
 function showGrade(gradeData) {
     const classGrade = getClassGrade(gradeData)
     const classCredit = getClassCredit(gradeData)
     const majorClassGrade = getMajorClassGrade(gradeData)
-    const majorClassCredit = getMajorClassCredit(gradaeData)
+    const majorClassCredit = getMajorClassCredit(gradeData)
     const gradeAverage = getGradeAverage(classGrade, classCredit)
     const majorGradeAverage = getGradeAverage(majorClassGrade, majorClassCredit)
     const sumOfCredit = classCredit.reduce((beforeValue, currentValue) => {
@@ -94,4 +105,7 @@ function showGrade(gradeData) {
     const sumOfMajorCredit = majorClassCredit.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     })
+    printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit)
 }
+
+showGrade(data)
