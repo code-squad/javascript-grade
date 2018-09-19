@@ -31,6 +31,17 @@ const fourPointFiveRating = {
     'D': 1.0,
     'F': 0
 };
+// 새로운 과목 추가 함수
+let addLecture = function (newname, newgrade, newcredit, newmajor) {
+    gradesData.push({
+        name: newname,
+        grade: newgrade,
+        credit: newcredit,
+        major: newmajor,
+    })
+    showGrade(gradesData, fourPointFiveRating);
+}
+
 // 학점데이터의 총 이수학점을 구하는 함수
 let getTotalOfCredits = function (gradesData) {
     let totalOfCredits = 0;
@@ -47,17 +58,17 @@ let getTotlalOfGrades = function (gradesData, rating) {
     });
     return totlalOfGrades.toFixed(2);
 };
-// 4.0 기준 학점계산함수 (총학점 *4.0)/ 4.5
-let calculateFourPointZeroCredit = function (gradesData, rating) {
-    const FourPointZero = '4.0';
+// 원하는 만점기준 학점 계산함수 ( 계산 = (총학점 * 원하는 값) / 4.5 )
+let calculateCreditUserwant = function (gradesData, rating, credit) {
+    const userWantValue = credit;
     const Grades = calculateFourPointFiveCredit(gradesData, rating);
-    let fourPointzeroGrades = (Grades * FourPointZero) / rating['A+'];
-    return fourPointzeroGrades.toFixed(2);
+    let ConversionGrades = (Grades * userWantValue) / rating['A+'];
+    return ConversionGrades.toFixed(2);
 };
 // 4.5기준 학점계산함수
 let calculateFourPointFiveCredit = function (gradesData, rating) {
     let fourPointFiveGrades = getTotlalOfGrades(gradesData, rating) / getTotalOfCredits(gradesData);
-    return fourPointFiveGrades;
+    return fourPointFiveGrades.toFixed(2);
 };
 // 전공과목 gradesData배열 생성함수
 let filterlingMajorGradeObj = function (gradesData) {
@@ -76,13 +87,14 @@ let getTotalofMajorCredit = function (gradesData) {
 };
 // 출력함수
 function showGrade(gradesData, rating) {
-    console.log('(4.0)기준 총 평점 : ' + calculateFourPointZeroCredit(gradesData, rating));
+    console.log('(4.0)기준 총 평점 : ' + calculateCreditUserwant(gradesData, rating, 4.0));
     console.log('(4.5)기준 총 평점 : ' + calculateFourPointFiveCredit(gradesData, rating));
-    console.log('(4.0)기준 전공 학점 : ' + calculateFourPointZeroCredit(filterlingMajorGradeObj(gradesData), rating));
+    console.log('(4.0)기준 전공 학점 : ' + calculateCreditUserwant(filterlingMajorGradeObj(gradesData), rating, 4.0));
     console.log('(4.5)기준 전공 학점 : ' + calculateFourPointFiveCredit(filterlingMajorGradeObj(gradesData), rating));
     console.log('총 이수학점 : ' + getTotalOfCredits(gradesData));
     console.log('총 전공이수학점 : ' + getTotalofMajorCredit(gradesData));
 }
 
 showGrade(gradesData, fourPointFiveRating);
+addLecture('알고리즘', 'A', 3, true);
 
