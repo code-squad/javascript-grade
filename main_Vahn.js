@@ -87,22 +87,24 @@ function groupLecturesByGrade(lectureListArr) {
 
 function stringifyLectures(lecturesWithSameGrade) {
     let resultStr = ``;
-     //동일평점 수업목록을 출력 문자열에 저장
-     for (let targetGrade in lecturesWithSameGrade) {
-        const lecturesInCertainGrade = lecturesWithSameGrade[targetGrade];
-        //해당 평점받은 수업 없으면 패스
-        if(!lecturesInCertainGrade[0]) continue;
-        //이미 저장된 문자열이 있다면 줄바꿈 추가
-        if(resultStr) resultStr += `\n\n`;
-        
-        let lecturesStr = ``;
-        for (let lecture of lecturesInCertainGrade) {
-            if(lecturesStr) lecturesStr += '\n';
-            lecturesStr += `\'${lecture.name}\', \'${lecture.grade}\', ${lecture.credit}학점`;
-        }
-        resultStr += lecturesStr;
-    }
+    let orderedLecturesArray = [];
 
+    //평점별 수업목록 객체를 1단짜리 배열로 통합
+    for (let targetGrade in lecturesWithSameGrade) {
+        orderedLecturesArray.push(...lecturesWithSameGrade[targetGrade]);
+    }
+    //각 수업 정보에 출력용 문자열을 추가
+    for (let lecture of orderedLecturesArray) {
+        lecture.str = `\'${lecture.name}\', \'${lecture.grade}\', ${lecture.credit}학점`;
+    }
+    //각 수업별 문자열을 출력용 변수에 저장
+    resultStr += orderedLecturesArray[0].str;
+    orderedLecturesArray.reduce(function (lecture1, lecture2) {
+        if(lecture1.grade !== lecture2.grade) resultStr += `\n`;
+        resultStr += `\n` + lecture2.str;
+        return lecture2
+    });
+    
     return resultStr
 }
 
