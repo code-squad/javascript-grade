@@ -31,6 +31,13 @@ const gradeScoreObject = {
     'F':0
 }
 
+function getClassGrade(classData) {
+    const classGrade = classData.map(classObject => {
+        return classObject.grade
+    })
+    return classGrade
+}
+
 function showGrade(gradeData) {
     let totalGrade = 0
     let totalMajorGrade = 0
