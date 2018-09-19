@@ -33,28 +33,24 @@ function calculateCredits(data) {
 function calculatePoints(data) {
     let grossPoints = 0;
     let grossMajorPoints = 0;
-    tableFourPointZero = {
-        'A+': 4.3,
+    fourPointFiveTable = {
+        'A+': 4.5,
         'A': 4.0,
-        'A-': 3.7,
-        'B+': 3.3,
+        'B+': 3.5,
         'B': 3.0,
-        'B-': 2.7,
         'C+': 2.5,
         'C': 2.0,
-        'C-': 1.7,
         'D+': 1.5,
         'D': 1.0,
-        'D-': 0.7,
         'F': 0,
     }
 
     for (let i in data) {
         for (let key in data[i]) {
             if (key === 'grade') {
-                grossPoints += (data[i].credit * tableFourPointZero[data[i][key]]);
+                grossPoints += (data[i].credit * fourPointFiveTable[data[i][key]]);
                 if (data[i].major) {
-                grossMajorPoints += data[i].credit * tableFourPointZero[data[i][key]];
+                grossMajorPoints += data[i].credit * fourPointFiveTable[data[i][key]];
                 }
             }
 
@@ -63,6 +59,7 @@ function calculatePoints(data) {
     return [grossPoints, grossMajorPoints];
 }
 
+console.log(calculatePoints(data));
 
 function gpaCalculator(data){
 let result = '';
@@ -87,5 +84,5 @@ result = '4.5 기준: 총 평점 = ' + gpaFourPointFive + ' 전공 평점 = ' + 
 return result;
 }
 
-let result = gpaCalculator(data);
-console.log(result);
+// let result = gpaCalculator(data);
+// console.log(result);
