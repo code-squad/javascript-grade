@@ -46,18 +46,27 @@ function removeLecture(lectureName, time){
 }
 
 function sortMyGrade(data){
-    data.sort((lecture1, lecture2) => gradeData[lecture2.grade] - gradeData[lecture1.grade]);
-    data.sort((lecture1, lecture2) => {
-        if(lecture1.grade === lecture2.grade) return lecture2.credit-lecture1.credit; 
-    });
+    const classifyByGrade = {};
+    const gradeDataKeys = Object.keys(gradeData);
     
-    printGrade(data);
+    for(let key of gradeDataKeys){
+        classifyByGrade[key] = data.filter(lec => lec.grade === key);
+    }
+    for(let lec in classifyByGrade){
+        classifyByGrade[lec].sort((lecture1, lecture2) => lecture2.credit-lecture1.credit);                
+    }
+        
+    console.log(`-------------${stringfyData(classifyByGrade)}-------------`);
 }
 
-function printGrade(data){
-    console.log('-------------');
-    data.forEach(lec => console.log(`${lec.name} : ${lec.grade}, ${lec.credit}학점`));
-    console.log('-------------');
+function stringfyData(data){
+    let stringData = '';
+    for(let grade in data){
+        if(data[grade].length){
+            stringData += data[grade].reduce((lec1, lec2) => lec1 + `${lec2.name}, ${lec2.grade}, ${lec2.credit}학점\n`, '\n');
+        }
+    }
+    return stringData;
 }
 
 /*
