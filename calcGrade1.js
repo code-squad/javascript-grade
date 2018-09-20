@@ -43,8 +43,9 @@ const gradeScoreObject = {
     'F': 0
 }
 
-const gradeArrays = 'A+,A,B+,B,C+,C,D+,D,F'.split(',')
+const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
 //1. 강의를 추가하는 함수
+
 function addLecture(className, classGrade, classCredit, classMajor) {
     var newLecture = {
         'name': className,
@@ -70,22 +71,34 @@ function removeLecture(className, PrintTime) {
 // sort이용해서 정렬
 function sortCreditDataOrder(gradeData) {
     var creditSortedData = gradeData.sort((beforeValue, value) => {
-        if (beforeValue.credit > value.credit) {
-            return -1
-        } else if (beforeValue.credit < value.credit) {
-            return 1
-        }
+        if (beforeValue.credit > value.credit) return -1
+        if (beforeValue.credit < value.credit) return 1
     })
     return creditSortedData
 }
+
 //문제가생김. => 성적으로 이루어진 배열을 credit으로 다시 정렬해야함
 //우선 배열을 만들고. sort는 credit에서만 실행하고
 //각각성적에따라 push. ->너무하드코딩 좋은방법이없을까
-function sortGrade(data) {
-    
-    //forEach 이용해서 전부console
-    //data[0].name, data[0].grade, data[0].credit
-    //후------------출력
+function sortGrade(gradeData) {
+    console.log('--------------------')
+    gradeArrays.forEach(value => {
+        let oneGradeData = []
+        gradeData.forEach(object => {
+            if(value === object.grade) {
+                oneGradeData.push(object)
+            }
+        })
+        if(oneGradeData[0] === undefined) {
+            return;
+        }
+        let sortedscoreArray = sortCreditDataOrder(oneGradeData)
+        sortedscoreArray.forEach(sortedObject => {
+            console.log(sortedObject.name, sortedObject.grade, sortedObject.credit)
+        })
+        console.log('')
+    })
+    console.log('--------------------')
 }
 
 sortGrade(data)
