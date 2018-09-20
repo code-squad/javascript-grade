@@ -5,7 +5,7 @@ const gpa = (function() {
     let accumulatedCredit = {total: 0, major: 0};
 
     return {
-        updateScoreAndCredit(isMajor = true, grade = 'B+', credit = 3) {
+        updateScoreAndCredit(isMajor, grade, credit) {
             accumulatedScore.total += gpaTable[grade] * credit;
             accumulatedCredit.total += credit;
             if(isMajor) {
@@ -13,12 +13,12 @@ const gpa = (function() {
                 accumulatedCredit.major += credit;
             }
         },
-        average(scope = 'total', gradeSystem = 4.5) {
+        average(scope, gradeSystem) {
             const calculatedGPA45 = (accumulatedScore[scope] / accumulatedCredit[scope]).toFixed(2);
             const calculatedGPA40 = (calculatedGPA45 * 4.0 / 4.5).toFixed(2);
             return (gradeSystem === 4.0) ? calculatedGPA40 : calculatedGPA45
         },
-        credit(scope = 'total') {return accumulatedCredit[scope]},
+        credit(scope) {return accumulatedCredit[scope]},
         init() {
             accumulatedScore = {total: 0, major: 0};
             accumulatedCredit = {total: 0, major: 0};
@@ -51,7 +51,7 @@ function addLecture(lectureObject) {
 removeLecutre 는 지정된 시간에 따라(함수의 인자로 받은 시간값)서 지연출력된다.
 > removeLecture('알고리즘', 2000);  // 2초뒤에 다시 결과 출력
 */
-function removeLecture(lectureToRemove = "name", timeout = 2000) {
+function removeLecture(lectureToRemove, timeout) {
     for (let i in lectureList) {
         const lecture = lectureList[i];
         if(lecture.name === lectureToRemove) {
