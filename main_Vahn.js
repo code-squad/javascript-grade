@@ -29,10 +29,10 @@ const gpa = (function() {
 })();
 
 // Iterate through course grade/credit & log calculated GPA
-function showGrade(dataArr) {
+function showGrade(lectureList) {
     gpa.init();
-    for (let course of dataArr) {
-        gpa.updateScoreAndCredit(course.major, course.grade, course.credit);       
+    for (let {major, grade, credit} of lectureList) {
+        gpa.updateScoreAndCredit(major, grade, credit);       
     }
 
     console.log(`4.5 기준 총평점 : ${gpa.average('total')} (4.0기준은 ${gpa.average('total',4.0)}), 전공평점: ${gpa.average('major')} (4.0기준은 ${gpa.average('major', 4.0)}), 이수학점: ${gpa.credit('total')}, 전공이수학점: ${gpa.credit('major')}`);    
@@ -75,7 +75,7 @@ function groupLecturesByGrade(lectureList) {
     const lecturesWithSameGrade = {'A+': [], 'A': [], 'B+': [], 'B': [], 'C+': [], 'C': [], 'D': []};
     // 수업들을 평점별로 묶어 저장
     for (let lecture of lectureList) {
-        const grade = lecture.grade;
+        const {grade} = lecture;
         lecturesWithSameGrade[grade].push(lecture);
     }
     // 각 평점별 수업 배열을 학점순으로 정렬
