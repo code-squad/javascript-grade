@@ -41,13 +41,20 @@ let addLecture = function (newname, newgrade, newcredit, newmajor) {
     })
     showGrade(gradesData, fourPointFiveRating);
 }
+//  기존과목을 삭제하는 함수
+let removeLecture = function (gradeName, time) {
 
+    gradesData.forEach(v => {
+        if (v.name === gradeName) {
+            gradesData.splice(gradesData.indexOf(v), 1);
+        }
+    })
+    setTimeout( () => { showGrade(gradesData, fourPointFiveRating) }, time)
+}
 // 학점데이터의 총 이수학점을 구하는 함수
 let getTotalOfCredits = function (gradesData) {
     let totalOfCredits = 0;
-    gradesData.forEach(function (v) {
-        totalOfCredits += v.credit;
-    });
+    gradesData.forEach(v => { totalOfCredits += v.credit; });
     return totalOfCredits.toFixed(2);
 };
 // 성적을 계산하는 함수 (성적 * 이수학점)을 모두더한다
@@ -86,7 +93,7 @@ let getTotalofMajorCredit = function (gradesData) {
     return TotalofMajorCredit;
 };
 // 출력함수
-function showGrade(gradesData, rating) {
+let showGrade = function (gradesData, rating) {
     console.log('(4.0)기준 총 평점 : ' + calculateCreditUserwant(gradesData, rating, 4.0));
     console.log('(4.5)기준 총 평점 : ' + calculateFourPointFiveCredit(gradesData, rating));
     console.log('(4.0)기준 전공 학점 : ' + calculateCreditUserwant(filterlingMajorGradeObj(gradesData), rating, 4.0));
@@ -95,6 +102,6 @@ function showGrade(gradesData, rating) {
     console.log('총 전공이수학점 : ' + getTotalofMajorCredit(gradesData));
 }
 
-showGrade(gradesData, fourPointFiveRating);
+// showGrade(gradesData, fourPointFiveRating);
 addLecture('알고리즘', 'A', 3, true);
-
+removeLecture('알고리즘', 2000);
