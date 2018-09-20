@@ -18,6 +18,18 @@ const data = [{
     },
 ];
 
+const fourPointFiveTable = {
+    'A+': 4.5,
+    'A': 4.0,
+    'B+': 3.5,
+    'B': 3.0,
+    'C+': 2.5,
+    'C': 2.0,
+    'D+': 1.5,
+    'D': 1.0,
+    'F': 0,
+}
+
 function calculateCredits(data) {
     let grossCredits = 0;
     let grossMajorCredits = 0;
@@ -33,17 +45,6 @@ function calculateCredits(data) {
 function calculatePoints(data) {
     let grossPoints = 0;
     let grossMajorPoints = 0;
-    fourPointFiveTable = {
-        'A+': 4.5,
-        'A': 4.0,
-        'B+': 3.5,
-        'B': 3.0,
-        'C+': 2.5,
-        'C': 2.0,
-        'D+': 1.5,
-        'D': 1.0,
-        'F': 0,
-    }
 
     for (const i in data) {
         grossPoints += (data[i].credit * fourPointFiveTable[data[i]['grade']]);
