@@ -86,7 +86,7 @@ function sortGradeDataOrder(gradeData, oneGradeData, gradeValue) {
     if(oneGradeData[0] === undefined) {
         return;
     }
-    let sortedScoreArray = sortCreditDataOrder(result)
+    let sortedScoreArray = sortCreditDataOrder(oneGradeData)
     sortedScoreArray.forEach(sortedObject => {
         console.log(sortedObject.name, sortedObject.grade, sortedObject.credit)
     })
@@ -99,11 +99,12 @@ function sortGrade(gradeData) {
     console.log('')
     gradeArrays.forEach(value => {
         let oneGradeData = []
-        sorting(gradeData, oneGradeData, value)
+        sortGradeDataOrder(gradeData, oneGradeData, value)
     })
     console.log('--------------------')
 }
 
+sortGrade(data)
 //점수를모아 새로운 배열을 만드는 함수
 function getClassGrade(classData) {
     const classGrade = classData.map(classObject => {
