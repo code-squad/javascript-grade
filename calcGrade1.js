@@ -43,9 +43,10 @@ const gradeScoreObject = {
     'F': 0
 }
 
+//성적순서를 충족시키기위한 배열
 const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
-//1. 강의를 추가하는 함수
 
+//강의를 추가하는 함수
 function addLecture(className, classGrade, classCredit, classMajor) {
     var newLecture = {
         'name': className,
@@ -57,7 +58,7 @@ function addLecture(className, classGrade, classCredit, classMajor) {
     showGrade(data)
 }
 
-//2. 강의를 제거하는 함수
+//강의를 제거하는 함수
 function removeLecture(className, PrintTime) {
     let newData = data.filter(object => object.name !== className)
     data = newData
@@ -66,9 +67,7 @@ function removeLecture(className, PrintTime) {
     }, PrintTime)
 }
 
-//3. 강의를 정렬해주는 함수
-//3-1. data 를 입력받아 학점을 정렬해주는 함수
-// sort이용해서 정렬
+//학점순으로 정렬해주는 함수
 function sortCreditDataOrder(gradeData) {
     var creditSortedData = gradeData.sort((beforeValue, value) => {
         if (beforeValue.credit > value.credit) return -1
@@ -77,32 +76,35 @@ function sortCreditDataOrder(gradeData) {
     return creditSortedData
 }
 
-//문제가생김. => 성적으로 이루어진 배열을 credit으로 다시 정렬해야함
-//우선 배열을 만들고. sort는 credit에서만 실행하고
-//각각성적에따라 push. ->너무하드코딩 좋은방법이없을까
+//성적순으로 정렬해주는 함수
+function sortGradeDataOrder(gradeData, oneGradeData, gradeValue) {
+    gradeData.forEach(object => {
+        if(gradeValue === object.grade) {
+            oneGradeData.push(object)
+        }
+    })
+    if(oneGradeData[0] === undefined) {
+        return;
+    }
+    let sortedScoreArray = sortCreditDataOrder(result)
+    sortedScoreArray.forEach(sortedObject => {
+        console.log(sortedObject.name, sortedObject.grade, sortedObject.credit)
+    })
+    console.log('')
+}
+
+//정렬된걸 출력해주는 함수
 function sortGrade(gradeData) {
     console.log('--------------------')
+    console.log('')
     gradeArrays.forEach(value => {
         let oneGradeData = []
-        gradeData.forEach(object => {
-            if(value === object.grade) {
-                oneGradeData.push(object)
-            }
-        })
-        if(oneGradeData[0] === undefined) {
-            return;
-        }
-        let sortedscoreArray = sortCreditDataOrder(oneGradeData)
-        sortedscoreArray.forEach(sortedObject => {
-            console.log(sortedObject.name, sortedObject.grade, sortedObject.credit)
-        })
-        console.log('')
+        sorting(gradeData, oneGradeData, value)
     })
     console.log('--------------------')
 }
 
-sortGrade(data)
-
+//점수를모아 새로운 배열을 만드는 함수
 function getClassGrade(classData) {
     const classGrade = classData.map(classObject => {
         return classObject.grade
@@ -110,6 +112,7 @@ function getClassGrade(classData) {
     return classGrade
 }
 
+//학점을 모아 새로운 배열을 만드는 함수
 function getClassCredit(classData) {
     const classCredit = classData.map(classObject => {
         return classObject.credit
@@ -117,6 +120,7 @@ function getClassCredit(classData) {
     return classCredit
 }
 
+//전공점수를 모아 새로운 배열을 만드는 함수
 function getMajorClassGrade(classData) {
     const majorClassGrade = []
     classData.forEach(classObject => {
@@ -127,7 +131,7 @@ function getMajorClassGrade(classData) {
     return majorClassGrade
 }
 
-
+//전공학점을 모아 새로운 배열을 만드는 함수
 function getMajorClassCredit(classData) {
     const majorClassCredit = []
     classData.forEach(classObject => {
@@ -138,7 +142,11 @@ function getMajorClassCredit(classData) {
     return majorClassCredit
 }
 
+//학점평균을 내는 함수
 function getGradeAverage(classGrade, classCredit) {
+    if(classGrade[0] === 0) {
+        return 0;
+    }
     const gradeScore = classGrade.map(gradeValue => {
         return gradeScoreObject[gradeValue]
     })
@@ -153,26 +161,28 @@ function getGradeAverage(classGrade, classCredit) {
     })
     return summedGradeScore / summedClassCredit
 }
-
+//4.5만점기준 점수를 4.0기준 만점점수 기준으로 바꾸어주는 함수
 function convertGradeScore(score) {
     return (score / 4.5 * 4.0).toFixed(2)
 }
 
+//결과를 출력해주는 함수
 function printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit) {
     console.log('총평점 : ' + gradeAverage + '(4.0 기준 : ' + convertGradeScore(gradeAverage) + ')');
-    console.log('전공평점 : ' + majorGradeAverage + '(4.0기준 : ' + convertGradeScore(gradeAverage) + ')');
+    console.log('전공평점 : ' + majorGradeAverage + '(4.0기준 : ' + convertGradeScore(majorGradeAverage) + ')');
     console.log('이수학점 : ' + sumOfCredit)
     console.log('전공이수학점 : ' + sumOfMajorCredit)
 }
 
+//총평점과 전공평점, 이수학점, 전공이수학점을 계산해주는 함수
 function showGrade(gradeData) {
     const classGrade = getClassGrade(gradeData)
     const classCredit = getClassCredit(gradeData)
     const majorClassGrade = getMajorClassGrade(gradeData)
     const majorClassCredit = getMajorClassCredit(gradeData)
     if (majorClassGrade[0] === undefined) {
-        console.log('전공수업을 듣지않았으니 다시 듣고오세요')
-        return;
+        majorClassGrade[0] = 0
+        majorClassCredit[0] = 0
     }
     const gradeAverage = getGradeAverage(classGrade, classCredit).toFixed(2)
     const majorGradeAverage = getGradeAverage(majorClassGrade, majorClassCredit).toFixed(2)
@@ -184,5 +194,6 @@ function showGrade(gradeData) {
     })
     printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit)
 }
+
 
 
