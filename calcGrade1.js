@@ -58,21 +58,31 @@ function removeLecture(className, PrintTime) {
     }, PrintTime)
 }
 
-removeLecture('교양영어', 3000)
 //3. 강의를 정렬해주는 함수
 //3-1. data 를 입력받아 학점을 정렬해주는 함수
 // sort이용해서 정렬
+function sortDataOrder(data) {
+    var sortedData = data.sort((beforeValue, value) =>{
+        if(gradeScoreObject[beforeValue.grade] > gradeScoreObject[value.grade]) {
+            return -1
+        } else if (gradeScoreObject[beforeValue.grade] < gradeScoreObject[value.grade]) {
+            return 1
+        }
+    })
+    return sortedData
+}
+var a = sortDataOrder(data);
+console.log(a) 
 
 function sortGrade(data) {
     //정렬 후
-    //--------를먼저 출력
+    //---------------부터출력
     //forEach 이용해서 전부console
     //data[0].name, data[0].grade, data[0].credit
     //후------------출력
 }
 
 function getClassGrade(classData) {
-    debugger;
     const classGrade = classData.map(classObject => {
         return classObject.grade
     })
