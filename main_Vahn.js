@@ -13,12 +13,14 @@ const gpa = (function() {
                 accumulatedCredit.major += credit;
             }
         },
-        average(scope, gradeSystem) {
-            const calculatedGPA45 = (accumulatedScore[scope] / accumulatedCredit[scope]).toFixed(2);
-            const calculatedGPA40 = (calculatedGPA45 * 4.0 / 4.5).toFixed(2);
-            return (gradeSystem === 4.0) ? calculatedGPA40 : calculatedGPA45
+        average(lectureType, gradeSystem = 4.5) {
+            debugger;
+            const calculatedGPA45 = (accumulatedScore[lectureType] / accumulatedCredit[lectureType]).toFixed(2);
+            if (gradeSystem === 4.5) return calculatedGPA45
+            
+            return (calculatedGPA45 * gradeSystem / 4.5).toFixed(2);
         },
-        credit(scope) {return accumulatedCredit[scope]},
+        credit(lectureType) {return accumulatedCredit[lectureType]},
         init() {
             accumulatedScore = {total: 0, major: 0};
             accumulatedCredit = {total: 0, major: 0};
@@ -29,7 +31,6 @@ const gpa = (function() {
 // Iterate through course grade/credit & log calculated GPA
 function showGrade(dataArr) {
     gpa.init();
-    debugger;
     for (let course of dataArr) {
         gpa.updateScoreAndCredit(course.major, course.grade, course.credit);       
     }
