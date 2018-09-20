@@ -53,10 +53,9 @@ removeLecutre 는 지정된 시간에 따라(함수의 인자로 받은 시간�
 > removeLecture('알고리즘', 2000);  // 2초뒤에 다시 결과 출력
 */
 function removeLecture(lectureToRemove, timeout) {
-    for (let i in lectureList) {
-        const lecture = lectureList[i];
-        if(lecture.name === lectureToRemove) {
-            lectureList.splice(i,1);
+    for (let [idx, {name: lectureName}] of lectureList.entries()) {
+        if(lectureName === lectureToRemove) {
+            lectureList.splice(idx,1);
         }
     }
 
