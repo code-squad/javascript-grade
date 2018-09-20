@@ -1,4 +1,4 @@
-var data = [
+let data = [
     {
         'name': '데이터베이스',
         'grade': 'B',
@@ -16,6 +16,12 @@ var data = [
         'grade': 'C+',
         'credit': 1,
         'major': false
+    },
+    {
+        'name': '프론트엔드마스터',
+        'grade': 'A+',
+        'credit': 3,
+        'major': true
     }
 ];
 //영어학점을 숫자로 변환
@@ -45,10 +51,14 @@ function addLecture(className, classGrade, classCredit, isClassMajor) {
 
 //2. 강의를 제거하는 함수
 function removeLecture(className, PrintTime) {
-    //forEach,
-    //setTimeOut사용
+    let newData = data.filter(object => object.name !== className)
+    data = newData
+    setTimeout( () => {
+        showGrade(data)
+    }, PrintTime)
 }
 
+removeLecture('교양영어', 3000)
 //3. 강의를 정렬해주는 함수
 //3-1. data 를 입력받아 학점을 정렬해주는 함수
 // sort이용해서 정렬
@@ -62,6 +72,7 @@ function sortGrade(data) {
 }
 
 function getClassGrade(classData) {
+    debugger;
     const classGrade = classData.map(classObject => {
         return classObject.grade
     })
@@ -128,6 +139,10 @@ function showGrade(gradeData) {
     const classCredit = getClassCredit(gradeData)
     const majorClassGrade = getMajorClassGrade(gradeData)
     const majorClassCredit = getMajorClassCredit(gradeData)
+    if(majorClassGrade[0] === undefined) {
+        console.log('전공수업을 듣지않았으니 다시 듣고오세요')
+        return;
+    }
     const gradeAverage = getGradeAverage(classGrade, classCredit).toFixed(2)
     const majorGradeAverage = getGradeAverage(majorClassGrade, majorClassCredit).toFixed(2)
     const sumOfCredit = classCredit.reduce((beforeValue, currentValue) => {
