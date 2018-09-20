@@ -14,20 +14,14 @@ const data =  [
         'major' : true
     },
     {
-        'name' : '철학', 
-        'grade' : 'A-', 
-        'credit' : 2,
-        'major' : false
-    },
-    {
         'name' : '데이터베이스', 
-        'grade' : 'B-', 
+        'grade' : 'B', 
         'credit' : 2,
         'major' : false
     },
     {
         'name' : '교양영어', 
-        'grade' : 'A+', 
+        'grade' : 'C+', 
         'credit' : 2,
         'major' : true
     },
@@ -39,7 +33,7 @@ const data =  [
     },
     {
         'name' : '철학', 
-        'grade' : 'A-', 
+        'grade' : 'A+', 
         'credit' : 2,
         'major' : false
     }
@@ -91,18 +85,18 @@ function checkMajor(data){
 // 결과 메세지
 
 function showGrade(data){
-    let all_data_calculation = calculateCredit(data),
-        major_data_calculation = calculateCredit(data),
-        all_data_number = checkCreditNumber(data),
-        major_data_number = checkCreditNumber(checkMajor(data)),
-        exchanged_all_grades = exchangeGrades(4.0, all_data_calculation),
-        exchanged_major_grades = exchangeGrades(4.0, major_data_calculation);
+    let total_calculation = calculateCredit(data).toFixed(2),
+        major_calculation = calculateCredit(checkMajor(data)).toFixed(2),
+        data_number = checkCreditNumber(data),
+        major_number = checkCreditNumber(checkMajor(data)),
+        exchanged_grades = exchangeGrades(4.0, total_calculation),
+        exchanged_major_grades = exchangeGrades(4.0, major_calculation);
     
     let result_message = 
-`4.5기준 총평점 : ${all_data_calculation}(4.0기준은 ${exchanged_all_grades}),
-전공평점:${major_data_calculation}(4.0기준은 ${exchanged_major_grades}),  
-이수학점:${all_data_number}, 
-전공이수학점:${major_data_number}`;
+`4.5기준 총평점 : ${total_calculation}(4.0기준은 ${exchanged_grades}),
+전공평점:${major_calculation}(4.0기준은 ${exchanged_major_grades}),  
+이수학점:${data_number},
+전공이수학점:${major_number}`;
     
     console.log(result_message);
     return result_message;
@@ -117,7 +111,9 @@ function exchangeGrades(conversionNumber, grade){
 // 이수학점
 
 function checkCreditNumber(data){
-    return data.reduce((accum, curr) => { return  accum + curr.credit; },0);
+    return data.reduce((accum, curr) => { 
+        return  accum + curr.credit; 
+    },0);
 }
 
 // 학점 연산
@@ -139,11 +135,21 @@ function addLecture(newData){
 
 function removeLecture(deleteData, timeout){
     setTimeout(() => {
-
         let update_data = data.filter((d) => d.name !== deleteData);
         showGrade(declareData(update_data));
-
     }, timeout);
+}
+
+// sort message
+
+function sortMessage(data){
+    console.log('-------------');
+    data.reduce((acc,curr) => {
+        if(acc.grade[0] && acc.grade[0] !== curr.grade[0]) {console.log()};
+        console.log(`${curr.name}, ${curr.grade}, ${curr.credit}학점`);
+        return curr;
+    },{grade: ''});
+    console.log('-------------');
 }
 
 // 데이터 정렬
@@ -158,19 +164,12 @@ function sortMyGrade(data){
     data.sort((acc, curr) => { 
         if(acc.grade === curr.grade) return +(acc.credit < curr.credit);
     });
-    console.log('-------------');
-    data.reduce((acc,curr) => {
-        if(acc.grade[0] && acc.grade[0] !== curr.grade[0]) console.log();
-        console.log(`${curr.name}, ${curr.grade}, ${curr.credit}학점`);
-        return curr;
-    },{grade: ''});
-    console.log('-------------');
+    sortMessage(data);
 };
 
 
 // declareData(data);
-// console.log(data);
 // showGrade(declareData(data));
-sortMyGrade(data);
+// sortMyGrade(data);
 // removeLecture('철학', 2000);
 // addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true});
