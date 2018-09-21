@@ -6,7 +6,7 @@ const gpa = (function() {
     let lectureListArr = [];
 
     return {
-        updateScoreAndCredit(isMajor, grade, credit) { //전공여부, 학점, 평점 정보를 계산용 객체에 저장한다
+        updateScoreAndCredit({major: isMajor, grade, credit}) { //전공여부, 학점, 평점 정보를 계산용 객체에 저장한다
             accumulatedScore.total += gpaTable[grade] * credit;
             accumulatedCredit.total += credit;
             if(isMajor) {
@@ -41,8 +41,8 @@ const gpa = (function() {
         showGrade() {
             // Iterate through course grade/credit & log calculated GPA
             gpa.init()
-            for (let {major, grade, credit} of lectureListArr) {
-                gpa.updateScoreAndCredit(major, grade, credit);       
+            for (let lecture of lectureListArr) {
+                gpa.updateScoreAndCredit(lecture);       
             }
         
             console.log(`4.5 기준 총평점 : ${gpa.getAverage('total')} (4.0기준은 ${gpa.getAverage('total',4.0)}), 전공평점: ${gpa.getAverage('major')} (4.0기준은 ${gpa.getAverage('major', 4.0)}), 이수학점: ${gpa.getCredit('total')}, 전공이수학점: ${gpa.getCredit('major')}`);    
