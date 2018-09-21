@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // 학점 계산기 modified4
+
+        // 과목 정보 객체 생성
+        var gradeData = [
+            {
+                'name': '데이터베이스',
+                'grade': 'A',
+                'credit': 3,
+                'major': false
+            },
+            {
+                'name': '교양영어',
+                'grade': 'A+',
+                'credit': 2,
+                'major': true
+            },
+            {
+                'name': '철학',
+                'grade': 'B+',
+                'credit': 1,
+                'major': false
+            },
+            {
+                'name': '컴퓨터공학',
+                'grade': 'C+',
+                'credit': 2,
+                'major': true
+            },
+            {
+                'name': '자료구조개론',
+                'grade': 'B+',
+                'credit': 2,
+                'major': true
+            },
+            {
+                'name': '빅데이터응용',
+                'grade': 'B',
+                'credit': 3,
+                'major': true
+            }
+        ];
+
+        // 객체 생성(네임 스페이스 설정)
+        const gradeInfo = {
+
+            // main 메소드 
+            showGradeInfo(gradeData, otherScale) {
+                this.sumGradeData(gradeData);
+                console.log(
+                    `${this.calGpaTotal(gradeData, otherScale)},  ${this.calGpaMajor(gradeData, otherScale)}, 총 이수학점: ${this.sumCredit}, 전공 이수학점: ${this.sumCreditMajor}`
+                );
+                console.log(
+                    `총과목 수: ${gradeData.length}\n전공과목 수: ${this.countMajor}`
+                );
+            },
+
+            // 4.5기준 학점 환산 척도
+            standardScale : {
+                "A+": 4.5,
+                "A": 4,
+                "B+": 3.5,
+                "B": 3,
+                "C+": 2.5,
+                "C": 2,
+                "D+": 1.5,
+                "D": 1
+            },
+
+            // 총 학점 합계, 전공 학점 합계, 전공 과목수, 총이수학점, 전공이수학점 구하기 메소드
+            // forEach 함수를 단 한 번만 이용하여 연산의 중복 방지.
+            sumGradeData(gradeData) {
+                this.sumPoint = 0; // 총 학점 합계
+                this.sumPointMajor = 0; // 전공 학점 합계
+                this.countMajor = 0; // 전공 과목수
+                this.sumCredit = 0; // 총 이수학점
+                this.sumCreditMajor = 0; // 전공 이수학점
+
+                // forEach 함수
+                gradeData.forEach(val => {
+                    this.sumPoint += this.standardScale[val.grade];
+                    this.sumCredit += val.credit;
+                    if (val.major) {  // 전공과목인 경우 별도의 변수에 할당
+                        this.sumPointMajor += this.standardScale[val.grade];
+                        this.countMajor += 1;
+                        this.sumCreditMajor += val.credit;
+                    }
+                });
+            },
+
+            // 총평점 계산 메소드
+            calGpaTotal(gradeData, otherScale) {
+                let gpaStandard = 0, // 4.5기준 평점
+                    gpaOtherScale = 0; // 기타 기준 평점
+                gpaStandard = (this.sumPoint / gradeData.length).toFixed(2);
+                gpaOtherScale = ((gpaStandard / 4.5) * otherScale).toFixed(2);
+                return `4.5기준 총평점: ${gpaStandard}(${otherScale}기준 ${gpaOtherScale})`;
+            },
+
+            // 전공평점 계산 메소드
+            calGpaMajor(gradeData, otherScale) {
+                let gpaStandard = 0,  // 4.5기준 평점
+                    gpaOtherScale = 0; // 기타 기준 평점
+                gpaStandard = (this.sumPointMajor / this.countMajor).toFixed(2);
+                gpaOtherScale = ((gpaStandard / 4.5) * otherScale).toFixed(2);
+                return `전공평점: ${gpaStandard}(${otherScale}기준 ${gpaOtherScale})`;
+            },
+        };
+
+        //main 메소드 호출(기타 기준 추가)
+        gradeInfo.showGradeInfo(gradeData, 4.3);
+
+    </script>
+
+</body>
+
+</html>
