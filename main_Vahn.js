@@ -3,6 +3,7 @@ const gpa = (function() {
     const gpaTable = {'A+': 4.5, A: 4, 'B+': 3.5, B: 3, 'C+': 2.5, C: 2, D: 1, F:0};
     let accumulatedScore = {total: 0, major: 0};
     let accumulatedCredit = {total: 0, major: 0};
+    let lectureListArr = [];
 
     return {
         updateScoreAndCredit(isMajor, grade, credit) { //전공여부, 학점, 평점 정보를 계산용 객체에 저장한다
@@ -13,6 +14,19 @@ const gpa = (function() {
                 accumulatedCredit.major += credit;
             }
         },
+        addLecture(...lectures) {
+            //새로운 과목을 추가하는 메소드. 객체 형태 과목정보들을 인자로 받는다. addLecture 를 호출하면 자동으로 다시 평점 결과 출력
+            for (let lecture of lectures) {lectureListArr.push(lecture)}
+            
+            showGrade(lectureListArr);
+        },
+        removeLecture(lectureName, timeout) {
+            //기존 과목을 삭제하는 메소드. 과목명과 타임아웃(ms)을 인자로 받는다. removeLecture를 호출하면 다시 평점 결과 출력
+            lectureListArr = lectureListArr.filter(({name}) => name !== lectureName);
+                
+            setTimeout(showGrade, timeout, lectureList);
+        },
+        getLectureList() {return lectureListArr},
         getAverage(lectureType, gradeSystem = 4.5) { // 전체수업 혹은 전공수업의 평균평점을 학점체계에 맞춰 반환한다
             const calculatedGPA45 = (accumulatedScore[lectureType] / accumulatedCredit[lectureType]).toFixed(2);
             if (gradeSystem === 4.5) return calculatedGPA45
@@ -37,25 +51,7 @@ function showGrade(lectureList) {
     console.log(`4.5 기준 총평점 : ${gpa.getAverage('total')} (4.0기준은 ${gpa.getAverage('total',4.0)}), 전공평점: ${gpa.getAverage('major')} (4.0기준은 ${gpa.getAverage('major', 4.0)}), 이수학점: ${gpa.getCredit('total')}, 전공이수학점: ${gpa.getCredit('major')}`);    
 }
 
-/*
-새로운 과목을 추가하는 메소드. 객체 형태 과목정보를 인자로 받는다. addLecture 를 호출하면 자동으로 다시 평점 결과 출력
-> addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
-*/
-function addLecture(lectureList, lectureObject) {
-    lectureList.push(lectureObject);
-    showGrade(lectureList);
-}
 
-/*
-기존 과목을 삭제하는 메소드. 과목명만 인자로 받는다. removeLecture를 호출하면 다시 평점 결과 출력
-removeLecutre 는 지정된 시간에 따라(함수의 인자로 받은 시간값)서 지연출력된다.
-> removeLecture('알고리즘', 2000);  // 2초뒤에 다시 결과 출력
-*/
-function removeLecture(lectureList, lectureToRemove, timeout) {
-    lectureList = lectureList.filter(({name}) => name !== lectureToRemove);
-    
-    setTimeout(showGrade, timeout, lectureList);
-}
 
 //수업들의 이수학점/평점을 서식에 맞게 출력하는 메소드. 수업목록 행렬을 인자로 받는다.
 function sortGrade(lectureList) {
@@ -107,8 +103,8 @@ function stringifyLectures(lecturesWithSameGrade) { // 객체로 된 수업목�
 
 
 //Test Cases
-
-const lectureList =  [ 
+/*
+const data =  [ 
     {
         'name' : '데이터베이스', 
         'grade' : 'A', 
@@ -165,17 +161,18 @@ const lectureList =  [
     }
 ];
 
+gpa.addLecture(...data);
 
-/*
+
 const lectureToAdd = {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
-addLecture(lectureList, lectureToAdd);
+gpa.addLecture(lectureToAdd);
 //> 4.5 기준 총평점 : 1.36 (4.0기준은 1.21), 전공평점: 1.35 (4.0기준은 1.20), 이수학점: 22, 전공이수학점: 10
 
-removeLecture(lectureList, '자료구조와 알고리즘', 1000);
+gpa.removeLecture('자료구조와 알고리즘', 1000);
 //4.5 기준 총평점 : 1.42 (4.0기준은 1.26), 전공평점: 1.50 (4.0기준은 1.33), 이수학점: 19, 전공이수학점: 7
 
 
-sortGrade(lectureList);
+gpa.sortGrade(lectureList);
 /*
     -------------
     '데이터베이스', 'A' , 3학점
