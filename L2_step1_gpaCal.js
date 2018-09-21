@@ -30,10 +30,29 @@ const fourPointFiveTable = {
     'F': 0,
 }
 
-function addLecture(newLecture){
-    data.push(newLecture);
-    return gpaCalculator(4.5);
+function addLecture(newLecture) {
+    const newData = data;
+    newData.push(newLecture);
+    const result = gpaCalculator(newData, 4.5);
+    console.log(result);
 }
+
+function removeLecture(lecture, time) {
+    setTimeout(function () {
+        const newData = [];
+        for (i = 0; i < data.length; i++) {
+            if (data[i].name !== lecture) {
+                newData.push(data[i]);
+            }
+        }
+        console.log(newData);
+
+        const result = gpaCalculator(newData, 4.5);
+        console.log(result);
+    }, time);
+}
+
+
 
 function calculateCredits(data) {
     let grossCredits = 0;
@@ -68,11 +87,11 @@ function getValues(data) {
     return values;
 }
 
-function gpaCalculator(scale) {
+function gpaCalculator(data, scale) {
     const values = getValues(data);
-    const template = 
-    //4.5 기준: 총 평점 = ${values.gpa} 전공 평점 = ${values.mgpa} 
-    `
+    const template =
+        //4.5 기준: 총 평점 = ${values.gpa} 전공 평점 = ${values.mgpa} 
+        `
     ${scale.toFixed(1)} 기준: 총 평점 = ${((values.gpa) * (scale / 4.5)).toFixed(2)} 전공 평점 = ${((values.mgpa) * (scale / 4.5)).toFixed(2)}
     이수 학점: ${values.grossCredits}
     전공 이수 학점: ${values.grossMajorCredits}`
@@ -81,5 +100,10 @@ function gpaCalculator(scale) {
 
 
 
-let result = addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'Major' : true}); 
-console.log(result);
+addLecture({
+    'name': '알고리즘',
+    'grade': 'B',
+    'credit': 3,
+    'Major': true
+});
+removeLecture('교양영어', 2000); // 2초뒤에 다시 결과 출력
