@@ -5,7 +5,7 @@ const gpa = (function() {
     let accumulatedCredit = {total: 0, major: 0};
 
     return {
-        updateScoreAndCredit(isMajor, grade, credit) {
+        updateScoreAndCredit(isMajor, grade, credit) { //전공여부, 학점, 평점 정보를 계산용 객체에 저장한다
             accumulatedScore.total += gpaTable[grade] * credit;
             accumulatedCredit.total += credit;
             if(isMajor) {
@@ -13,13 +13,13 @@ const gpa = (function() {
                 accumulatedCredit.major += credit;
             }
         },
-        average(lectureType, gradeSystem = 4.5) {
+        getAverage(lectureType, gradeSystem = 4.5) { // 전체수업 혹은 전공수업의 평균평점을 학점체계에 맞춰 반환한다
             const calculatedGPA45 = (accumulatedScore[lectureType] / accumulatedCredit[lectureType]).toFixed(2);
             if (gradeSystem === 4.5) return calculatedGPA45
             
             return (calculatedGPA45 * gradeSystem / 4.5).toFixed(2);
         },
-        credit(lectureType) {return accumulatedCredit[lectureType]},
+        getCredit(lectureType) {return accumulatedCredit[lectureType]}, //전체수업 혹은 전공수업의 총 이수학점을 반환한다
         init() {
             accumulatedScore = {total: 0, major: 0};
             accumulatedCredit = {total: 0, major: 0};
@@ -34,7 +34,7 @@ function showGrade(lectureList) {
         gpa.updateScoreAndCredit(major, grade, credit);       
     }
 
-    console.log(`4.5 기준 총평점 : ${gpa.average('total')} (4.0기준은 ${gpa.average('total',4.0)}), 전공평점: ${gpa.average('major')} (4.0기준은 ${gpa.average('major', 4.0)}), 이수학점: ${gpa.credit('total')}, 전공이수학점: ${gpa.credit('major')}`);    
+    console.log(`4.5 기준 총평점 : ${gpa.getAverage('total')} (4.0기준은 ${gpa.getAverage('total',4.0)}), 전공평점: ${gpa.getAverage('major')} (4.0기준은 ${gpa.getAverage('major', 4.0)}), 이수학점: ${gpa.getCredit('total')}, 전공이수학점: ${gpa.getCredit('major')}`);    
 }
 
 /*
@@ -65,7 +65,7 @@ function sortGrade(lectureList) {
     console.log(`-------------\n${resultStr}\n-------------`);
 }
 
-function groupLecturesByGrade(lectureList) {
+function groupLecturesByGrade(lectureList) { // 수업목록을 평점순 (동일 평점 내에서는 이수학점순)으로 정렬한 객체를 반환한다
     const lecturesByGrade = {};
     // 수업들을 평점별로 묶어 저장
     for (let lecture of lectureList) {
@@ -80,13 +80,13 @@ function groupLecturesByGrade(lectureList) {
     return lecturesByGrade
 }
 
-function stringifyLectures(lecturesWithSameGrade) {
+function stringifyLectures(lecturesWithSameGrade) { // 객체로 된 수업목록을 문자열로 반환한다
     let resultStr = ``;
     let orderedLecturesArray = [];
 
     //평점별 수업목록 객체를 1단짜리 배열로 통합
-    for (let targetGrade in lecturesWithSameGrade) {
-        orderedLecturesArray.push(...lecturesWithSameGrade[targetGrade]);
+    for (let grade in lecturesWithSameGrade) {
+        orderedLecturesArray.push(...lecturesWithSameGrade[grade]);
     }
     //위 배열 속 수업 정보들에 출력용 문자열을 추가
     for (let lecture of orderedLecturesArray) {
