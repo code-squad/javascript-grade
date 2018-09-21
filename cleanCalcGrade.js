@@ -16,22 +16,10 @@ let data = [
         'grade': 'C+',
         'credit': 1,
         'major': false
-    },
-    {
-        'name': '프론트엔드마스터',
-        'grade': 'A+',
-        'credit': 3,
-        'major': true
-    },
-    {
-        'name': '백엔드마스터',
-        'grade': 'A+',
-        'credit': 2,
-        'major': false
     }
 ];
 //영어학점을 숫자로 변환
-const gradeScoreObject = {
+const scoreObject = {
     'A+': 4.5,
     'A': 4,
     'B+': 3.5,
@@ -48,7 +36,7 @@ const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
 
 //강의를 추가하는 함수
 function addLecture(className, classGrade, classCredit, classMajor) {
-    var newLecture = {
+    const newLecture = {
         'name': className,
         'grade': classGrade,
         'credit': classCredit,
@@ -59,108 +47,92 @@ function addLecture(className, classGrade, classCredit, classMajor) {
 }
 
 //강의를 제거하는 함수
-function removeLecture(className, PrintTime) {
-    let newData = data.filter(object => object.name !== className)
-    data = newData
-    setTimeout(() => {
-        showGrade(data)
-    }, PrintTime)
+function removeLecture(className, printTime) {
+    let deletedData = data.filter(object => object.name !== className)
+    data = deletedData
+    setTimeout(() => showGrade(data), printTime)
 }
 
 //학점순으로 정렬해주는 함수
-function sortCreditDataOrder(gradeData) {
-    var creditSortedData = gradeData.sort((beforeValue, value) => {
-        if (beforeValue.credit > value.credit) return -1
-        if (beforeValue.credit < value.credit) return 1
+function sortCreditOrder(gradeData) {
+    let sortedCreditData = gradeData.sort((beforeVal, val) => {
+        if (beforeVal.credit > val.credit) return -1
+        if (beforeVal.credit < val.credit) return 1
     })
-    return creditSortedData
+    return sortedCreditData
 }
 
 //성적순으로 정렬해주는 함수
-function sortGradeDataOrder(gradeData, oneGradeData, gradeValue) {
-    gradeData.forEach(object => {
-        if(gradeValue === object.grade) {
-            oneGradeData.push(object)
-        }
-    })
-    if(oneGradeData[0] === undefined) {
-        return;
-    }
-    let sortedScoreArray = sortCreditDataOrder(oneGradeData)
-    sortedScoreArray.forEach(sortedObject => {
+function sortGradeOrder(classData, gradeValue) {
+    const oneGradeData = classData.filter(object => gradeValue === object.grade)
+    let sortedArray = sortCreditOrder(oneGradeData)
+    sortedArray.forEach(sortedObject => {
         console.log(sortedObject.name, sortedObject.grade, sortedObject.credit)
     })
     console.log('')
 }
 
 //정렬된걸 출력해주는 함수
-function sortGrade(gradeData) {
+function sortGrade(classData) {
     console.log('--------------------')
     console.log('')
     gradeArrays.forEach(value => {
-        let oneGradeData = []
-        sortGradeDataOrder(gradeData, oneGradeData, value)
+        sortGradeOrder(classData, value)
     })
     console.log('--------------------')
 }
 
 sortGrade(data)
 //점수를모아 새로운 배열을 만드는 함수
-function getClassGrade(classData) {
-    const classGrade = classData.map(classObject => {
-        return classObject.grade
-    })
+function getGradeArrays(classData) {
+    const classGrade = classData.map(classObject => classObject.grade)
     return classGrade
 }
 
 //학점을 모아 새로운 배열을 만드는 함수
-function getClassCredit(classData) {
-    const classCredit = classData.map(classObject => {
-        return classObject.credit
-    })
+function getCreditArrays(classData) {
+    const classCredit = classData.map(classObject => classObject.credit)
     return classCredit
 }
 
 //전공점수를 모아 새로운 배열을 만드는 함수
-function getMajorClassGrade(classData) {
-    const majorClassGrade = []
+function getMajorGradeArrays(classData) {
+    const majorGradeArrays = []
     classData.forEach(classObject => {
         if (classObject.major) {
-            majorClassGrade.push(classObject.grade)
+            majorGradeArrays.push(classObject.grade)
         }
     })
-    return majorClassGrade
+    return majorGradeArrays
 }
 
 //전공학점을 모아 새로운 배열을 만드는 함수
-function getMajorClassCredit(classData) {
-    const majorClassCredit = []
+function getMajorCreditArrays(classData) {
+    const majorCreditArrays = []
     classData.forEach(classObject => {
         if (classObject.major) {
-            majorClassCredit.push(classObject.credit)
+            majorCreditArrays.push(classObject.credit)
         }
     })
-    return majorClassCredit
+    return majorCreditArrays
 }
 
 //학점평균을 내는 함수
-function getGradeAverage(classGrade, classCredit) {
-    if(classGrade[0] === 0) {
+function getGradeAverage(gradeArrays, creditArrays) {
+    if(gradeArrays[0] === 0) {
         return 0;
     }
-    const gradeScore = classGrade.map(gradeValue => {
-        return gradeScoreObject[gradeValue]
+    const scoreArrays = gradeArrays.map(gradeValue => scoreObject[gradeValue])
+    const multedScoreArrays = creditArrays.map((creditValue, index) => {
+        return scoreArrays[index] * creditArrays[index]
     })
-    const multedGradeScore = classCredit.map((creditValue, index) => {
-        return gradeScore[index] * classCredit[index]
+    const summedScore = multedScoreArrays.reduce((accumulatedVal, currentVal) => {
+        return accumulatedVal + currentVal
     })
-    const summedGradeScore = multedGradeScore.reduce((beforeValue, currentValue) => {
-        return beforeValue + currentValue
+    const summedCredit = creditArrays.reduce((accumulatedVal, currentVal) => {
+        return accumulatedVal + currentVal
     })
-    const summedClassCredit = classCredit.reduce((beforeValue, currentValue) => {
-        return beforeValue + currentValue
-    })
-    return summedGradeScore / summedClassCredit
+    return summedScore / summedCredit
 }
 //4.5만점기준 점수를 4.0기준 만점점수 기준으로 바꾸어주는 함수
 function convertGradeScore(score) {
@@ -168,29 +140,29 @@ function convertGradeScore(score) {
 }
 
 //결과를 출력해주는 함수
-function printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit) {
+function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoad) {
     console.log('총평점 : ' + gradeAverage + '(4.0 기준 : ' + convertGradeScore(gradeAverage) + ')');
     console.log('전공평점 : ' + majorGradeAverage + '(4.0기준 : ' + convertGradeScore(majorGradeAverage) + ')');
-    console.log('이수학점 : ' + sumOfCredit)
-    console.log('전공이수학점 : ' + sumOfMajorCredit)
+    console.log('이수학점 : ' + creditLoad)
+    console.log('전공이수학점 : ' + majorCreditLoad)
 }
 
 //총평점과 전공평점, 이수학점, 전공이수학점을 계산해주는 함수
 function showGrade(gradeData) {
-    const classGrade = getClassGrade(gradeData)
-    const classCredit = getClassCredit(gradeData)
-    const majorClassGrade = getMajorClassGrade(gradeData)
-    const majorClassCredit = getMajorClassCredit(gradeData)
-    if (majorClassGrade[0] === undefined) {
-        majorClassGrade[0] = 0
-        majorClassCredit[0] = 0
+    const gradeArrays = getGradeArrays(gradeData)
+    const creditArrays = getClassArrays(gradeData)
+    const majorgradeArrays = getMajorGradeArrays(gradeData)
+    const majorCreditArrays = getMajorCreditArrays(gradeData)
+    if (majorgradeArrays[0] === undefined) {
+        majorgradeArrays[0] = 0
+        majorCreditArrays[0] = 0
     }
-    const gradeAverage = getGradeAverage(classGrade, classCredit).toFixed(2)
-    const majorGradeAverage = getGradeAverage(majorClassGrade, majorClassCredit).toFixed(2)
-    const sumOfCredit = classCredit.reduce((beforeValue, currentValue) => {
+    const gradeAverage = getGradeAverage(gradeArrays, creditArrays).toFixed(2)
+    const majorGradeAverage = getGradeAverage(majorgradeArrays, majorCreditArrays).toFixed(2)
+    const sumOfCredit = creditArrays.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     })
-    const sumOfMajorCredit = majorClassCredit.reduce((beforeValue, currentValue) => {
+    const sumOfMajorCredit = majorCreditArrays.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     })
     printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit)
