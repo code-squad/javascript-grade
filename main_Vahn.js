@@ -5,7 +5,6 @@ const gpa = (function() {
     let accumulatedCredit = {total: 0, major: 0};
 
     return {
-<<<<<<< HEAD
         updateScoreAndCredit(isMajor, grade, credit) {
             accumulatedScore.total += gpaTable[grade] * credit;
             accumulatedCredit.total += credit;
@@ -15,28 +14,10 @@ const gpa = (function() {
             }
         },
         average(lectureType, gradeSystem = 4.5) {
-            debugger;
             const calculatedGPA45 = (accumulatedScore[lectureType] / accumulatedCredit[lectureType]).toFixed(2);
             if (gradeSystem === 4.5) return calculatedGPA45
             
             return (calculatedGPA45 * gradeSystem / 4.5).toFixed(2);
-=======
-        updateScoreAndCredit(isMajor = true, grade = 'B+', credit = 3) {
-    
-            accumulatedScore.total += gpaTable[grade];
-            accumulatedCredit.total += credit;
-            if(isMajor) {
-        
-                accumulatedScore.major += gpaTable[grade];
-                accumulatedCredit.major += credit;
-            }
-        },
-        average(scope = 'total', gradeSystem = 4.5) {
-    
-            const calculatedGPA45 = (accumulatedScore[scope] / accumulatedCredit[scope]).toFixed(2);
-            const calculatedGPA40 = (calculatedGPA45 * 4.0 / 4.5).toFixed(2);
-            return (gradeSystem === 4.0) ? calculatedGPA40 : calculatedGPA45
->>>>>>> Improve readability of gpa.average method
         },
         credit(lectureType) {return accumulatedCredit[lectureType]},
         init() {
@@ -57,7 +38,6 @@ function showGrade(lectureList) {
 }
 
 /*
-<<<<<<< HEAD
 새로운 과목을 추가하는 메소드. 객체 형태 과목정보를 인자로 받는다. addLecture 를 호출하면 자동으로 다시 평점 결과 출력
 > addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
 */
@@ -71,13 +51,9 @@ function addLecture(lectureObject) {
 removeLecutre 는 지정된 시간에 따라(함수의 인자로 받은 시간값)서 지연출력된다.
 > removeLecture('알고리즘', 2000);  // 2초뒤에 다시 결과 출력
 */
-function removeLecture(lectureToRemove, timeout) {
-    for (let [idx, {name: lectureName}] of lectureList.entries()) {
-        if(lectureName === lectureToRemove) {
-            lectureList.splice(idx,1);
-        }
-    }
-
+function removeLecture(lectureList, lectureToRemove, timeout) {
+    lectureList = lectureList.filter(({name}) => name !== lectureToRemove);
+    
     setTimeout(showGrade, timeout, lectureList);
 }
 
@@ -132,21 +108,6 @@ function stringifyLectures(lecturesWithSameGrade) {
 
 //Test Cases
 
-=======
-요구사항 1
-
-새로운 과목을 추가하는 'addLecture' 라는 함수를 만들자. addLecture 를 호출하면 자동으로 다시 평점 결과가 출력된다.
-
-> addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
-*/
-
-function addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true}) {
-    lectureList.push(arguments[0]);
-    showGrade(lectureList);
-}
-
-
->>>>>>> Improve readability of gpa.average method
 const lectureList =  [ 
     {
         'name' : '데이터베이스', 
@@ -204,14 +165,13 @@ const lectureList =  [
     }
 ];
 
-<<<<<<< HEAD
 
 /*
 const lectureToAdd = {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
 addLecture(lectureToAdd);
 //> 4.5 기준 총평점 : 1.36 (4.0기준은 1.21), 전공평점: 1.35 (4.0기준은 1.20), 이수학점: 22, 전공이수학점: 10
 
-removeLecture('자료구조와 알고리즘', 1000);
+removeLecture(lectureList, '자료구조와 알고리즘', 1000);
 //4.5 기준 총평점 : 1.42 (4.0기준은 1.26), 전공평점: 1.50 (4.0기준은 1.33), 이수학점: 19, 전공이수학점: 7
 
 
@@ -232,8 +192,3 @@ sortGrade(lectureList);
 
 
 */
-=======
-const testLecture = {'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
-addLecture(lectureList);
-//> 4.5 기준 총평점 : 1.83 (4.0기준은 1.63), 전공평점: 1.75 (4.0기준은 1.56), 이수학점: 6, 전공이수학점: 2
->>>>>>> Improve readability of gpa.average method
