@@ -3,9 +3,10 @@ const gpa = (function() {
     const gpaTable = {'A+': 4.5, A: 4, 'B+': 3.5, B: 3, 'C+': 2.5, C: 2, D: 1, F:0};
     let accumulatedScore = {total: 0, major: 0};
     let accumulatedCredit = {total: 0, major: 0};
+    let lectureListArr = [];
 
     return {
-        updateScoreAndCredit(isMajor, grade, credit) {
+        updateScoreAndCredit({major: isMajor, grade, credit}) { //전공여부, 학점, 평점 정보를 계산용 객체에 저장한다
             accumulatedScore.total += gpaTable[grade] * credit;
             accumulatedCredit.total += credit;
             if(isMajor) {
@@ -13,85 +14,69 @@ const gpa = (function() {
                 accumulatedCredit.major += credit;
             }
         },
-        average(lectureType, gradeSystem = 4.5) {
-            debugger;
-            const calculatedGPA45 = (accumulatedScore[lectureType] / accumulatedCredit[lectureType]).toFixed(2);
-            if (gradeSystem === 4.5) return calculatedGPA45
+        addLecture(...lectures) {
+            //새로운 과목을 추가하는 메소드. 객체 형태 과목정보들을 인자로 받는다. addLecture 를 호출하면 자동으로 다시 평점 결과 출력
+            for (let lecture of lectures) {lectureListArr.push(lecture)}
             
-            return (calculatedGPA45 * gradeSystem / 4.5).toFixed(2);
+            gpa.showGrade();
         },
-        credit(lectureType) {return accumulatedCredit[lectureType]},
+        removeLecture(lectureName, timeout) {
+            //기존 과목을 삭제하는 메소드. 과목명과 타임아웃(ms)을 인자로 받는다. removeLecture를 호출하면 다시 평점 결과 출력
+            lectureListArr = lectureListArr.filter(({name}) => name !== lectureName);
+                
+            setTimeout(gpa.showGrade, timeout);
+        },
+        getLectureList() {return lectureListArr},
+        getAverage(lectureType, gradeSystem = 4.5) { // 전체수업 혹은 전공수업의 평균평점을 학점체계에 맞춰 반환한다
+            const calculatedGPA = (accumulatedScore[lectureType] / accumulatedCredit[lectureType]) * (gradeSystem / 4.5);
+
+            return calculatedGPA.toFixed(2);
+        },
+        getCredit(lectureType) {return accumulatedCredit[lectureType]}, //전체수업 혹은 전공수업의 총 이수학점을 반환한다
         init() {
             accumulatedScore = {total: 0, major: 0};
             accumulatedCredit = {total: 0, major: 0};
+        },
+        showGrade() {
+            // Iterate through course grade/credit & log calculated GPA
+            gpa.init();
+            lectureListArr.forEach((lecture) => gpa.updateScoreAndCredit(lecture));
+        
+            console.log(`4.5 기준 총평점 : ${gpa.getAverage('total')} (4.0기준은 ${gpa.getAverage('total',4.0)}), 전공평점: ${gpa.getAverage('major')} (4.0기준은 ${gpa.getAverage('major', 4.0)}), 이수학점: ${gpa.getCredit('total')}, 전공이수학점: ${gpa.getCredit('major')}`);    
         }
     }
 })();
 
-// Iterate through course grade/credit & log calculated GPA
-function showGrade(lectureList) {
-    gpa.init();
-    for (let {major, grade, credit} of lectureList) {
-        gpa.updateScoreAndCredit(major, grade, credit);       
-    }
-
-    console.log(`4.5 기준 총평점 : ${gpa.average('total')} (4.0기준은 ${gpa.average('total',4.0)}), 전공평점: ${gpa.average('major')} (4.0기준은 ${gpa.average('major', 4.0)}), 이수학점: ${gpa.credit('total')}, 전공이수학점: ${gpa.credit('major')}`);    
-}
-
-/*
-새로운 과목을 추가하는 메소드. 객체 형태 과목정보를 인자로 받는다. addLecture 를 호출하면 자동으로 다시 평점 결과 출력
-> addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
-*/
-function addLecture(lectureObject) {
-    lectureList.push(lectureObject);
-    showGrade(lectureList);
-}
-
-/*
-기존 과목을 삭제하는 메소드. 과목명만 인자로 받는다. removeLecture를 호출하면 다시 평점 결과 출력
-removeLecutre 는 지정된 시간에 따라(함수의 인자로 받은 시간값)서 지연출력된다.
-> removeLecture('알고리즘', 2000);  // 2초뒤에 다시 결과 출력
-*/
-function removeLecture(lectureToRemove, timeout) {
-    for (let [idx, {name: lectureName}] of lectureList.entries()) {
-        if(lectureName === lectureToRemove) {
-            lectureList.splice(idx,1);
-        }
-    }
-
-    setTimeout(showGrade, timeout, lectureList);
-}
-
 //수업들의 이수학점/평점을 서식에 맞게 출력하는 메소드. 수업목록 행렬을 인자로 받는다.
 function sortGrade(lectureList) {
-    const lecturesWithSameGrade = groupLecturesByGrade(lectureList);
-    const resultStr = stringifyLectures(lecturesWithSameGrade);
+    const groupedLectureList = groupLecturesByGrade(lectureList);
+    const resultStr = stringifyGroupedLectures(groupedLectureList);
 
     console.log(`-------------\n${resultStr}\n-------------`);
 }
 
-function groupLecturesByGrade(lectureList) {
-    const lecturesWithSameGrade = {'A+': [], 'A': [], 'B+': [], 'B': [], 'C+': [], 'C': [], 'D': []};
+function groupLecturesByGrade(lectureList) { // 수업목록을 평점순 (동일 평점 내에서는 이수학점순)으로 정렬한 객체를 반환한다
+    const groupedLectureList = {};
+    debugger;
     // 수업들을 평점별로 묶어 저장
     for (let lecture of lectureList) {
-        const {grade} = lecture;
-        lecturesWithSameGrade[grade].push(lecture);
+        (groupedLectureList[lecture.grade]) ? groupedLectureList[lecture.grade].push(lecture) : groupedLectureList[lecture.grade] = [lecture];
     }
     // 각 평점별 수업 배열을 학점순으로 정렬
-    for (let targetGrade in lecturesWithSameGrade){
-        lecturesWithSameGrade[targetGrade].sort((a,b) => a.credit < b.credit);
+    for (let grade in groupedLectureList){
+        groupedLectureList[grade].sort((a,b) => a.credit < b.credit);
     }
 
-    return lecturesWithSameGrade
+    return groupedLectureList
 }
 
-function stringifyLectures(lecturesWithSameGrade) {
+function stringifyGroupedLectures(groupedLectureList) { // 객체로 된 수업목록을 문자열로 반환한다
     let resultStr = ``;
     let orderedLecturesArray = [];
 
     //평점별 수업목록 객체를 1단짜리 배열로 통합
-    for (let targetGrade in lecturesWithSameGrade) {
-        orderedLecturesArray.push(...lecturesWithSameGrade[targetGrade]);
+    for (let grade in groupedLectureList) {
+        orderedLecturesArray.push(...groupedLectureList[grade]);
     }
     //위 배열 속 수업 정보들에 출력용 문자열을 추가
     for (let lecture of orderedLecturesArray) {
@@ -112,8 +97,8 @@ function stringifyLectures(lecturesWithSameGrade) {
 
 
 //Test Cases
-
-const lectureList =  [ 
+/*
+const data =  [ 
     {
         'name' : '데이터베이스', 
         'grade' : 'A', 
@@ -170,17 +155,18 @@ const lectureList =  [
     }
 ];
 
+gpa.addLecture(...data);
 
-/*
+
 const lectureToAdd = {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
-addLecture(lectureToAdd);
+gpa.addLecture(lectureToAdd);
 //> 4.5 기준 총평점 : 1.36 (4.0기준은 1.21), 전공평점: 1.35 (4.0기준은 1.20), 이수학점: 22, 전공이수학점: 10
 
-removeLecture('자료구조와 알고리즘', 1000);
+gpa.removeLecture('자료구조와 알고리즘', 1000);
 //4.5 기준 총평점 : 1.42 (4.0기준은 1.26), 전공평점: 1.50 (4.0기준은 1.33), 이수학점: 19, 전공이수학점: 7
 
-
-sortGrade(lectureList);
+console.log(gpa.getLectureList());
+sortGrade(gpa.getLectureList());
 /*
     -------------
     '데이터베이스', 'A' , 3학점
