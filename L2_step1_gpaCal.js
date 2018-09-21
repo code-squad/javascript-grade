@@ -70,8 +70,9 @@ function getValues(data) {
 
 function gpaCalculator(scale) {
     const values = getValues(data);
-    const template = `
-    4.5 기준: 총 평점 = ${values.gpa} 전공 평점 = ${values.mgpa} 
+    const template = 
+    //4.5 기준: 총 평점 = ${values.gpa} 전공 평점 = ${values.mgpa} 
+    `
     ${scale.toFixed(1)} 기준: 총 평점 = ${((values.gpa) * (scale / 4.5)).toFixed(2)} 전공 평점 = ${((values.mgpa) * (scale / 4.5)).toFixed(2)}
     이수 학점: ${values.grossCredits}
     전공 이수 학점: ${values.grossMajorCredits}`
