@@ -11,37 +11,37 @@
 <body>
     <script>
 
-        // 학점 계산기 modified4
+        // 학점 계산기(step2)
 
         // 과목 정보 객체 생성
-        var gradeData = [
+        const gradeData = [
             {
                 'name': '데이터베이스',
-                'grade': 'A',
+                'grade': 'B+',
                 'credit': 3,
-                'major': false
-            },
-            {
-                'name': '교양영어',
-                'grade': 'A+',
-                'credit': 2,
                 'major': true
             },
             {
+                'name': '교양영어',
+                'grade': 'B',
+                'credit': 1,
+                'major': false
+            },
+            {
                 'name': '철학',
-                'grade': 'B+',
+                'grade': 'C+',
                 'credit': 1,
                 'major': false
             },
             {
                 'name': '컴퓨터공학',
-                'grade': 'C+',
+                'grade': 'A',
                 'credit': 2,
                 'major': true
             },
             {
                 'name': '자료구조개론',
-                'grade': 'B+',
+                'grade': 'A+',
                 'credit': 2,
                 'major': true
             },
@@ -53,74 +53,152 @@
             }
         ];
 
+        // 학점 척도 (4.5기준)
+        const standardScale = {
+            "A+": 4.5,
+            "A": 4,
+            "B+": 3.5,
+            "B": 3,
+            "C+": 2.5,
+            "C": 2,
+            "D+": 1.5,
+            "D": 1
+        }
+
         // 객체 생성(네임 스페이스 설정)
         const gradeInfo = {
 
             // main 메소드 
             showGradeInfo(gradeData, otherScale) {
-                this.sumGradeData(gradeData);
-                console.log(
-                    `${this.calGpaTotal(gradeData, otherScale)},  ${this.calGpaMajor(gradeData, otherScale)}, 총 이수학점: ${this.sumCredit}, 전공 이수학점: ${this.sumCreditMajor}`
-                );
-                console.log(
-                    `총과목 수: ${gradeData.length}\n전공과목 수: ${this.countMajor}`
-                );
+                this.sumGradeData(gradeData, otherScale);
             },
 
-            // 4.5기준 학점 환산 척도
-            standardScale : {
-                "A+": 4.5,
-                "A": 4,
-                "B+": 3.5,
-                "B": 3,
-                "C+": 2.5,
-                "C": 2,
-                "D+": 1.5,
-                "D": 1
+            // 과목 추가 메소드
+            addLecture(lectureData, otherScale) {
+                let { name, grade, credit, major } = lectureData;
+                let lecture = {};
+                lecture.name = name;
+                lecture.grade = grade;
+                lecture.credit = credit;
+                lecture.major = major;
+                //console.log(lecture);
+                gradeData.push(lecture);
+                //console.log(gradeData);
+                console.log(`과목 추가----------------`)
+                this.showGradeInfo(gradeData, otherScale);
+
             },
+
+            // 과목 삭제 메소드
+            removeLecture(lectureName, time, otherScale) {
+                setTimeout(() => {
+                    for (let i = 0; i < gradeData.length; i++) {
+                        if (gradeData[i].name === lectureName) {
+                            gradeData.splice(i, 1);
+                        }
+                    }
+                    console.log(`과목 삭제-------------------`)
+                    this.showGradeInfo(gradeData, otherScale);
+                }, time);
+            },
+
+
+            // 데이터 정렬 메소드
+            sortMyGrade(gradeData) {
+                const arrByCredit = gradeInfo.sortByGrade(gradeData);
+                console.log(`데이터 정렬-------------------`);
+                arrByCredit.forEach(val =>
+                    console.log(`'${val.name}', '${val.grade}', '${val.credit}'`)
+                )
+                console.log(`---------------------------`);
+            },
+
+            // 성적순 데이터 정렬 메소드
+            sortByGrade(gradeData) {
+                const PointScale = ["A+", "A", "B+", "B", "C+", "C", "D+", "D"];
+                this.arrByCredit = [];
+                for (let i = 0; i < PointScale.length; i++) {
+                    let arrByGrade = [];
+                    gradeData.filter(function (val) {
+                        if (val.grade === PointScale[i]) {
+                            arrByGrade = arrByGrade.concat(val);
+                        }
+                    })
+                    gradeInfo.sortByCredit(arrByGrade);
+                }
+                //console.log(this.arrByCredit);
+                return this.arrByCredit;
+            },
+
+            // 이수 학점순 데이터 정렬 메소드
+            sortByCredit(arrByGrade) {
+                arrByGrade.sort(function (a, b) {
+                    return b.credit - a.credit;
+                });
+                this.arrByCredit = this.arrByCredit.concat(arrByGrade);
+            },
+
 
             // 총 학점 합계, 전공 학점 합계, 전공 과목수, 총이수학점, 전공이수학점 구하기 메소드
-            // forEach 함수를 단 한 번만 이용하여 연산의 중복 방지.
-            sumGradeData(gradeData) {
-                this.sumPoint = 0; // 총 학점 합계
-                this.sumPointMajor = 0; // 전공 학점 합계
-                this.countMajor = 0; // 전공 과목수
-                this.sumCredit = 0; // 총 이수학점
-                this.sumCreditMajor = 0; // 전공 이수학점
+            sumGradeData(gradeData, otherScale) {
+                let sumPoint = 0, // 총 학점 합계
+                    sumPointMajor = 0, // 전공 학점 합계
+                    countMajor = 0, // 전공 과목수
+                    sumCredit = 0, // 총 이수학점
+                    sumCreditMajor = 0; // 전공 이수학점
 
-                // forEach 함수
                 gradeData.forEach(val => {
-                    this.sumPoint += this.standardScale[val.grade];
-                    this.sumCredit += val.credit;
+                    sumPoint += standardScale[val.grade];
+                    sumCredit += val.credit;
                     if (val.major) {  // 전공과목인 경우 별도의 변수에 할당
-                        this.sumPointMajor += this.standardScale[val.grade];
-                        this.countMajor += 1;
-                        this.sumCreditMajor += val.credit;
+                        sumPointMajor += standardScale[val.grade];
+                        countMajor += 1;
+                        sumCreditMajor += val.credit;
                     }
                 });
+                console.log(
+                    this.calGpaTotal(gradeData, otherScale, sumPoint) + ", " +
+                    this.calGpaMajor(gradeData, otherScale, sumPointMajor, countMajor) + ", " +
+                    "이수학점: " + sumCredit + ", " + "전공 이수학점: " + sumCreditMajor
+                );
+                console.log(`총과목 수: ${gradeData.length}\n전공과목 수: ${countMajor}`);
             },
 
+
             // 총평점 계산 메소드
-            calGpaTotal(gradeData, otherScale) {
+            calGpaTotal(gradeData, otherScale, sumPoint) {
                 let gpaStandard = 0, // 4.5기준 평점
                     gpaOtherScale = 0; // 기타 기준 평점
-                gpaStandard = (this.sumPoint / gradeData.length).toFixed(2);
+                gpaStandard = (sumPoint / gradeData.length).toFixed(2);
                 gpaOtherScale = ((gpaStandard / 4.5) * otherScale).toFixed(2);
                 return `4.5기준 총평점: ${gpaStandard}(${otherScale}기준 ${gpaOtherScale})`;
             },
 
             // 전공평점 계산 메소드
-            calGpaMajor(gradeData, otherScale) {
+            calGpaMajor(gradeData, otherScale, sumPointMajor, countMajor) {
                 let gpaStandard = 0,  // 4.5기준 평점
                     gpaOtherScale = 0; // 기타 기준 평점
-                gpaStandard = (this.sumPointMajor / this.countMajor).toFixed(2);
+                gpaStandard = (sumPointMajor / countMajor).toFixed(2);
                 gpaOtherScale = ((gpaStandard / 4.5) * otherScale).toFixed(2);
                 return `전공평점: ${gpaStandard}(${otherScale}기준 ${gpaOtherScale})`;
-            },
+            }
         };
 
-        //main 메소드 호출(기타 기준 추가)
+
+        //main 메소드 호출
         gradeInfo.showGradeInfo(gradeData, 4.3);
+
+        // 과목 추가 메소드 호출
+        gradeInfo.addLecture({ 'name': '알고리즘', 'grade': 'A', 'credit': 3, 'major': true }, 3.5);
+        gradeInfo.addLecture({ 'name': '서양사의 이해', 'grade': 'C+', 'credit': 2, 'major': false }, 3.5);
+
+        // 데이터 정렬 메소드 호출
+        gradeInfo.sortMyGrade(gradeData);
+
+        // 과목 삭제 메소드 호출
+        gradeInfo.removeLecture("컴퓨터공학", 2000, 3.8);
+
+
 
     </script>
 
