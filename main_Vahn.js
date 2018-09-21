@@ -57,9 +57,11 @@ function sortGrade(lectureList) {
 
 function groupLecturesByGrade(lectureList) { // 수업목록을 평점순 (동일 평점 내에서는 이수학점순)으로 정렬한 객체를 반환한다
     const groupedLectureList = {};
+    debugger;
     // 수업들을 평점별로 묶어 저장
     for (let lecture of lectureList) {
-        (groupedLectureList[lecture.grade]) ? groupedLectureList[lecture.grade].push(lecture) : groupedLectureList[lecture.grade] = [];
+        (groupedLectureList[lecture.grade]) ? groupedLectureList[lecture.grade].push(lecture) : groupedLectureList[lecture.grade] = [lecture];
+        
     }
     // 각 평점별 수업 배열을 학점순으로 정렬
     for (let grade in groupedLectureList){
@@ -96,7 +98,7 @@ function stringifyGroupedLectures(groupedLectureList) { // 객체로 된 수업�
 
 
 //Test Cases
-/*
+
 const data =  [ 
     {
         'name' : '데이터베이스', 
@@ -164,7 +166,7 @@ gpa.addLecture(lectureToAdd);
 gpa.removeLecture('자료구조와 알고리즘', 1000);
 //4.5 기준 총평점 : 1.42 (4.0기준은 1.26), 전공평점: 1.50 (4.0기준은 1.33), 이수학점: 19, 전공이수학점: 7
 
-
+console.log(gpa.getLectureList());
 sortGrade(gpa.getLectureList());
 /*
     -------------
