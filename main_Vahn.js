@@ -41,7 +41,7 @@ function showGrade(lectureList) {
 새로운 과목을 추가하는 메소드. 객체 형태 과목정보를 인자로 받는다. addLecture 를 호출하면 자동으로 다시 평점 결과 출력
 > addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'bMajor' : true});  // 다시 결과 출력
 */
-function addLecture(lectureObject) {
+function addLecture(lectureList, lectureObject) {
     lectureList.push(lectureObject);
     showGrade(lectureList);
 }
@@ -168,7 +168,7 @@ const lectureList =  [
 
 /*
 const lectureToAdd = {'name' : '자료구조와 알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true};
-addLecture(lectureToAdd);
+addLecture(lectureList, lectureToAdd);
 //> 4.5 기준 총평점 : 1.36 (4.0기준은 1.21), 전공평점: 1.35 (4.0기준은 1.20), 이수학점: 22, 전공이수학점: 10
 
 removeLecture(lectureList, '자료구조와 알고리즘', 1000);
