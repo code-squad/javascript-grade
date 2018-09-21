@@ -30,6 +30,11 @@ const fourPointFiveTable = {
     'F': 0,
 }
 
+function addLecture(newLecture){
+    data.push(newLecture);
+    return gpaCalculator(4.5);
+}
+
 function calculateCredits(data) {
     let grossCredits = 0;
     let grossMajorCredits = 0;
@@ -56,7 +61,6 @@ function calculatePoints(data) {
     return [grossPoints, grossMajorPoints];
 }
 
-
 function getValues(data) {
     const values = {};
     const elements = [calculateCredits(data)[0], calculateCredits(data)[1], calculatePoints(data)[0], calculatePoints(data)[1], parseFloat((calculatePoints(data)[0] / calculateCredits(data)[0]).toFixed(2)), parseFloat((calculatePoints(data)[1] / calculateCredits(data)[1]).toFixed(2))];
@@ -74,5 +78,7 @@ function gpaCalculator(scale) {
     return template;
 }
 
-let result = gpaCalculator(4.5);
+
+
+let result = addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'Major' : true}); 
 console.log(result);
