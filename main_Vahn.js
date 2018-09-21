@@ -28,10 +28,9 @@ const gpa = (function() {
         },
         getLectureList() {return lectureListArr},
         getAverage(lectureType, gradeSystem = 4.5) { // 전체수업 혹은 전공수업의 평균평점을 학점체계에 맞춰 반환한다
-            const calculatedGPA45 = (accumulatedScore[lectureType] / accumulatedCredit[lectureType]).toFixed(2);
-            if (gradeSystem === 4.5) return calculatedGPA45
-            
-            return (calculatedGPA45 * gradeSystem / 4.5).toFixed(2);
+            const calculatedGPA = (accumulatedScore[lectureType] / accumulatedCredit[lectureType]) * (gradeSystem / 4.5);
+
+            return calculatedGPA.toFixed(2);
         },
         getCredit(lectureType) {return accumulatedCredit[lectureType]}, //전체수업 혹은 전공수업의 총 이수학점을 반환한다
         init() {
