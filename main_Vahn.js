@@ -66,18 +66,18 @@ function sortGrade(lectureList) {
 }
 
 function groupLecturesByGrade(lectureList) {
-    const lecturesWithSameGrade = {'A+': [], 'A': [], 'B+': [], 'B': [], 'C+': [], 'C': [], 'D': []};
+    const lecturesByGrade = {};
     // 수업들을 평점별로 묶어 저장
     for (let lecture of lectureList) {
-        const {grade} = lecture;
-        lecturesWithSameGrade[grade].push(lecture);
+        if (!lecturesByGrade[lecture.grade]) lecturesByGrade[lecture.grade] = [];
+        lecturesByGrade[lecture.grade].push(lecture);
     }
     // 각 평점별 수업 배열을 학점순으로 정렬
-    for (let targetGrade in lecturesWithSameGrade){
-        lecturesWithSameGrade[targetGrade].sort((a,b) => a.credit < b.credit);
+    for (let grade in lecturesByGrade){
+        lecturesByGrade[grade].sort((a,b) => a.credit < b.credit);
     }
 
-    return lecturesWithSameGrade
+    return lecturesByGrade
 }
 
 function stringifyLectures(lecturesWithSameGrade) {
