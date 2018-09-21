@@ -61,7 +61,6 @@ function groupLecturesByGrade(lectureList) { // 수업목록을 평점순 (동�
     // 수업들을 평점별로 묶어 저장
     for (let lecture of lectureList) {
         (groupedLectureList[lecture.grade]) ? groupedLectureList[lecture.grade].push(lecture) : groupedLectureList[lecture.grade] = [lecture];
-        
     }
     // 각 평점별 수업 배열을 학점순으로 정렬
     for (let grade in groupedLectureList){
@@ -98,7 +97,7 @@ function stringifyGroupedLectures(groupedLectureList) { // 객체로 된 수업�
 
 
 //Test Cases
-
+/*
 const data =  [ 
     {
         'name' : '데이터베이스', 
