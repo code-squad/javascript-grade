@@ -49,9 +49,9 @@ const gpa = (function() {
 
 //수업들의 이수학점/평점을 서식에 맞게 출력하는 메소드. 수업목록 행렬을 인자로 받는다.
 function sortGrade(lectureList) {
-    const lecturesWithSameGrade = groupLecturesByGrade(lectureList);
-    const resultStr = stringifyLectures(lecturesWithSameGrade);
-
+    const groupedLectureList = groupLecturesByGrade(lectureList);
+    const resultStr = stringifyGroupedLectures(groupedLectureList);
+    
     console.log(`-------------\n${resultStr}\n-------------`);
 }
 
@@ -59,8 +59,7 @@ function groupLecturesByGrade(lectureList) { // 수업목록을 평점순 (동�
     const lecturesByGrade = {};
     // 수업들을 평점별로 묶어 저장
     for (let lecture of lectureList) {
-        if (!lecturesByGrade[lecture.grade]) lecturesByGrade[lecture.grade] = [];
-        lecturesByGrade[lecture.grade].push(lecture);
+        (lecturesByGrade[lecture.grade]) ? lecturesByGrade[lecture.grade].push(lecture) : lecturesByGrade[lecture.grade] = [];
     }
     // 각 평점별 수업 배열을 학점순으로 정렬
     for (let grade in lecturesByGrade){
@@ -70,7 +69,7 @@ function groupLecturesByGrade(lectureList) { // 수업목록을 평점순 (동�
     return lecturesByGrade
 }
 
-function stringifyLectures(lecturesWithSameGrade) { // 객체로 된 수업목록을 문자열로 반환한다
+function stringifyGroupedLectures(lecturesWithSameGrade) { // 객체로 된 수업목록을 문자열로 반환한다
     let resultStr = ``;
     let orderedLecturesArray = [];
 
