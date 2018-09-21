@@ -51,31 +51,31 @@ const gpa = (function() {
 function sortGrade(lectureList) {
     const groupedLectureList = groupLecturesByGrade(lectureList);
     const resultStr = stringifyGroupedLectures(groupedLectureList);
-    
+
     console.log(`-------------\n${resultStr}\n-------------`);
 }
 
 function groupLecturesByGrade(lectureList) { // 수업목록을 평점순 (동일 평점 내에서는 이수학점순)으로 정렬한 객체를 반환한다
-    const lecturesByGrade = {};
+    const groupedLectureList = {};
     // 수업들을 평점별로 묶어 저장
     for (let lecture of lectureList) {
-        (lecturesByGrade[lecture.grade]) ? lecturesByGrade[lecture.grade].push(lecture) : lecturesByGrade[lecture.grade] = [];
+        (groupedLectureList[lecture.grade]) ? groupedLectureList[lecture.grade].push(lecture) : groupedLectureList[lecture.grade] = [];
     }
     // 각 평점별 수업 배열을 학점순으로 정렬
-    for (let grade in lecturesByGrade){
-        lecturesByGrade[grade].sort((a,b) => a.credit < b.credit);
+    for (let grade in groupedLectureList){
+        groupedLectureList[grade].sort((a,b) => a.credit < b.credit);
     }
 
-    return lecturesByGrade
+    return groupedLectureList
 }
 
-function stringifyGroupedLectures(lecturesWithSameGrade) { // 객체로 된 수업목록을 문자열로 반환한다
+function stringifyGroupedLectures(groupedLectureList) { // 객체로 된 수업목록을 문자열로 반환한다
     let resultStr = ``;
     let orderedLecturesArray = [];
 
     //평점별 수업목록 객체를 1단짜리 배열로 통합
-    for (let grade in lecturesWithSameGrade) {
-        orderedLecturesArray.push(...lecturesWithSameGrade[grade]);
+    for (let grade in groupedLectureList) {
+        orderedLecturesArray.push(...groupedLectureList[grade]);
     }
     //위 배열 속 수업 정보들에 출력용 문자열을 추가
     for (let lecture of orderedLecturesArray) {
