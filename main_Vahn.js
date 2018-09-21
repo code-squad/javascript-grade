@@ -18,13 +18,13 @@ const gpa = (function() {
             //새로운 과목을 추가하는 메소드. 객체 형태 과목정보들을 인자로 받는다. addLecture 를 호출하면 자동으로 다시 평점 결과 출력
             for (let lecture of lectures) {lectureListArr.push(lecture)}
             
-            showGrade(lectureListArr);
+            gpa.showGrade();
         },
         removeLecture(lectureName, timeout) {
             //기존 과목을 삭제하는 메소드. 과목명과 타임아웃(ms)을 인자로 받는다. removeLecture를 호출하면 다시 평점 결과 출력
             lectureListArr = lectureListArr.filter(({name}) => name !== lectureName);
                 
-            setTimeout(showGrade, timeout, lectureList);
+            setTimeout(gpa.showGrade, timeout);
         },
         getLectureList() {return lectureListArr},
         getAverage(lectureType, gradeSystem = 4.5) { // 전체수업 혹은 전공수업의 평균평점을 학점체계에 맞춰 반환한다
@@ -37,21 +37,18 @@ const gpa = (function() {
         init() {
             accumulatedScore = {total: 0, major: 0};
             accumulatedCredit = {total: 0, major: 0};
+        },
+        showGrade() {
+            // Iterate through course grade/credit & log calculated GPA
+            gpa.init()
+            for (let {major, grade, credit} of lectureListArr) {
+                gpa.updateScoreAndCredit(major, grade, credit);       
+            }
+        
+            console.log(`4.5 기준 총평점 : ${gpa.getAverage('total')} (4.0기준은 ${gpa.getAverage('total',4.0)}), 전공평점: ${gpa.getAverage('major')} (4.0기준은 ${gpa.getAverage('major', 4.0)}), 이수학점: ${gpa.getCredit('total')}, 전공이수학점: ${gpa.getCredit('major')}`);    
         }
     }
 })();
-
-// Iterate through course grade/credit & log calculated GPA
-function showGrade(lectureList) {
-    gpa.init();
-    for (let {major, grade, credit} of lectureList) {
-        gpa.updateScoreAndCredit(major, grade, credit);       
-    }
-
-    console.log(`4.5 기준 총평점 : ${gpa.getAverage('total')} (4.0기준은 ${gpa.getAverage('total',4.0)}), 전공평점: ${gpa.getAverage('major')} (4.0기준은 ${gpa.getAverage('major', 4.0)}), 이수학점: ${gpa.getCredit('total')}, 전공이수학점: ${gpa.getCredit('major')}`);    
-}
-
-
 
 //수업들의 이수학점/평점을 서식에 맞게 출력하는 메소드. 수업목록 행렬을 인자로 받는다.
 function sortGrade(lectureList) {
@@ -172,7 +169,7 @@ gpa.removeLecture('자료구조와 알고리즘', 1000);
 //4.5 기준 총평점 : 1.42 (4.0기준은 1.26), 전공평점: 1.50 (4.0기준은 1.33), 이수학점: 19, 전공이수학점: 7
 
 
-gpa.sortGrade(lectureList);
+sortGrade(gpa.getLectureList());
 /*
     -------------
     '데이터베이스', 'A' , 3학점
