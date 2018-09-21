@@ -45,52 +45,47 @@ function removeLecture(lecture, time) {
                 newData.push(data[i]);
             }
         }
-        console.log(newData);
-
         const result = gpaCalculator(newData, 4.5);
         console.log(result);
     }, time);
 }
 
-
-
-function calculateCredits(data) {
+function calculateCredits(dataArr) {
     let grossCredits = 0;
     let grossMajorCredits = 0;
-    for (const key in data) {
-        grossCredits += data[key].credit;
-        if (data[key].major) {
-            grossMajorCredits += data[key].credit;
+    for (const key in dataArr) {
+        grossCredits += dataArr[key].credit;
+        if (dataArr[key].major) {
+            grossMajorCredits += dataArr[key].credit;
         }
     }
     return [grossCredits, grossMajorCredits];
 }
 
-function calculatePoints(data) {
+function calculatePoints(dataArr) {
     let grossPoints = 0;
     let grossMajorPoints = 0;
 
-    for (const i in data) {
-        grossPoints += (data[i].credit * fourPointFiveTable[data[i]['grade']]);
-        if (data[i].major) {
-            grossMajorPoints += data[i].credit * fourPointFiveTable[data[i]['grade']];
+    for (const i in dataArr) {
+        grossPoints += (dataArr[i].credit * fourPointFiveTable[dataArr[i]['grade']]);
+        if (dataArr[i].major) {
+            grossMajorPoints += dataArr[i].credit * fourPointFiveTable[dataArr[i]['grade']];
         }
     }
 
     return [grossPoints, grossMajorPoints];
 }
 
-function getValues(data) {
+function getValues(dataArr) {
     const values = {};
-    const elements = [calculateCredits(data)[0], calculateCredits(data)[1], calculatePoints(data)[0], calculatePoints(data)[1], parseFloat((calculatePoints(data)[0] / calculateCredits(data)[0]).toFixed(2)), parseFloat((calculatePoints(data)[1] / calculateCredits(data)[1]).toFixed(2))];
+    const elements = [calculateCredits(dataArr)[0], calculateCredits(dataArr)[1], calculatePoints(dataArr)[0], calculatePoints(dataArr)[1], parseFloat((calculatePoints(dataArr)[0] / calculateCredits(dataArr)[0]).toFixed(2)), parseFloat((calculatePoints(dataArr)[1] / calculateCredits(dataArr)[1]).toFixed(2))];
     [values.grossCredits, values.grossMajorCredits, values.grossPoints, values.grossMajorPoints, values.gpa, values.mgpa] = elements;
     return values;
 }
 
-function gpaCalculator(data, scale) {
-    const values = getValues(data);
+function gpaCalculator(dataArr, scale) {
+    const values = getValues(dataArr);
     const template =
-        //4.5 기준: 총 평점 = ${values.gpa} 전공 평점 = ${values.mgpa} 
         `
     ${scale.toFixed(1)} 기준: 총 평점 = ${((values.gpa) * (scale / 4.5)).toFixed(2)} 전공 평점 = ${((values.mgpa) * (scale / 4.5)).toFixed(2)}
     이수 학점: ${values.grossCredits}
@@ -98,12 +93,13 @@ function gpaCalculator(data, scale) {
     return template;
 }
 
-
-
+/*
 addLecture({
     'name': '알고리즘',
     'grade': 'B',
     'credit': 3,
     'Major': true
 });
-removeLecture('교양영어', 2000); // 2초뒤에 다시 결과 출력
+*/
+
+removeLecture('철학', 2000); // 2초뒤에 다시 결과 출력
