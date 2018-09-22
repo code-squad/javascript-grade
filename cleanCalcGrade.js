@@ -24,15 +24,10 @@ let data = [
         'major': false
     }
 ];
+
 //강의를 추가하는 함수
-function addLecture(className, classGrade, classCredit, classMajor) {
-    const newLecture = {
-        'name': className,
-        'grade': classGrade,
-        'credit': classCredit,
-        'major': classMajor
-    }
-    data.push(newLecture)
+function addLecture(classObject) {
+    data.push(classObject)
     showGrade(data)
 }
 
@@ -43,6 +38,19 @@ function removeLecture(className, printTime) {
     setTimeout(() => showGrade(data), printTime)
 }
 
+
+//정렬해주는 함수
+function sortGrade(classData) {
+    const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
+    console.log(`--------------------`)
+    console.log(``)
+    gradeArrays.forEach(value => {
+        sortGradeOrder(classData, value)
+    })
+    console.log(`--------------------`)
+}
+
+sortGrade(data)
 //학점순으로 정렬해주는 함수
 function sortCreditOrder(gradeData) {
     const sortedCreditData = gradeData.sort((beforeVal, val) => {
@@ -61,25 +69,14 @@ function sortGradeOrder(classData, gradeValue) {
         let {name, grade, credit} = sortedObject
         printSortedData(name, grade, credit)
     })
-    console.log('')
+    console.log(``)
 }
 
+//정렬된 배열을 출력해주는 함수
 function printSortedData(name, grade, credit) {
     console.log(`${name}, ${grade}, ${credit}학점`)
 }
 
-//정렬된걸 출력해주는 함수
-function sortGrade(classData) {
-    const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
-    console.log('--------------------')
-    console.log('')
-    gradeArrays.forEach(value => {
-        sortGradeOrder(classData, value)
-    })
-    console.log('--------------------')
-}
-
-sortGrade(data)
 //점수를모아 새로운 배열을 만드는 함수
 function getGradeArrays(classData) {
     const classGrade = classData.map(classObject => classObject.grade)
@@ -141,8 +138,10 @@ function showGrade(gradeData) {
     const creditArrays = getCreditArrays(gradeData)
     const majorgradeArrays = getMajorGradeArrays(gradeData)
     const majorCreditArrays = getMajorCreditArrays(gradeData)
+
     const gradeAverage = getGradeAverage(gradeArrays, creditArrays).toFixed(2)
     const majorGradeAverage = getGradeAverage(majorgradeArrays, majorCreditArrays).toFixed(2)
+
     const sumOfCredit = creditArrays.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     }, 0)
