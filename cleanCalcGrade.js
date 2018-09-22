@@ -26,56 +26,6 @@ let data = [
 ];
 
 //강의를 추가하는 함수
-function addLecture(classObject) {
-    data.push(classObject)
-    showGrade(data)
-}
-
-//강의를 제거하는 함수
-function removeLecture(className, printTime) {
-    let deletedData = data.filter(object => object.name !== className)
-    data = deletedData
-    setTimeout(() => showGrade(data), printTime)
-}
-
-
-//정렬해주는 함수
-function sortGrade(classData) {
-    const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
-    console.log(`--------------------`)
-    console.log(``)
-    gradeArrays.forEach(value => {
-        sortGradeOrder(classData, value)
-    })
-    console.log(`--------------------`)
-}
-
-sortGrade(data)
-//학점순으로 정렬해주는 함수
-function sortCreditOrder(gradeData) {
-    const sortedCreditData = gradeData.sort((beforeVal, val) => {
-        if (beforeVal.credit > val.credit) return -1
-        if (beforeVal.credit < val.credit) return 1
-    })
-    return sortedCreditData
-}
-
-//성적순으로 정렬해주는 함수
-function sortGradeOrder(classData, gradeValue) {
-    let oneGradeData = classData.filter(object => gradeValue === object.grade)
-    if(oneGradeData.length === 0) return;
-    let sortedArray = sortCreditOrder(oneGradeData)
-    sortedArray.forEach(sortedObject => {
-        let {name, grade, credit} = sortedObject
-        printSortedData(name, grade, credit)
-    })
-    console.log(``)
-}
-
-//정렬된 배열을 출력해주는 함수
-function printSortedData(name, grade, credit) {
-    console.log(`${name}, ${grade}, ${credit}학점`)
-}
 
 //점수를모아 새로운 배열을 만드는 함수
 function getGradeArrays(classData) {
@@ -141,7 +91,7 @@ function showGrade(gradeData) {
 
     const gradeAverage = getGradeAverage(gradeArrays, creditArrays).toFixed(2)
     const majorGradeAverage = getGradeAverage(majorgradeArrays, majorCreditArrays).toFixed(2)
-
+    
     const sumOfCredit = creditArrays.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     }, 0)
@@ -149,4 +99,54 @@ function showGrade(gradeData) {
         return beforeValue + currentValue;
     }, 0)
     printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit)
+}
+
+function addLecture(classObject) {
+    data.push(classObject)
+    showGrade(data)
+}
+
+//강의를 제거하는 함수
+function removeLecture(className, printTime) {
+    let deletedData = data.filter(object => object.name !== className)
+    data = deletedData
+    setTimeout(() => showGrade(data), printTime)
+}
+
+
+//정렬해주는 함수
+function sortGrade(classData) {
+    const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
+    console.log(`--------------------`)
+    console.log(``)
+    gradeArrays.forEach(value => {
+        sortGradeOrder(classData, value)
+    })
+    console.log(`--------------------`)
+}
+
+//성적순으로 정렬해주는 함수
+function sortGradeOrder(classData, gradeValue) {
+    let oneGradeData = classData.filter(object => gradeValue === object.grade)
+    if(oneGradeData.length === 0) return;
+    let sortedArray = sortCreditOrder(oneGradeData)
+    sortedArray.forEach(sortedObject => {
+        let {name, grade, credit} = sortedObject
+        printSortedData(name, grade, credit)
+    })
+    console.log(``)
+}
+
+//학점순으로 정렬해주는 함수
+function sortCreditOrder(gradeData) {
+    const sortedCreditData = gradeData.sort((beforeVal, val) => {
+        if (beforeVal.credit > val.credit) return -1
+        if (beforeVal.credit < val.credit) return 1
+    })
+    return sortedCreditData
+}
+
+//정렬된 배열을 출력해주는 함수
+function printSortedData(name, grade, credit) {
+    console.log(`${name}, ${grade}, ${credit}학점`)
 }
