@@ -109,15 +109,13 @@ function getCreditArrays(classData) {
 
 //전공점수를 모아 새로운 배열을 만드는 함수
 function getMajorGradeArrays(classData) {
-    const majorGradeArrays = []
-    classData.forEach(classObject => {
-        if (classObject.major) {
-            majorGradeArrays.push(classObject.grade)
-        }
-    })
+    const majorGradeObjs = classData.filter(classObject => classObject.major)
+    const majorGradeArrays = getGradeArrays(majorGradeObjs)
     return majorGradeArrays
 }
 
+var test = getMajorGradeArrays(data)
+console.log(test)
 //전공학점을 모아 새로운 배열을 만드는 함수
 function getMajorCreditArrays(classData) {
     const majorCreditArrays = []
