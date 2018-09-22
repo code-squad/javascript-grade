@@ -3,7 +3,7 @@ let data = [
         'name': '데이터베이스',
         'grade': 'B',
         'credit': 3,
-        'major': false
+        'major': true
     },
     {
         'name': '교양영어',
@@ -114,16 +114,10 @@ function getMajorGradeArrays(classData) {
     return majorGradeArrays
 }
 
-var test = getMajorGradeArrays(data)
-console.log(test)
 //전공학점을 모아 새로운 배열을 만드는 함수
 function getMajorCreditArrays(classData) {
-    const majorCreditArrays = []
-    classData.forEach(classObject => {
-        if (classObject.major) {
-            majorCreditArrays.push(classObject.credit)
-        }
-    })
+    const majorCreditObjs = classData.filter(classObject => classObject.major)
+    const majorCreditArrays = getCreditArrays(majorCreditObjs)
     return majorCreditArrays
 }
 
