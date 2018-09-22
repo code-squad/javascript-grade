@@ -24,21 +24,6 @@ let data = [
         'major': false
     }
 ];
-//영어학점을 숫자로 변환
-const scoreObject = {
-    'A+': 4.5,
-    'A': 4,
-    'B+': 3.5,
-    'B': 3,
-    'C+': 2.5,
-    'C': 2,
-    'D+': 1.5,
-    'D': 1,
-    'F': 0
-}
-
-//성적순서를 충족시키기위한 배열
-
 //강의를 추가하는 함수
 function addLecture(className, classGrade, classCredit, classMajor) {
     const newLecture = {
@@ -123,22 +108,22 @@ function getMajorCreditArrays(classData) {
 
 //학점평균을 내는 함수
 function getGradeAverage(gradeArrays, creditArrays) {
-    if(gradeArrays.length === 0 || creditArrays.length === 0) return 0;
+    const scoreObject = {'A+': 4.5, 'A': 4, 'B+': 3.5, 'B': 3, 'C+': 2.5, 'C': 2, 'D+': 1.5, 'D': 1, 'F': 0}
+    if(gradeArrays.length === 0 && creditArrays.length === 0) return 0;
     const scoreArrays = gradeArrays.map(gradeValue => scoreObject[gradeValue])
     const multedScoreArrays = creditArrays.map((creditValue, index) => {
         return scoreArrays[index] * creditArrays[index]
     })
     const summedScore = multedScoreArrays.reduce((accumulatedVal, currentVal) => {
         return accumulatedVal + currentVal
-    })
+    }, 0)
     const summedCredit = creditArrays.reduce((accumulatedVal, currentVal) => {
         return accumulatedVal + currentVal
-    })
+    }, 0)
     return summedScore / summedCredit
 }
 //4.5만점기준 점수를 4.0기준 만점점수 기준으로 바꾸어주는 함수
 function convertGradeScore(score) {
-    if(score === 0) return 0
     return (score / 4.5 * 4.0).toFixed(2)
 }
 showGrade(data)
