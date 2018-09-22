@@ -16,6 +16,12 @@ let data = [
         'grade': 'C+',
         'credit': 1,
         'major': false
+    },
+    {
+        'name': '사회복지개론',
+        'grade': 'A+',
+        'credit': 3,
+        'major': true
     }
 ];
 //영어학점을 숫자로 변환
@@ -32,7 +38,6 @@ const scoreObject = {
 }
 
 //성적순서를 충족시키기위한 배열
-const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
 
 //강의를 추가하는 함수
 function addLecture(className, classGrade, classCredit, classMajor) {
@@ -64,19 +69,23 @@ function sortCreditOrder(gradeData) {
 
 //성적순으로 정렬해주는 함수
 function sortGradeOrder(classData, gradeValue) {
-    const oneGradeData = classData.filter(object => gradeValue === object.grade)
-    if(oneGradeData.length === 0) {
-        return;
-    }
+    let oneGradeData = classData.filter(object => gradeValue === object.grade)
+    if(oneGradeData.length === 0) return;
     let sortedArray = sortCreditOrder(oneGradeData)
     sortedArray.forEach(sortedObject => {
-        console.log(sortedObject.name, sortedObject.grade, sortedObject.credit)
+        let {name, grade, credit} = sortedObject
+        printSortedData(name, grade, credit)
     })
     console.log('')
 }
 
+function printSortedData(name, grade, credit) {
+    console.log(`${name}, ${grade}, ${credit}학점`)
+}
+
 //정렬된걸 출력해주는 함수
 function sortGrade(classData) {
+    const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
     console.log('--------------------')
     console.log('')
     gradeArrays.forEach(value => {
