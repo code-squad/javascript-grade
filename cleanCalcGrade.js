@@ -55,7 +55,7 @@ function removeLecture(className, printTime) {
 
 //학점순으로 정렬해주는 함수
 function sortCreditOrder(gradeData) {
-    let sortedCreditData = gradeData.sort((beforeVal, val) => {
+    const sortedCreditData = gradeData.sort((beforeVal, val) => {
         if (beforeVal.credit > val.credit) return -1
         if (beforeVal.credit < val.credit) return 1
     })
@@ -65,6 +65,9 @@ function sortCreditOrder(gradeData) {
 //성적순으로 정렬해주는 함수
 function sortGradeOrder(classData, gradeValue) {
     const oneGradeData = classData.filter(object => gradeValue === object.grade)
+    if(oneGradeData.length === 0) {
+        return;
+    }
     let sortedArray = sortCreditOrder(oneGradeData)
     sortedArray.forEach(sortedObject => {
         console.log(sortedObject.name, sortedObject.grade, sortedObject.credit)
@@ -150,7 +153,7 @@ function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoa
 //총평점과 전공평점, 이수학점, 전공이수학점을 계산해주는 함수
 function showGrade(gradeData) {
     const gradeArrays = getGradeArrays(gradeData)
-    const creditArrays = getClassArrays(gradeData)
+    const creditArrays = getCreditArrays(gradeData)
     const majorgradeArrays = getMajorGradeArrays(gradeData)
     const majorCreditArrays = getMajorCreditArrays(gradeData)
     if (majorgradeArrays[0] === undefined) {
