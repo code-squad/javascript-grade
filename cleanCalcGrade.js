@@ -3,13 +3,13 @@ let data = [
         'name': '데이터베이스',
         'grade': 'B',
         'credit': 3,
-        'major': true
+        'major': false
     },
     {
         'name': '교양영어',
         'grade': 'A+',
         'credit': 2,
-        'major': true
+        'major': false
     },
     {
         'name': '철학',
@@ -21,7 +21,7 @@ let data = [
         'name': '사회복지개론',
         'grade': 'A+',
         'credit': 3,
-        'major': true
+        'major': false
     }
 ];
 //영어학점을 숫자로 변환
@@ -123,9 +123,7 @@ function getMajorCreditArrays(classData) {
 
 //학점평균을 내는 함수
 function getGradeAverage(gradeArrays, creditArrays) {
-    if(gradeArrays[0] === 0) {
-        return 0;
-    }
+    if(gradeArrays.length === 0 || creditArrays.length === 0) return 0;
     const scoreArrays = gradeArrays.map(gradeValue => scoreObject[gradeValue])
     const multedScoreArrays = creditArrays.map((creditValue, index) => {
         return scoreArrays[index] * creditArrays[index]
@@ -140,9 +138,10 @@ function getGradeAverage(gradeArrays, creditArrays) {
 }
 //4.5만점기준 점수를 4.0기준 만점점수 기준으로 바꾸어주는 함수
 function convertGradeScore(score) {
+    if(score === 0) return 0
     return (score / 4.5 * 4.0).toFixed(2)
 }
-
+showGrade(data)
 //결과를 출력해주는 함수
 function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoad) {
     console.log('총평점 : ' + gradeAverage + '(4.0 기준 : ' + convertGradeScore(gradeAverage) + ')');
@@ -157,17 +156,13 @@ function showGrade(gradeData) {
     const creditArrays = getCreditArrays(gradeData)
     const majorgradeArrays = getMajorGradeArrays(gradeData)
     const majorCreditArrays = getMajorCreditArrays(gradeData)
-    if (majorgradeArrays[0] === undefined) {
-        majorgradeArrays[0] = 0
-        majorCreditArrays[0] = 0
-    }
     const gradeAverage = getGradeAverage(gradeArrays, creditArrays).toFixed(2)
     const majorGradeAverage = getGradeAverage(majorgradeArrays, majorCreditArrays).toFixed(2)
     const sumOfCredit = creditArrays.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
-    })
+    }, 0)
     const sumOfMajorCredit = majorCreditArrays.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
-    })
+    }, 0)
     printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit)
 }
