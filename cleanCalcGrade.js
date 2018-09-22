@@ -129,10 +129,10 @@ function convertGradeScore(score) {
 showGrade(data)
 //결과를 출력해주는 함수
 function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoad) {
-    console.log('총평점 : ' + gradeAverage + '(4.0 기준 : ' + convertGradeScore(gradeAverage) + ')');
-    console.log('전공평점 : ' + majorGradeAverage + '(4.0기준 : ' + convertGradeScore(majorGradeAverage) + ')');
-    console.log('이수학점 : ' + creditLoad)
-    console.log('전공이수학점 : ' + majorCreditLoad)
+    console.log(`총평점 : ${gradeAverage}(4.0 기준 : ${convertGradeScore(gradeAverage)})`);
+    console.log(`전공평점 : ${majorGradeAverage}(4.0기준 : ${convertGradeScore(majorGradeAverage)})`);
+    console.log(`이수학점 : ${creditLoad}`);
+    console.log(`전공이수학점 : ${majorCreditLoad}`);
 }
 
 //총평점과 전공평점, 이수학점, 전공이수학점을 계산해주는 함수
