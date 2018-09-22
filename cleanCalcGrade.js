@@ -67,13 +67,14 @@ function getGradeAverage(gradeArrays, creditArrays) {
     const summedCredit = creditArrays.reduce((accumulatedVal, currentVal) => {
         return accumulatedVal + currentVal
     }, 0)
-    return summedScore / summedCredit
+    return (summedScore / summedCredit).toFixed(2)
 }
+
 //4.5만점기준 점수를 4.0기준 만점점수 기준으로 바꾸어주는 함수
 function convertGradeScore(score) {
     return (score / 4.5 * 4.0).toFixed(2)
 }
-showGrade(data)
+
 //결과를 출력해주는 함수
 function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoad) {
     console.log(`총평점 : ${gradeAverage}(4.0 기준 : ${convertGradeScore(gradeAverage)})`);
@@ -84,13 +85,13 @@ function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoa
 
 //총평점과 전공평점, 이수학점, 전공이수학점을 계산해주는 함수
 function showGrade(gradeData) {
-    const gradeArrays = getGradeArrays(gradeData)
-    const creditArrays = getCreditArrays(gradeData)
-    const majorgradeArrays = getMajorGradeArrays(gradeData)
-    const majorCreditArrays = getMajorCreditArrays(gradeData)
+    const gradeArrays = getGradeArrays(gradeData),
+        creditArrays = getCreditArrays(gradeData),
+        majorgradeArrays = getMajorGradeArrays(gradeData),
+        majorCreditArrays = getMajorCreditArrays(gradeData)
 
-    const gradeAverage = getGradeAverage(gradeArrays, creditArrays).toFixed(2)
-    const majorGradeAverage = getGradeAverage(majorgradeArrays, majorCreditArrays).toFixed(2)
+    const gradeAverage = getGradeAverage(gradeArrays, creditArrays),
+        majorGradeAverage = getGradeAverage(majorgradeArrays, majorCreditArrays)
     
     const sumOfCredit = creditArrays.reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
