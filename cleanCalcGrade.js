@@ -49,24 +49,23 @@ function getMajorCreditArrays(classData) {
     return getCreditArrays(majorCreditObjs)
 }
 
-showGrade(data)
-sortGrade(data)
-
 //학점평균을 내는 함수
 function getGradeAverage(gradeArrays, creditArrays) {
-    const scoreObject = {'A+': 4.5, 'A': 4, 'B+': 3.5, 'B': 3, 'C+': 2.5, 'C': 2, 'D+': 1.5, 'D': 1, 'F': 0}
-    if(gradeArrays.length === 0 && creditArrays.length === 0) return 0;
+    const scoreObject = { 'A+': 4.5, 'A': 4, 'B+': 3.5, 'B': 3, 'C+': 2.5, 'C': 2, 'D+': 1.5, 'D': 1, 'F': 0 }
+    if (gradeArrays.length === 0 && creditArrays.length === 0) return 0;
     const scoreArrays = gradeArrays.map(gradeValue => scoreObject[gradeValue])
     const multedScoreArrays = creditArrays.map((creditValue, index) => {
         return scoreArrays[index] * creditArrays[index]
     })
-    const summedScore = multedScoreArrays.reduce((accumulatedVal, currentVal) => {
-        return accumulatedVal + currentVal
-    }, 0)
-    const summedCredit = creditArrays.reduce((accumulatedVal, currentVal) => {
-        return accumulatedVal + currentVal
-    }, 0)
+    const summedScore = sumArrays(multedScoreArrays)
+    const summedCredit = sumArrays(creditArrays)
     return (summedScore / summedCredit).toFixed(2)
+}
+
+function sumArrays(arrays) {
+    return arrays.reduce((beforeVal, currentVal) => {
+        return beforeVal + currentVal 
+    }, 0)
 }
 
 //4.5만점기준 점수를 4.0기준 만점점수 기준으로 바꾸어주는 함수
@@ -86,7 +85,7 @@ function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoa
 function showGrade(gradeData) {
     const gradeAverage = getGradeAverage(getGradeArrays(gradeData), getCreditArrays(gradeData)),
         majorGradeAverage = getGradeAverage(getMajorGradeArrays(gradeData), getMajorCreditArrays(gradeData))
-    
+
     const creditLoad = getCreditArrays(gradeData).reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     }, 0)
@@ -112,7 +111,7 @@ function removeLecture(className, printTime) {
 
 //정렬해주는 함수
 function sortGrade(classData) {
-    const gradeArrays = ['A+','A','B+','B','C+','C','D+','D','F']
+    const gradeArrays = ['A+', 'A', 'B+', 'B', 'C+', 'C', 'D+', 'D', 'F']
     console.log(`--------------------`)
     console.log(``)
     gradeArrays.forEach(value => {
@@ -124,10 +123,10 @@ function sortGrade(classData) {
 //성적순으로 정렬해주는 함수
 function sortGradeOrder(classData, gradeValue) {
     let oneGradeData = classData.filter(object => gradeValue === object.grade)
-    if(oneGradeData.length === 0) return;
+    if (oneGradeData.length === 0) return;
     let sortedArray = sortCreditOrder(oneGradeData)
     sortedArray.forEach(sortedObject => {
-        let {name, grade, credit} = sortedObject
+        let { name, grade, credit } = sortedObject
         printSortedData(name, grade, credit)
     })
     console.log(``)
