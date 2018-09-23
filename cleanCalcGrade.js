@@ -84,18 +84,12 @@ function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoa
 //총평점과 전공평점, 이수학점, 전공이수학점을 계산해주는 함수
 function showGrade(gradeData) {
     const gradeAverage = getGradeAverage(getGradeArrays(gradeData), getCreditArrays(gradeData)),
-        majorGradeAverage = getGradeAverage(getMajorGradeArrays(gradeData), getMajorCreditArrays(gradeData))
-
-    const creditLoad = getCreditArrays(gradeData).reduce((beforeValue, currentValue) => {
-        return beforeValue + currentValue;
-    }, 0)
-    const majorCreditLoad = getMajorCreditArrays(gradeData).reduce((beforeValue, currentValue) => {
-        return beforeValue + currentValue;
-    }, 0)
+        majorGradeAverage = getGradeAverage(getMajorGradeArrays(gradeData), getMajorCreditArrays(gradeData)),
+        creditLoad = sumArrays(getCreditArrays(gradeData)),
+        majorCreditLoad = sumArrays(getMajorCreditArrays(gradeData))
     printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoad)
 }
 
-showGrade(data)
 //강의를 추가하는 함수 
 function addLecture(classObject) {
     data.push(classObject)
