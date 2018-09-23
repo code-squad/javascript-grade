@@ -51,17 +51,22 @@ function getMajorCreditArrays(classData) {
 
 //학점평균을 내는 함수
 function getGradeAverage(gradeArrays, creditArrays) {
-    const scoreObject = { 'A+': 4.5, 'A': 4, 'B+': 3.5, 'B': 3, 'C+': 2.5, 'C': 2, 'D+': 1.5, 'D': 1, 'F': 0 }
     if (gradeArrays.length === 0 && creditArrays.length === 0) return 0;
-    const scoreArrays = gradeArrays.map(gradeValue => scoreObject[gradeValue])
-    const multedScoreArrays = creditArrays.map((creditValue, index) => {
-        return scoreArrays[index] * creditArrays[index]
-    })
-    const summedScore = sumArrays(multedScoreArrays)
+    const summedScore = sumArrays(multScoreArrays(gradeArrays, creditArrays))
     const summedCredit = sumArrays(creditArrays)
     return (summedScore / summedCredit).toFixed(2)
 }
 
+//점수값만큼 학점을 곱해주는 함수 
+function multScoreArrays(gradeArrays, creditArrays) {
+    const scoreObject = { 'A+': 4.5, 'A': 4, 'B+': 3.5, 'B': 3, 'C+': 2.5, 'C': 2, 'D+': 1.5, 'D': 1, 'F': 0 }
+    const scoreArrays = gradeArrays.map(gradeValue => scoreObject[gradeValue])
+    return creditArrays.map((creditValue, index) => {
+        return scoreArrays[index] * creditArrays[index]
+    })
+}
+
+//배열값을 더해주는 함수
 function sumArrays(arrays) {
     return arrays.reduce((beforeVal, currentVal) => {
         return beforeVal + currentVal 
