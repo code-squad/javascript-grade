@@ -40,16 +40,17 @@ function getCreditArrays(classData) {
 //전공점수를 모아 새로운 배열을 만드는 함수
 function getMajorGradeArrays(classData) {
     const majorGradeObjs = classData.filter(classObject => classObject.major)
-    const majorGradeArrays = getGradeArrays(majorGradeObjs)
-    return majorGradeArrays
+    return getGradeArrays(majorGradeObjs)
 }
 
 //전공학점을 모아 새로운 배열을 만드는 함수
 function getMajorCreditArrays(classData) {
     const majorCreditObjs = classData.filter(classObject => classObject.major)
-    const majorCreditArrays = getCreditArrays(majorCreditObjs)
-    return majorCreditArrays
+    return getCreditArrays(majorCreditObjs)
 }
+
+showGrade(data)
+sortGrade(data)
 
 //학점평균을 내는 함수
 function getGradeAverage(gradeArrays, creditArrays) {
