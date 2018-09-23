@@ -25,8 +25,6 @@ let data = [
     }
 ];
 
-//강의를 추가하는 함수
-
 //점수를모아 새로운 배열을 만드는 함수
 function getGradeArrays(classData) {
     const classGrade = classData.map(classObject => classObject.grade)
@@ -85,23 +83,20 @@ function printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoa
 
 //총평점과 전공평점, 이수학점, 전공이수학점을 계산해주는 함수
 function showGrade(gradeData) {
-    const gradeArrays = getGradeArrays(gradeData),
-        creditArrays = getCreditArrays(gradeData),
-        majorgradeArrays = getMajorGradeArrays(gradeData),
-        majorCreditArrays = getMajorCreditArrays(gradeData)
-
-    const gradeAverage = getGradeAverage(gradeArrays, creditArrays),
-        majorGradeAverage = getGradeAverage(majorgradeArrays, majorCreditArrays)
+    const gradeAverage = getGradeAverage(getGradeArrays(gradeData), getCreditArrays(gradeData)),
+        majorGradeAverage = getGradeAverage(getMajorGradeArrays(gradeData), getMajorCreditArrays(gradeData))
     
-    const sumOfCredit = creditArrays.reduce((beforeValue, currentValue) => {
+    const creditLoad = getCreditArrays(gradeData).reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     }, 0)
-    const sumOfMajorCredit = majorCreditArrays.reduce((beforeValue, currentValue) => {
+    const majorCreditLoad = getMajorCreditArrays(gradeData).reduce((beforeValue, currentValue) => {
         return beforeValue + currentValue;
     }, 0)
-    printResult(gradeAverage, majorGradeAverage, sumOfCredit, sumOfMajorCredit)
+    printResult(gradeAverage, majorGradeAverage, creditLoad, majorCreditLoad)
 }
 
+showGrade(data)
+//강의를 추가하는 함수 
 function addLecture(classObject) {
     data.push(classObject)
     showGrade(data)
@@ -113,7 +108,6 @@ function removeLecture(className, printTime) {
     data = deletedData
     setTimeout(() => showGrade(data), printTime)
 }
-
 
 //정렬해주는 함수
 function sortGrade(classData) {
