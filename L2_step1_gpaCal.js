@@ -16,6 +16,18 @@ const data = [{
         'credit': 1,
         'major': false
     },
+    {
+        'name': '경영',
+        'grade': 'A+',
+        'credit': 3,
+        'major': true
+    },
+    {
+        'name': '통계',
+        'grade': 'A+',
+        'credit': 2,
+        'major': true
+    },
 ];
 
 const fourPointFiveTable = {
@@ -100,6 +112,54 @@ addLecture({
     'credit': 3,
     'Major': true
 });
-*/
 
 removeLecture('철학', 2000); // 2초뒤에 다시 결과 출력
+*/
+
+// function sortGrade(data) {
+//     let sorted = data.sort(function (a, b) {
+//         return a.grade > b.grade;
+//     });
+
+//     return sorted;
+// }
+
+function sortGrade2(data) {
+    for (i = 0; i < data.length; i++) {
+        for (j = 0; j < data.length; j++) {
+            if (data[i]['grade'] < data[j]['grade']) {
+                let temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
+            } else if (data[i]['grade'] === data[j]['grade'] && data[i]['credit'] > data[j]['credit']) {
+                let temp = data[i];
+                data[i] = data[j];
+                data[j] = temp;
+            }
+        }
+    }
+    return data;
+}
+
+function print(data) {
+    data = sortGrade2(data);
+    let output = "";
+    output += `-----------------------------------------\n`
+    for(i=0; i<data.length; i++){
+        output += `${data[i]['name']}, ${data[i]['grade']}, ${data[i]['credit']}학점\n`
+    }
+    output += `-----------------------------------------`;
+    return output;
+}
+
+console.log(print(data))
+
+
+/*
+ const template = 
+ `----------------------------------------------------------
+  ${result.name}, ${result.grade}, ${result.credit}학점
+  ----------------------------------------------------------`
+
+ console.log(template);
+ */
