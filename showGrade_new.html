@@ -11,7 +11,7 @@
 <body>
     <script>
 
-        // 학점 계산기(step2)
+        // 학점 계산기(step3)
 
         // 과목 정보 객체 생성
         const gradeData = [
@@ -68,35 +68,40 @@
         // 객체 생성(네임 스페이스 설정)
         const gradeInfo = {
 
+
             // main 메소드 
             showGradeInfo(gradeData, otherScale) {
                 this.sumGradeData(gradeData, otherScale);
             },
 
+
             // 과목 추가 메소드
             addLecture(lectureData, otherScale) {
-                let { name, grade, credit, major } = lectureData;
-                let lecture = {};
-                lecture.name = name;
-                lecture.grade = grade;
-                lecture.credit = credit;
-                lecture.major = major;
-                //console.log(lecture);
-                gradeData.push(lecture);
-                //console.log(gradeData);
+                const lectureObj = this.duplicateObj(lectureData);
+                gradeData.push(lectureObj);
                 console.log(`과목 추가----------------`)
                 this.showGradeInfo(gradeData, otherScale);
-
             },
+
+
+            // 객체 복제 메소드
+            duplicateObj(lectureData) {
+                const lectureObj = {};
+                for (let key in lectureData) {
+                    lectureObj[key] = lectureData[key];
+                }
+                return lectureObj;
+            },
+
 
             // 과목 삭제 메소드
             removeLecture(lectureName, time, otherScale) {
                 setTimeout(() => {
-                    for (let i = 0; i < gradeData.length; i++) {
-                        if (gradeData[i].name === lectureName) {
-                            gradeData.splice(i, 1);
+                    gradeData.forEach((val, idx) => {
+                        if (val.name === lectureName) {
+                            gradeData.splice(idx, 1);
                         }
-                    }
+                    });
                     console.log(`과목 삭제-------------------`)
                     this.showGradeInfo(gradeData, otherScale);
                 }, time);
@@ -113,28 +118,29 @@
                 console.log(`---------------------------`);
             },
 
+
             // 성적순 데이터 정렬 메소드
             sortByGrade(gradeData) {
-                const PointScale = ["A+", "A", "B+", "B", "C+", "C", "D+", "D"];
+                const pointScale = ["A+", "A", "B+", "B", "C+", "C", "D+", "D"];
                 this.arrByCredit = [];
-                for (let i = 0; i < PointScale.length; i++) {
+                pointScale.forEach(grade => {
                     let arrByGrade = [];
-                    gradeData.filter(function (val) {
-                        if (val.grade === PointScale[i]) {
+                    gradeData.filter(val => {
+                        if (val.grade === grade) {
                             arrByGrade = arrByGrade.concat(val);
                         }
-                    })
+                    });
                     gradeInfo.sortByCredit(arrByGrade);
-                }
-                //console.log(this.arrByCredit);
+                });
                 return this.arrByCredit;
             },
 
+
             // 이수 학점순 데이터 정렬 메소드
             sortByCredit(arrByGrade) {
-                arrByGrade.sort(function (a, b) {
-                    return b.credit - a.credit;
-                });
+                arrByGrade.sort((a, b) =>
+                    b.credit - a.credit
+                );
                 this.arrByCredit = this.arrByCredit.concat(arrByGrade);
             },
 
@@ -174,6 +180,7 @@
                 return `4.5기준 총평점: ${gpaStandard}(${otherScale}기준 ${gpaOtherScale})`;
             },
 
+
             // 전공평점 계산 메소드
             calGpaMajor(gradeData, otherScale, sumPointMajor, countMajor) {
                 let gpaStandard = 0,  // 4.5기준 평점
@@ -196,8 +203,7 @@
         gradeInfo.sortMyGrade(gradeData);
 
         // 과목 삭제 메소드 호출
-        gradeInfo.removeLecture("컴퓨터공학", 2000, 3.8);
-
+        //gradeInfo.removeLecture("컴퓨터공학", 2000, 3.8);
 
 
     </script>
