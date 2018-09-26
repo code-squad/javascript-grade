@@ -1,4 +1,4 @@
-const data = [{'name' : '데이터베이스', 'grade' : 'A', 'credit' : 3, 'major' : false},
+const lectureList = [{'name' : '데이터베이스', 'grade' : 'A', 'credit' : 3, 'major' : false},
             {'name' : 'Java 완전정복', 'grade' : 'D', 'credit' : 3, 'major' : true},
             {'name' : '프로그래밍 설계', 'grade' : 'B', 'credit' : 2, 'major' : false},
             {'name' : '네트워크실습', 'grade' : 'A', 'credit' : 1, 'major' : true},
@@ -34,35 +34,35 @@ function showGrade(data){
 }
 
 function addLecture(lectureData){
-    data.push(lectureData);
-    showGrade(data);
+    lectureList.push(lectureData);
+    showGrade(lectureList);
 }
 
 function removeLecture(lectureName, time){
-    data.forEach((lecture, idx) => {
-        if(lecture.name === lectureName) data.splice(idx, 1);
+    lectureList.forEach((lecture, idx) => {
+        if(lecture.name === lectureName) lectureList.splice(idx, 1);
     }); 
-    setTimeout(showGrade, time, data);
+    setTimeout(showGrade, time, lectureList);
 }
 
 function sortMyGrade(data){
-    const classifyByGrade = {};
+    const lectureListByGrade = {};
     const gradeDataKeys = Object.keys(gradeData);
     
     for(let key of gradeDataKeys){
-        classifyByGrade[key] = data.filter(lec => lec.grade === key);
+        lectureListByGrade[key] = data.filter(lec => lec.grade === key);
     }
-    for(let lec in classifyByGrade){
-        classifyByGrade[lec].sort((lecture1, lecture2) => lecture2.credit-lecture1.credit);                
+    for(let grade in lectureListByGrade){
+        if(lectureListByGrade.hasOwnProperty(grade)) lectureListByGrade[grade].sort((lecture1, lecture2) => lecture2.credit-lecture1.credit);                
     }
         
-    console.log(`-------------${stringfyData(classifyByGrade)}-------------`);
+    console.log(`-------------${stringfyData(lectureListByGrade)}-------------`);
 }
 
 function stringfyData(data){
     let stringData = '';
     for(let grade in data){
-        if(data[grade].length){
+        if(data.hasOwnProperty(grade) && data[grade].length){
             stringData += data[grade].reduce((lec1, lec2) => lec1 + `${lec2.name}, ${lec2.grade}, ${lec2.credit}학점\n`, '\n');
         }
     }
