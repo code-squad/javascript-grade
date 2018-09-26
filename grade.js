@@ -56,6 +56,7 @@ function declareData(data){
             'F' : 0,
     };
 
+
     const updateData = (data) => Object.assign({}, data, {
         grade: grade_table[data.grade]
     });
@@ -81,6 +82,7 @@ function declareData(data){
 // 전공 수업 확인 필터
 
 function returnMajorData(data){
+
     return data.filter((data) => data.major);
 }
 
@@ -119,6 +121,7 @@ function checkCreditNumber(data){
 }
 
 // 학점 연산
+
 
 function calculateCredit(data){
     return data.reduce((accum, curr) => { 
