@@ -1,6 +1,6 @@
 // 총 학점 데이터
 
-const data =  [ 
+const data =  [
     {
         'name' : '데이터베이스', 
         'grade' : 'B+', 
@@ -37,7 +37,7 @@ const data =  [
         'credit' : 2,
         'major' : false
     }
-];   
+];
 
 // 데이터 변환(4.5 만점 기준)
 
@@ -56,21 +56,23 @@ function declareData(data){
             'F' : 0,
     };
 
-    const update_data = (data) => Object.assign({}, data, {
+    const updateData = (data) => Object.assign({}, data, {
         grade: grade_table[data.grade]
     });
 
-    const new_object = (state) => state.reduce((acc, d, currentIndex) => ({
+    const makeNewObject = (state) => state.reduce((acc, d, currentIndex) => ({
         ...acc,
-        [currentIndex]: update_data(d),
+        [currentIndex]: updateData(d),
     }), {});
 
-    const make_object = new_object(data);
+    const new_object = makeNewObject(data);
     
     const new_data = [];
     
-    for(let v in make_object){
-        new_data.push(make_object[v]);
+    for(let v in new_object){
+        if (new_object.hasOwnProperty (v)) {
+            new_data.push(new_object[v]);
+        }
     }
     
     return new_data;
@@ -78,7 +80,7 @@ function declareData(data){
 
 // 전공 수업 확인 필터
 
-function checkMajor(data){
+function returnMajorData(data){
     return data.filter((data) => data.major);
 }
 
@@ -86,9 +88,9 @@ function checkMajor(data){
 
 function showGrade(data){
     let total_calculation = calculateCredit(data).toFixed(2),
-        major_calculation = calculateCredit(checkMajor(data)).toFixed(2),
+        major_calculation = calculateCredit(returnMajorData(data)).toFixed(2),
         data_number = checkCreditNumber(data),
-        major_number = checkCreditNumber(checkMajor(data)),
+        major_number = checkCreditNumber(returnMajorData(data)),
         exchanged_grades = exchangeGrades(4.0, total_calculation),
         exchanged_major_grades = exchangeGrades(4.0, major_calculation);
     
@@ -118,7 +120,7 @@ function checkCreditNumber(data){
 
 // 학점 연산
 
-function calculateCredit(data){    
+function calculateCredit(data){
     return data.reduce((accum, curr) => { 
         return  accum + curr.credit * curr.grade; 
     },0) / checkCreditNumber(data);
@@ -169,7 +171,7 @@ function sortMyGrade(data){
 
 
 // declareData(data);
-// showGrade(declareData(data));
+showGrade(declareData(data));
 // sortMyGrade(data);
 // removeLecture('철학', 2000);
 // addLecture({'name' : '알고리즘', 'grade' : 'B', 'credit' : 3, 'major' : true});
