@@ -6,7 +6,7 @@ const data = [{
     },
     {
         'name': '교양영어',
-        'grade': 'B+',
+        'grade': 'B',
         'credit': 2,
         'major': true
     },
@@ -105,6 +105,36 @@ function gpaCalculator(dataArr, scale) {
     return template;
 }
 
+function sortGrade(dataArr) {
+    for (i = 0; i < dataArr.length; i++) {
+        dataArr[i].gradePoint = fourPointFiveTable[dataArr[i]['grade']];
+    }
+    dataArr.sort(function (a, b) {
+        return b.gradePoint - a.gradePoint;
+    });
+    for (i = 0; i < dataArr.length; i++) {
+        for (j = 0; j < dataArr.length; j++) {
+            if (dataArr[i]['grade'] === dataArr[j]['grade'] && dataArr[i]['credit'] > dataArr[j]['credit']) {
+                let temp = dataArr[i];
+                dataArr[i] = dataArr[j];
+                dataArr[j] = temp;
+            }
+        }
+    }
+    return dataArr;
+}
+
+function print(dataArr) {
+    let data = sortGrade(dataArr);
+    let output = "";
+    output += `-----------------------------------------\n`
+    for (i = 0; i < data.length; i++) {
+        output += `${data[i]['name']}, ${data[i]['grade']}, ${data[i]['credit']}학점\n`
+    }
+    output += `-----------------------------------------`;
+    return output;
+}
+
 /*
 addLecture({
     'name': '알고리즘',
@@ -116,18 +146,12 @@ addLecture({
 removeLecture('철학', 2000); // 2초뒤에 다시 결과 출력
 */
 
-// function sortGrade(data) {
-//     let sorted = data.sort(function (a, b) {
-//         return a.grade > b.grade;
-//     });
-
-//     return sorted;
-// }
-
-function sortGrade2(data) {
+/*
+function sortGrade(data) {
     for (i = 0; i < data.length; i++) {
         for (j = 0; j < data.length; j++) {
             if (data[i]['grade'] < data[j]['grade']) {
+                // console.log(data[i]['grade']+' < '+data[j]['grade'])
                 let temp = data[i];
                 data[i] = data[j];
                 data[j] = temp;
@@ -140,26 +164,4 @@ function sortGrade2(data) {
     }
     return data;
 }
-
-function print(data) {
-    data = sortGrade2(data);
-    let output = "";
-    output += `-----------------------------------------\n`
-    for(i=0; i<data.length; i++){
-        output += `${data[i]['name']}, ${data[i]['grade']}, ${data[i]['credit']}학점\n`
-    }
-    output += `-----------------------------------------`;
-    return output;
-}
-
-console.log(print(data))
-
-
-/*
- const template = 
- `----------------------------------------------------------
-  ${result.name}, ${result.grade}, ${result.credit}학점
-  ----------------------------------------------------------`
-
- console.log(template);
- */
+*/
