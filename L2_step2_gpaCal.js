@@ -1,33 +1,33 @@
 let data = [{
-    'name': '데이터베이스',
-    'grade': 'A',
-    'credit': 3,
-    'major': false
-},
-{
-    'name': '교양영어',
-    'grade': 'B',
-    'credit': 2,
-    'major': true
-},
-{
-    'name': '철학',
-    'grade': 'B+',
-    'credit': 1,
-    'major': false
-},
-{
-    'name': '경영',
-    'grade': 'A+',
-    'credit': 3,
-    'major': true
-},
-{
-    'name': '통계',
-    'grade': 'A+',
-    'credit': 2,
-    'major': true
-},
+        'name': '데이터베이스',
+        'grade': 'A',
+        'credit': 3,
+        'major': false
+    },
+    {
+        'name': '교양영어',
+        'grade': 'B',
+        'credit': 2,
+        'major': true
+    },
+    {
+        'name': '철학',
+        'grade': 'B+',
+        'credit': 1,
+        'major': false
+    },
+    {
+        'name': '경영',
+        'grade': 'A+',
+        'credit': 3,
+        'major': true
+    },
+    {
+        'name': '통계',
+        'grade': 'A+',
+        'credit': 2,
+        'major': true
+    },
 ];
 
 const fourPointFiveTable = {
@@ -61,7 +61,6 @@ function removeLecture(dataArr, lecture, time) {
     }, time);
 
 }
-console.log(removeLecture(data, '철학', 2000))
 
 function calculateCredits(dataArr) {
     let grossCredits = 0;
@@ -119,17 +118,8 @@ function gpaCalculator(dataArr, scale) {
 }
 
 function sortGrade(dataArr) {
-    for (i = 0; i < dataArr.length; i++) {
-        /*
-
-정렬을 위해서 gradePoint 속성을 추가한건가요? 객체를이용하면 이를 해결할수 있을거 같아요.
-
-grademap={'a':4.5 ,'a+':4.0...} 이런걸 사용하면 gardePoint를 제거할 수 있을거에요.
-*/
-        dataArr[i].gradePoint = fourPointFiveTable[dataArr[i]['grade']];
-    }
     dataArr.sort(function (a, b) {
-        return b.gradePoint - a.gradePoint;
+        return fourPointFiveTable[b.grade] - fourPointFiveTable[a.grade];
     });
     //for문을 다른 for-of 나 forEach로 수정해볼 수 있는지 검토 해주실래요?
     for (i = 0; i < dataArr.length; i++) {
