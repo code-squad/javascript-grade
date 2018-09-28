@@ -1,107 +1,83 @@
 // lecture2 - STEP1. 학점계산기
 
 
-// grade를 숫자값으로 변환
-// credit과 grade끼리 곱한값을 sum에 더해서 저장
-// credit을 creditSum에 더해서 저장
-// sum에 creditSum을 나눈 값을 학점에 저장
-// 학점을 출력
-
-
 // 학점을 계산하는 함수
-let showGrade = function(data) {
-  var sum = 0;
-  var creditSum = 0;
-  var mSum = 0;
-  var mCreditSum = 0;
+let showGrade = function (data) {
 
-  
-  
-  for(let keys in data) {
-    let value = data[keys].grade;
-    // console.log('grade = ', value);
+  let sum = 0;
+  let creditSum = 0;
+  let majorSum = 0;
+  let majorCreditSum = 0;
 
-    let major = data[keys].major;
-    let grade = engChange(value);
-    let credit = data[keys].credit;
-    // console.log('credit = ', credit);
+  for (let keys of data) {
+
+    let grade = keys.grade;
+    let major = keys.major;
+    gradePoint = changeEnglish[grade];
+    let credit = keys.credit;
 
     creditSum += credit;
-    sum += grade * credit;
+    sum += gradePoint * credit;
 
+    if (major) {
 
-    if(major){
-      mCreditSum += credit;
-      mSum += grade * credit;
+      majorCreditSum += credit;
+      majorSum += gradePoint * credit;
     }
-    
   }
 
-
-  // console.log('sum = ', sum);
-  // console.log('creditSum = ', creditSum);
-  console.log('(4.5기준)  총평점 : ' + (sum / creditSum).toFixed(2) + '  전공 평점 = ' + (mSum / mCreditSum).toFixed(2));
-  console.log('(4.0기준)  총평점 : ' + (sum * (4/4.5) / creditSum).toFixed(2) + '  전공 평점 = ' + (mSum * (4/4.5) / mCreditSum).toFixed(2));
-  console.log('         이수학점 : ' + creditSum + '  전공이수학점 = ' + mCreditSum); 
+  console.log('(4.5기준)  총평점 : ' + calculate(sum, creditSum, 4.5) + '  전공 평점 = ' + calculate(majorSum, majorCreditSum, 4.5));
+  console.log('(4.0기준)  총평점 : ' + calculate(sum, creditSum, 4.0) + '  전공 평점 = ' + calculate(majorSum, majorCreditSum, 4.0));
+  console.log('         이수학점 : ' + creditSum + '  전공이수학점 = ' + majorCreditSum);
 }
 
 
-// greade를 숫자값으로 변환하기
-let engChange = function(eng) {
-  switch(eng) {
-    case 'A+':
-      eng = 4.5;
-      break;
-    case 'A':
-      eng = 4;
-      break;
-    case 'B+':
-      eng = 3.5;
-      break;
-    case 'B':
-      eng = 3;
-      break;
-    case 'C+':
-      eng = 2.5;
-      break;
-    case 'C':
-      eng = 2;
-      break;
-    case 'D+':
-      eng = 1.5;
-      break;
-    case 'D':
-      eng = 1;
-      break;
-    case 'F':
-      eng = 0;
-      break;
-  }
-  return eng;
+
+// 최대평점 기준을 4.5에서 4.0으로 변환하는 함수
+let calculate = function (sum, creditSum, scale) {
+
+  if (scale === 4.5) return (sum / creditSum).toFixed(2);
+  return (sum * (4 / 4.5) / creditSum).toFixed(2);
+}
+
+
+
+// greade를 숫자값으로 대응한 배열
+const changeEnglish = {
+  'A+': 4.5,
+  'A': 4,
+  'B+': 3.5,
+  'B': 3,
+  'C+': 2,
+  'C': 2,
+  'D+': 1.5,
+  'D': 1,
+  'F': 0
 }
 
 
 
 // 데이터
-let data =  [
+const data = [
   {
-      'name' : '데이터베이스', 
-      'grade' : 'A', 
-      'credit' : 3,
-      'major' : false
+    'name': '데이터베이스',
+    'grade': 'A',
+    'credit': 3,
+    'major': false
   },
   {
-      'name' : '교양영어', 
-      'grade' : 'B+', 
-      'credit' : 2,
-      'major' : true
+    'name': '교양영어',
+    'grade': 'B+',
+    'credit': 2,
+    'major': true
   },
   {
-      'name' : '철학', 
-      'grade' : 'B+', 
-      'credit' : 1,
-      'major' : false
+    'name': '철학',
+    'grade': 'B+',
+    'credit': 1,
+    'major': false
   }
 ];
+
 
 showGrade(data);
