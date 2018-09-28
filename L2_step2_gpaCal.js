@@ -95,7 +95,7 @@ function gpaCalculator(dataArr, scale) {
 
     const template =
         `
-    ${scale.toFixed(1)} 기준: 총 평점 = ${gpa}, 전공 평점 = ${mgpa}
+    ${scale} 기준: 총 평점 = ${gpa}, 전공 평점 = ${mgpa}
     이수 학점: ${grossCredits}
     전공 이수 학점: ${majorCredits}`
 
