@@ -1,33 +1,33 @@
 let data = [{
-        'name': '데이터베이스',
-        'grade': 'A',
-        'credit': 3,
-        'major': false
-    },
-    {
-        'name': '교양영어',
-        'grade': 'B',
-        'credit': 2,
-        'major': true
-    },
-    {
-        'name': '철학',
-        'grade': 'B',
-        'credit': 2,
-        'major': false
-    },
-    {
-        'name': '경영',
-        'grade': 'A+',
-        'credit': 3,
-        'major': true
-    },
-    {
-        'name': '통계',
-        'grade': 'A+',
-        'credit': 2,
-        'major': true
-    },
+    'name': '데이터베이스',
+    'grade': 'A',
+    'credit': 3,
+    'major': false
+},
+{
+    'name': '교양영어',
+    'grade': 'B',
+    'credit': 2,
+    'major': true
+},
+{
+    'name': '철학',
+    'grade': 'B',
+    'credit': 2,
+    'major': false
+},
+{
+    'name': '경영',
+    'grade': 'A+',
+    'credit': 3,
+    'major': true
+},
+{
+    'name': '통계',
+    'grade': 'A+',
+    'credit': 2,
+    'major': true
+},
 ];
 
 const fourPointFiveTable = {
@@ -90,12 +90,12 @@ function calculatePoints(dataArr) {
 function gpaCalculator(dataArr, scale) {
     const [grossCredits, majorCredits] = calculateCredits(dataArr);
     const [grossPoints, majorPoints] = calculatePoints(dataArr);
-    const gpa = parseFloat((grossPoints / grossCredits).toFixed(2));
-    const mgpa = parseFloat((majorPoints / majorCredits).toFixed(2));
+    const gpa = ((grossPoints / grossCredits) * (scale / 4.5)).toFixed(2);
+    const mgpa = ((majorPoints / majorCredits) * (scale / 4.5)).toFixed(2);
 
     const template =
         `
-    ${scale.toFixed(1)} 기준: 총 평점 = ${((gpa) * (scale / 4.5)).toFixed(2)} 전공 평점 = ${((mgpa) * (scale / 4.5)).toFixed(2)}
+    ${scale.toFixed(1)} 기준: 총 평점 = ${gpa}, 전공 평점 = ${mgpa}
     이수 학점: ${grossCredits}
     전공 이수 학점: ${majorCredits}`
 
