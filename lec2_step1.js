@@ -58,9 +58,8 @@ var addUpTotalCredit = function (data) {
 var addUpMajorCredit = function (data) {
     let majorCredit =0;
 
-    data.filter( (v) => {
-        if (v.major) { majorCredit += v.credit }
-    } );
+    data.filter((v) => v.major).map(v => majorCredit += v.credit);
+
     return majorCredit;
 };
 
@@ -77,7 +76,7 @@ function calculatingTotal (data) {
 function calculatingMajor (data) {
     let calculatingMajorValue = 0;
 
-    data.filter( (e) =>  e.major ).forEach( (v) => {
+    data.filter( (e) =>  e.major ).map( (v) => {
         calculatingMajorValue += gradingScale[v.grade] * v.credit;
     })
     return calculatingMajorValue;
@@ -98,8 +97,10 @@ function calculatingMajorGPA (data) {
 }
 
 function convertStandardTo40 (data) {
-    let totalGPA = (calculatingTotalGPA(data) / 1.125).toFixed(2)
-    let majorGPA = (calculatingMajorGPA(data) / 1.125).toFixed(2);
+    const ratio = 4.5/4.0;
+
+    let totalGPA = (calculatingTotalGPA(data) / ratio).toFixed(2)
+    let majorGPA = (calculatingMajorGPA(data) / ratio).toFixed(2);
 
     return [totalGPA, majorGPA];
 }
@@ -107,17 +108,16 @@ function convertStandardTo40 (data) {
 function showGrade(data, gradingScale) {
     let totalCredit = addUpTotalCredit(data);
     let majorCredit = addUpMajorCredit(data);
+    let standard, totalGPA, majorGPA;
 
     if (gradingScale === 4.5) {
-    var standard = '4.5',
-        totalGPA = calculatingTotalGPA(data),
+        standard = '4.5';
+        totalGPA = calculatingTotalGPA(data);
         majorGPA = calculatingMajorGPA(data);
     } else {
-    var standard = '4.0',
-        totalGPA = convertStandardTo40(data)[0],
-        majorGPA = convertStandardTo40(data)[1];
+        standard = '4.0';
+        [ totalGPA, majorGPA ] = convertStandardTo40(data);
     }
 
     return `${standard} 기준 - 총평점: ${totalGPA}, 전공평점: ${majorGPA} 이수학점: ${totalCredit}, 이수전공학점: ${majorCredit}`;
 } 
-
