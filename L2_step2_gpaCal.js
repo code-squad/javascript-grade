@@ -1,33 +1,33 @@
 let data = [{
-    'name': '데이터베이스',
-    'grade': 'A',
-    'credit': 3,
-    'major': false
-},
-{
-    'name': '교양영어',
-    'grade': 'B',
-    'credit': 2,
-    'major': true
-},
-{
-    'name': '철학',
-    'grade': 'B+',
-    'credit': 1,
-    'major': false
-},
-{
-    'name': '경영',
-    'grade': 'A+',
-    'credit': 3,
-    'major': true
-},
-{
-    'name': '통계',
-    'grade': 'A+',
-    'credit': 2,
-    'major': true
-},
+        'name': '데이터베이스',
+        'grade': 'A',
+        'credit': 3,
+        'major': false
+    },
+    {
+        'name': '교양영어',
+        'grade': 'B',
+        'credit': 2,
+        'major': true
+    },
+    {
+        'name': '철학',
+        'grade': 'B',
+        'credit': 2,
+        'major': false
+    },
+    {
+        'name': '경영',
+        'grade': 'A+',
+        'credit': 3,
+        'major': true
+    },
+    {
+        'name': '통계',
+        'grade': 'A+',
+        'credit': 2,
+        'major': true
+    },
 ];
 
 const fourPointFiveTable = {
@@ -59,7 +59,6 @@ function removeLecture(dataArr, lecture, time) {
         const result = gpaCalculator(newData, 4.5);
         console.log(result);
     }, time);
-
 }
 
 function calculateCredits(dataArr) {
@@ -98,7 +97,8 @@ function gpaCalculator(dataArr, scale) {
         `
     ${scale.toFixed(1)} 기준: 총 평점 = ${((gpa) * (scale / 4.5)).toFixed(2)} 전공 평점 = ${((mgpa) * (scale / 4.5)).toFixed(2)}
     이수 학점: ${grossCredits}
-    전공 이수 학점: ${grossMajorCredits}`
+    전공 이수 학점: ${majorCredits}`
+
     return template;
 }
 
@@ -106,16 +106,17 @@ function sortGrade(dataArr) {
     dataArr.sort(function (a, b) {
         return fourPointFiveTable[b.grade] - fourPointFiveTable[a.grade];
     });
-    //for문을 다른 for-of 나 forEach로 수정해볼 수 있는지 검토 해주실래요?
-    for (i = 0; i < dataArr.length; i++) {
-        for (j = 0; j < dataArr.length; j++) {
-            if (dataArr[i]['grade'] === dataArr[j]['grade'] && dataArr[i]['credit'] > dataArr[j]['credit']) {
-                let temp = dataArr[i];
-                dataArr[i] = dataArr[j];
-                dataArr[j] = temp;
+
+    dataArr.forEach((v1, i1) => {
+        dataArr.forEach((v2, i2) => {
+            if (dataArr[i1]['grade'] === dataArr[i2]['grade'] && dataArr[i1]['credit'] > dataArr[i2]['credit']) {
+                let temp = dataArr[i1];
+                dataArr[i1] = dataArr[i2];
+                dataArr[i2] = temp;
             }
-        }
-    }
+        })
+    })
+
     return dataArr;
 }
 
@@ -129,35 +130,3 @@ function print(dataArr) {
     output += `-----------------------------------------`;
     return output;
 }
-
-console.log(print(data))
-/*
-addLecture({
-    'name': '알고리즘',
-    'grade': 'B',
-    'credit': 3,
-    'Major': true
-});
-
-removeLecture('철학', 2000); // 2초뒤에 다시 결과 출력
-*/
-
-/*
-function sortGrade(data) {
-    for (i = 0; i < data.length; i++) {
-        for (j = 0; j < data.length; j++) {
-            if (data[i]['grade'] < data[j]['grade']) {
-                // console.log(data[i]['grade']+' < '+data[j]['grade'])
-                let temp = data[i];
-                data[i] = data[j];
-                data[j] = temp;
-            } else if (data[i]['grade'] === data[j]['grade'] && data[i]['credit'] > data[j]['credit']) {
-                let temp = data[i];
-                data[i] = data[j];
-                data[j] = temp;
-            }
-        }
-    }
-    return data;
-}
-*/
