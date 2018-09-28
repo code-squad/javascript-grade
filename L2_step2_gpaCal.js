@@ -1,33 +1,33 @@
 let data = [{
-        'name': '데이터베이스',
-        'grade': 'A',
-        'credit': 3,
-        'major': false
-    },
-    {
-        'name': '교양영어',
-        'grade': 'B',
-        'credit': 2,
-        'major': true
-    },
-    {
-        'name': '철학',
-        'grade': 'B+',
-        'credit': 1,
-        'major': false
-    },
-    {
-        'name': '경영',
-        'grade': 'A+',
-        'credit': 3,
-        'major': true
-    },
-    {
-        'name': '통계',
-        'grade': 'A+',
-        'credit': 2,
-        'major': true
-    },
+    'name': '데이터베이스',
+    'grade': 'A',
+    'credit': 3,
+    'major': false
+},
+{
+    'name': '교양영어',
+    'grade': 'B',
+    'credit': 2,
+    'major': true
+},
+{
+    'name': '철학',
+    'grade': 'B+',
+    'credit': 1,
+    'major': false
+},
+{
+    'name': '경영',
+    'grade': 'A+',
+    'credit': 3,
+    'major': true
+},
+{
+    'name': '통계',
+    'grade': 'A+',
+    'credit': 2,
+    'major': true
+},
 ];
 
 const fourPointFiveTable = {
@@ -88,32 +88,17 @@ function calculatePoints(dataArr) {
     return [grossPoints, grossMajorPoints];
 }
 
-/*
-getValues 함수에서는 values라는 객체에 무언가 담아두고,
-그 결과를 다시 gpaCalculator 에서 활용해서 출력하는건데요.
-
-gpaCalculator에서 필요한 건 getValues 객체가 아니고, 각각의 정보가 필요한 것이죠.
-따라서 getValues를 통해서 values객체를 만들지 않고, 평점을계산하는 함수, 전공평점을계산하는함수, 이수학점을 계산하는 함수,..
-이렇게 각각 에 요구사항에 맞는 함수들을 만들고 그 함수들을 호출하면 되죠.
-
-이런방식으로 한번 구현해보세요~
-*/
-
-function getValues(dataArr) {
-    const values = {};
-    //elements ...변수가 너무 기네요~
-    const elements = [calculateCredits(dataArr)[0], calculateCredits(dataArr)[1], calculatePoints(dataArr)[0], calculatePoints(dataArr)[1], parseFloat((calculatePoints(dataArr)[0] / calculateCredits(dataArr)[0]).toFixed(2)), parseFloat((calculatePoints(dataArr)[1] / calculateCredits(dataArr)[1]).toFixed(2))];
-    [values.grossCredits, values.grossMajorCredits, values.grossPoints, values.grossMajorPoints, values.gpa, values.mgpa] = elements;
-    return values;
-}
-
 function gpaCalculator(dataArr, scale) {
-    const values = getValues(dataArr);
+    const [grossCredits, majorCredits] = calculateCredits(dataArr);
+    const [grossPoints, majorPoints] = calculatePoints(dataArr);
+    const gpa = parseFloat((grossPoints / grossCredits).toFixed(2));
+    const mgpa = parseFloat((majorPoints / majorCredits).toFixed(2));
+
     const template =
         `
-    ${scale.toFixed(1)} 기준: 총 평점 = ${((values.gpa) * (scale / 4.5)).toFixed(2)} 전공 평점 = ${((values.mgpa) * (scale / 4.5)).toFixed(2)}
-    이수 학점: ${values.grossCredits}
-    전공 이수 학점: ${values.grossMajorCredits}`
+    ${scale.toFixed(1)} 기준: 총 평점 = ${((gpa) * (scale / 4.5)).toFixed(2)} 전공 평점 = ${((mgpa) * (scale / 4.5)).toFixed(2)}
+    이수 학점: ${grossCredits}
+    전공 이수 학점: ${grossMajorCredits}`
     return template;
 }
 
@@ -145,6 +130,7 @@ function print(dataArr) {
     return output;
 }
 
+console.log(print(data))
 /*
 addLecture({
     'name': '알고리즘',
