@@ -1,33 +1,33 @@
 let data = [{
-    'name': '데이터베이스',
-    'grade': 'A',
-    'credit': 3,
-    'major': false
-},
-{
-    'name': '교양영어',
-    'grade': 'B',
-    'credit': 2,
-    'major': true
-},
-{
-    'name': '철학',
-    'grade': 'B',
-    'credit': 2,
-    'major': false
-},
-{
-    'name': '경영',
-    'grade': 'A+',
-    'credit': 3,
-    'major': true
-},
-{
-    'name': '통계',
-    'grade': 'A+',
-    'credit': 2,
-    'major': true
-},
+        'name': '데이터베이스',
+        'grade': 'A',
+        'credit': 3,
+        'major': false
+    },
+    {
+        'name': '교양영어',
+        'grade': 'B',
+        'credit': 3,
+        'major': true
+    },
+    {
+        'name': '철학',
+        'grade': 'B',
+        'credit': 2,
+        'major': false
+    },
+    {
+        'name': '경영',
+        'grade': 'A+',
+        'credit': 1,
+        'major': true
+    },
+    {
+        'name': '통계',
+        'grade': 'A+',
+        'credit': 2,
+        'major': true
+    },
 ];
 
 const fourPointFiveTable = {
@@ -107,15 +107,11 @@ function sortGrade(dataArr) {
         return fourPointFiveTable[b.grade] - fourPointFiveTable[a.grade];
     });
 
-    dataArr.forEach((v1, i1) => {
-        dataArr.forEach((v2, i2) => {
-            if (dataArr[i1]['grade'] === dataArr[i2]['grade'] && dataArr[i1]['credit'] > dataArr[i2]['credit']) {
-                let temp = dataArr[i1];
-                dataArr[i1] = dataArr[i2];
-                dataArr[i2] = temp;
-            }
-        })
-    })
+    dataArr.sort(function (a, b) {
+        if (a.grade === b.grade) {
+            return b.credit - a.credit;
+        }
+    });
 
     return dataArr;
 }
