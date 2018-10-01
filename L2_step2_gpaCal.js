@@ -42,14 +42,14 @@ const fourPointFiveTable = {
     'F': 0,
 }
 
-function addLecture(newLecture) {
+const addLecture = (newLecture) => {
     const newData = data;
     newData.push(newLecture);
     const result = gpaCalculator(newData, 4.5);
     console.log(result);
 }
 
-function removeLecture(dataArr, lecture, time) {
+const removeLecture = (dataArr, lecture, time) => {
     setTimeout(function () {
         const newData = dataArr.filter(function (value) {
             return value.name !== lecture;
@@ -61,7 +61,7 @@ function removeLecture(dataArr, lecture, time) {
     }, time);
 }
 
-function calculateCredits(dataArr) {
+const calculateCredits = (dataArr) => {
     let grossCredits = 0;
     let grossMajorCredits = 0;
     for (const key in dataArr) {
@@ -73,7 +73,7 @@ function calculateCredits(dataArr) {
     return [grossCredits, grossMajorCredits];
 }
 
-function calculatePoints(dataArr) {
+const calculatePoints = (dataArr) => {
     let grossPoints = 0;
     let grossMajorPoints = 0;
 
@@ -87,7 +87,7 @@ function calculatePoints(dataArr) {
     return [grossPoints, grossMajorPoints];
 }
 
-function gpaCalculator(dataArr, scale) {
+const gpaCalculator = (dataArr, scale) => {
     const [grossCredits, majorCredits] = calculateCredits(dataArr);
     const [grossPoints, majorPoints] = calculatePoints(dataArr);
     const gpa = ((grossPoints / grossCredits) * (scale / 4.5)).toFixed(2);
@@ -102,7 +102,7 @@ function gpaCalculator(dataArr, scale) {
     return template;
 }
 
-function sortGrade(dataArr) {
+const sortGrade = (dataArr) => {
     dataArr.sort(function (a, b) {
         return fourPointFiveTable[b.grade] - fourPointFiveTable[a.grade];
     });
@@ -116,7 +116,7 @@ function sortGrade(dataArr) {
     return dataArr;
 }
 
-function print(dataArr) {
+const print = (dataArr) => {
     let data = sortGrade(dataArr);
     let output = "";
     output += `-----------------------------------------\n`
