@@ -87,11 +87,18 @@ const calculatePoints = (dataArr) => {
     return [grossPoints, grossMajorPoints];
 }
 
+const calculateGpa = (dataArr, scale) => {
+    const points = calculatePoints(dataArr);
+    const credits = calculateCredits(dataArr);
+    const gpa = ((points[0] / credits[0]) * (scale / 4.5)).toFixed(2);
+    const mgpa = ((points[1] / credits[1]) * (scale / 4.5)).toFixed(2);
+    return [gpa, mgpa];
+}
+
 const getResult = (dataArr, scale) => {
     const [grossCredits, majorCredits] = calculateCredits(dataArr);
     const [grossPoints, majorPoints] = calculatePoints(dataArr);
-    const gpa = ((grossPoints / grossCredits) * (scale / 4.5)).toFixed(2);
-    const mgpa = ((majorPoints / majorCredits) * (scale / 4.5)).toFixed(2);
+    const [gpa, mgpa] = calculateGpa(dataArr, 4.5);
 
     const template =
         `
@@ -126,4 +133,3 @@ const printResult = (dataArr) => {
     output += `-----------------------------------------`;
     return output;
 }
-console.log(printResult(data))
