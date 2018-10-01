@@ -120,9 +120,10 @@ const printResult = (dataArr) => {
     let data = sortGrade(dataArr);
     let output = "";
     output += `-----------------------------------------\n`
-    for (i = 0; i < data.length; i++) {
-        output += `${data[i]['name']}, ${data[i]['grade']}, ${data[i]['credit']}학점\n`
-    }
+    data.forEach((lecture) => {
+        output += `${lecture['name']}, ${lecture['grade']}, ${lecture['credit']}학점\n`
+    });
     output += `-----------------------------------------`;
     return output;
 }
+console.log(printResult(data))
