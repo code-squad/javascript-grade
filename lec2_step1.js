@@ -45,23 +45,23 @@ const gradingScale = {
 'A+':4.5, 'A':4.0, 'B+':3.5, 'B':3.0, 'C+':2.5, 'C':2.0, 'D+':1.5, 'D':1.0,'F':0 };
 
 // add up total credit
-var addUpTotalCredit = function (data) {
+function addUpTotalCredit (data) {
     let totalCredit = 0;
 
     data.forEach ( (v) => {
         totalCredit += v.credit; 
     })
     return totalCredit;
-};
+}
 
 // add up major credit
-var addUpMajorCredit = function (data) {
+function addUpMajorCredit (data) {
     let majorCredit =0;
 
     data.filter((v) => v.major).map(v => majorCredit += v.credit);
 
-    return majorCredit;
-};
+    return result;
+}
 
 // totalScore x totalCredit 
 function calculatingTotal (data) {
@@ -74,12 +74,14 @@ function calculatingTotal (data) {
 }
 
 function calculatingMajor (data) {
-    let calculatingMajorValue = 0;
+    //let calculatingMajorValue = 0;
+    //data.filter( (e) =>  e.major ).forEach( (v) => { 
+    //    calculatingMajorValue += gradingScale[v.grade] * v.credit;});
+    //return calculatingMajorValue;
+    
+    const result = data.filter((e) => e.major).map( v => gradingScale[v.grade] * v.credit ).reduce(function (accumulator, currentValue){return accumulator+currentValue;}, 0);
 
-    data.filter( (e) =>  e.major ).map( (v) => {
-        calculatingMajorValue += gradingScale[v.grade] * v.credit;
-    })
-    return calculatingMajorValue;
+    return result;
 }
 
 function calculatingTotalGPA (data) {
