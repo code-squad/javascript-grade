@@ -87,7 +87,7 @@ const calculatePoints = (dataArr) => {
     return [grossPoints, grossMajorPoints];
 }
 
-const gpaCalculator = (dataArr, scale) => {
+const getResult = (dataArr, scale) => {
     const [grossCredits, majorCredits] = calculateCredits(dataArr);
     const [grossPoints, majorPoints] = calculatePoints(dataArr);
     const gpa = ((grossPoints / grossCredits) * (scale / 4.5)).toFixed(2);
@@ -116,7 +116,7 @@ const sortGrade = (dataArr) => {
     return dataArr;
 }
 
-const print = (dataArr) => {
+const printResult = (dataArr) => {
     let data = sortGrade(dataArr);
     let output = "";
     output += `-----------------------------------------\n`
