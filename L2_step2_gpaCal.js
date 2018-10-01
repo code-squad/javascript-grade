@@ -43,9 +43,8 @@ const fourPointFiveTable = {
 }
 
 const addLecture = (newLecture) => {
-    const newData = data;
-    newData.push(newLecture);
-    const result = gpaCalculator(newData, 4.5);
+    data.push(newLecture);
+    const result = getResult(data, 4.5);
     console.log(result);
 }
 
@@ -56,7 +55,7 @@ const removeLecture = (dataArr, lecture, time) => {
         })
 
         data = newData;
-        const result = gpaCalculator(newData, 4.5);
+        const result = getResult(newData, 4.5);
         console.log(result);
     }, time);
 }
