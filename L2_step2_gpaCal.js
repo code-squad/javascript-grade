@@ -60,10 +60,10 @@ const calculateCredits = (dataArr) => {
     let grossCredits = 0;
     let grossMajorCredits = 0;
     // 객체를 순회할때 hasownproperty라는 메서드로 체크하는게 필요한데요. (복잡한 이유지만) 한번 그 이유를 살펴보세요.
-    for (const key in dataArr) {
-        grossCredits += dataArr[key].credit;
-        if (dataArr[key].major) {
-            grossMajorCredits += dataArr[key].credit;
+    for (const key of dataArr) {
+        grossCredits += key.credit;
+        if (key.major) {
+            grossMajorCredits += key.credit;
         }
     }
     return [grossCredits, grossMajorCredits];
