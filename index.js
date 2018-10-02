@@ -56,13 +56,8 @@ const gradeMap = {
     'F': 0
 };
 // 새로운 과목 추가 함수
-let addLecture = function (newname, newgrade, newcredit, newmajor) {
-    gradesData.push({
-        name: newname,
-        grade: newgrade,
-        credit: newcredit,
-        major: newmajor
-    });
+let addLecture = function (gradesobject) {
+    gradesData.push(gradesobject);
     showGrade(gradesData, gradeMap);
 };
 //  기존과목을 삭제하는 함수 ,입력 시간만큼 지연후, showGrade함수실행
@@ -100,7 +95,7 @@ let calculateFourPointFiveCredit = function (gradesData, rating) {
 };
 // 전공과목 gradesData배열 생성함수
 let filterlingMajorGradeObj = function (gradesData) {
-    let majorGradesData = gradesData.filter(v => v.major === true);
+    let majorGradesData = gradesData.filter(v => v.major);
     return majorGradesData;
 };
 // 전공과목 이수학점 계산 함수
@@ -166,7 +161,7 @@ let sortCredit = function (sortedGrade) {
     return sortedGrade;
 };
 // showGrade(gradesData, gradeMap);
-// addLecture('알고리즘', 'A', 3, true);
+addLecture({'name' : '알고리즘2', 'grade' : 'B', 'credit' : 3, 'Major' : true})
 // removeLecture(gradesData, '알고리즘', 2000);
 // sortGrade(gradesData, gradeMap);
 // showSortGrade(gradesData, gradeMap);
