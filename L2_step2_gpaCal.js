@@ -72,20 +72,12 @@ const calculateCredits = (dataArr) => {
 const calculatePoints = (dataArr) => {
     let grossPoints = 0;
     let grossMajorPoints = 0;
-
-    /*
-    dataArr이 배열이군요. 배열은 for-in으로 탐색할 수 있지만(배열도 객체라서 가능) 불필요한 정보까지 나오는 경우가 있어서
-    (그 이유도 약간 복잡한데 prototype에 추가된 다른 정보까지 노출될 수 있어서) 보통은 for in을 배열에는 안씁니다. 
-    다른방식으로 탐색하게 수정해주세요~ 
-    */
-
-    for (const i in dataArr) {
-        grossPoints += (dataArr[i].credit * fourPointFiveTable[dataArr[i]['grade']]);
-        if (dataArr[i].major) {
-            grossMajorPoints += dataArr[i].credit * fourPointFiveTable[dataArr[i]['grade']];
+    for (const value of dataArr) {
+        grossPoints += (value.credit * fourPointFiveTable[value.grade]);
+        if (value.major) {
+            grossMajorPoints += value.credit * fourPointFiveTable[value.grade];
         }
     }
-
     return [grossPoints, grossMajorPoints];
 }
 
