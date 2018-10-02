@@ -119,12 +119,9 @@ const sortGrade = (dataArr) => {
 
 const printResult = (dataArr) => {
     let data = sortGrade(dataArr);
-    let output = "";
-    //output이라는 새로운 데이터결과를 만드는 것이자나요? 이럴때 reduce 사용이 적절합니다~
-    output += `-----------------------------------------\n`
-    data.forEach((lecture) => {
-        output += `${lecture['name']}, ${lecture['grade']}, ${lecture['credit']}학점\n`
-    });
-    output += `-----------------------------------------`;
-    return output;
+    let result = data.reduce(function (accumulator, currentValue) {
+        return accumulator + `${currentValue.name}, ${currentValue.grade}, ${currentValue.credit}학점\n`
+    }, `-----------------------------------------\n`);
+    result += `-----------------------------------------`;
+    return result;
 }
