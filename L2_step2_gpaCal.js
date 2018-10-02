@@ -59,7 +59,6 @@ const removeLecture = (dataArr, lecture, time) => {
 const calculateCredits = (dataArr) => {
     let grossCredits = 0;
     let grossMajorCredits = 0;
-    // 객체를 순회할때 hasownproperty라는 메서드로 체크하는게 필요한데요. (복잡한 이유지만) 한번 그 이유를 살펴보세요.
     for (const key of dataArr) {
         grossCredits += key.credit;
         if (key.major) {
@@ -91,14 +90,13 @@ const calculateGpa = (dataArr, scale) => {
 
 const getResult = (dataArr, scale) => {
     const [grossCredits, majorCredits] = calculateCredits(dataArr);
-    const [grossPoints, majorPoints] = calculatePoints(dataArr);
     const [gpa, mgpa] = calculateGpa(dataArr, 4.5);
 
     const template =
         `
 ${scale} 기준: 총 평점 = ${gpa}, 전공 평점 = ${mgpa}
 이수 학점: ${grossCredits}
-전공 이수 학점: ${majorCredits}`
+전공 이수 학점: ${majorCredits}`;
 
     return template;
 }
@@ -121,7 +119,8 @@ const printResult = (dataArr) => {
     let data = sortGrade(dataArr);
     let result = data.reduce(function (accumulator, currentValue) {
         return accumulator + `${currentValue.name}, ${currentValue.grade}, ${currentValue.credit}학점\n`
-    }, `-----------------------------------------\n`);
-    result += `-----------------------------------------`;
+    }, "");
     return result;
 }
+
+console.log(`---------------------------------------- \n${printResult(data)}----------------------------------------`);
