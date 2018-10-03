@@ -56,25 +56,15 @@ const gradeMap = {
     'F': 0
 };
 // 새로운 과목 추가 함수
-let addLecture = function (newname, newgrade, newcredit, newmajor) {
-    gradesData.push({
-        name: newname,
-        grade: newgrade,
-        credit: newcredit,
-        major: newmajor
-    });
+let addLecture = function (gradesobject) {
+    gradesData.push(gradesobject);
     showGrade(gradesData, gradeMap);
 };
 //  기존과목을 삭제하는 함수 ,입력 시간만큼 지연후, showGrade함수실행
 let removeLecture = function (gradesData, gradeName, time) {
-    gradesData.filter(v => {
-        if (v.name === gradeName) {
-            gradesData.splice(gradesData.indexOf(v), 1);
-        }
-    });
-    setTimeout(() => { showGrade(gradesData, gradeMap) }, time)
+    const removedGradesData = gradesData.filter(v => v.name !== gradeName);
+    setTimeout(() => { showGrade(removedGradesData, gradeMap) }, time)
 };
-
 // 학점데이터의 총 이수학점을 구하는 함수
 let getTotalOfCredits = function (gradesData) {
     let totalOfCredits = 0;
@@ -83,7 +73,6 @@ let getTotalOfCredits = function (gradesData) {
     }, totalOfCredits);
     return totalOfCredits.toFixed(2);
 };
-getTotalOfCredits(gradesData);
 // 성적을 계산하는 함수 (성적 * 이수학점)을 모두더한다
 let getTotlalOfGrades = function (gradesData, rating) {
     let totlalOfGrades = 0;
@@ -106,7 +95,7 @@ let calculateFourPointFiveCredit = function (gradesData, rating) {
 };
 // 전공과목 gradesData배열 생성함수
 let filterlingMajorGradeObj = function (gradesData) {
-    let majorGradesData = gradesData.filter(v => v.major === true);
+    let majorGradesData = gradesData.filter(v => v.major);
     return majorGradesData;
 };
 // 전공과목 이수학점 계산 함수
@@ -132,6 +121,11 @@ let showGrade = function (gradesData, rating) {
 let showSortGrade = function (gradesData, gradeMap) {
     let sortedGrades = sortCredit(sortGrade(gradesData, gradeMap));
     console.log('------------------정렬된 학점------------------');
+    JudgeLinebreak(sortedGrades);
+    console.log('----------------------------------------------');
+};
+// 학점별 개행 출력판단 함수
+let JudgeLinebreak = function (sortedGrades) {
     sortedGrades.forEach((v, i) => {
         if (i === sortedGrades.length - 1) {
             console.log('과목명 : %s  ||  점수 : %s  ||  %d학점 ', v.name, v.grade, v.credit);
@@ -142,7 +136,6 @@ let showSortGrade = function (gradesData, gradeMap) {
             console.log(' ');
         }
     });
-    console.log('----------------------------------------------');
 };
 // 학점 정렬함수
 let sortGrade = function (gradesData, gradeMap) {
@@ -155,7 +148,6 @@ let sortGrade = function (gradesData, gradeMap) {
     });
     return sortedGrade;
 };
-
 let sortCredit = function (sortedGrade) {
     sortedGrade.sort(function (a, b) {
         if (a.grade.toUpperCase() === b.grade.toUpperCase()) {
@@ -169,7 +161,7 @@ let sortCredit = function (sortedGrade) {
     return sortedGrade;
 };
 // showGrade(gradesData, gradeMap);
-// addLecture('알고리즘', 'A', 3, true);
+addLecture({'name' : '알고리즘2', 'grade' : 'B', 'credit' : 3, 'Major' : true})
 // removeLecture(gradesData, '알고리즘', 2000);
 // sortGrade(gradesData, gradeMap);
-showSortGrade(gradesData, gradeMap);
+// showSortGrade(gradesData, gradeMap);
